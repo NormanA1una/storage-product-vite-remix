@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .primary-h3-style {
+    @apply text-lg lg:text-xl font-semibold;
+  }
+}

@@ -1,0 +1,11 @@
+@tailwind components;
+
+@layer components {
+  .primary-p-style {
+    @apply text-base md:text-lg font-normal;
+  }
+
+  .form-p-style {
+    @apply text-base md:text-lg font-medium text-[#FCFCFC];
+  }
+}

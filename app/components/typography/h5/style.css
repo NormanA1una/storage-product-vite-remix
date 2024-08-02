@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .primary-h5-style {
+    @apply text-sm font-normal;
+  }
+}

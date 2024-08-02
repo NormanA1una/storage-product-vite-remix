@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .primary-h2-style {
+    @apply text-xl md:text-2xl lg:text-3xl font-semibold;
+  }
+}
