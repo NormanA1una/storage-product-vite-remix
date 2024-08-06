@@ -21,3 +21,8 @@ type Product = {
   price: string;
   tag: string;
 };
+
+type CartProduct = {
+  name: string;
+  amount: number;
+};

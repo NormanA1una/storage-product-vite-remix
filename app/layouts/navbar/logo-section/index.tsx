@@ -1,6 +1,12 @@
-export const LogoSection = () => {
+import { NavigateFunction } from "@remix-run/react";
+
+type LogoSectionProps = {
+  navigate: NavigateFunction;
+};
+
+export const LogoSection = ({ navigate }: LogoSectionProps) => {
   return (
-    <div>
+    <div onClick={() => navigate({ pathname: "/" })} className="cursor-pointer">
       <img
         src="/images/cocibolcaLogoWhite.svg"
         alt="Logo de la Licorería Cocibolca"

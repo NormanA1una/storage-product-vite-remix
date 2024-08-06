@@ -1,5 +1,5 @@
 import { defer, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useOutletContext } from "@remix-run/react";
 import { Products } from "~/layouts/products";
 import supabase from "~/utils/supabase";
 import qs from "qs";
@@ -17,6 +17,10 @@ import qs from "qs";
     };
   };
 }; */
+
+type ContextType = {
+  setCart: React.Dispatch<React.SetStateAction<CartProduct[]>>;
+};
 
 const ITEM_PER_PAGE = 19;
 
@@ -43,7 +47,26 @@ export const loader = async (params: LoaderFunctionArgs) => {
 
   query = query.order("name", { ascending: true }).range(from, to);
 
-  /* const QS_PRODUCT: QS_PRODUCT_TYPE = {
+  try {
+    const dataLoader = await query;
+    return defer({ dataLoader, q, queryPage: page });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Response("Error fetching data", { status: 500 });
+  }
+};
+
+export default function Index() {
+  const { dataLoader, q, queryPage } = useLoaderData<typeof loader>();
+
+  return (
+    <div>
+      <Products dataLoader={dataLoader} q={q} queryPage={queryPage} />
+    </div>
+  );
+}
+
+/* const QS_PRODUCT: QS_PRODUCT_TYPE = {
     sort: ["name:asc"],
     populate: {
       image: {
@@ -90,22 +113,3 @@ export const loader = async (params: LoaderFunctionArgs) => {
   const strapiProducts = await responseProducts.json();
 
   console.log(strapiProducts.data); */
-
-  try {
-    const dataLoader = await query;
-    return defer({ dataLoader, q, queryPage: page });
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw new Response("Error fetching data", { status: 500 });
-  }
-};
-
-export default function Index() {
-  const { dataLoader, q, queryPage } = useLoaderData<typeof loader>();
-
-  return (
-    <div>
-      <Products dataLoader={dataLoader} q={q} queryPage={queryPage} />
-    </div>
-  );
-}
