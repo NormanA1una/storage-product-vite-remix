@@ -1,19 +1,23 @@
-import { useState } from "react";
+import "./style.css";
+
+import { useEffect, useRef, useState } from "react";
 import { Button } from "~/components/button";
 import { useCart } from "~/context/cart-context";
 
-type ProductCardProps = {
-  image: string;
-  name: string;
-  price: number;
-  tag: string;
-};
+import * as Toast from "@radix-ui/react-toast";
 
 export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
+  const [quantity, setQuantity] = useState(1);
+  const [open, setOpen] = useState(false);
+  const { addToCart } = useCart();
+
+  const timerRef = useRef(0);
+
   const tagsEmojis = { disponible: "🟢", agotado: "🔴", promo: "🤯" };
 
-  const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState(1);
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   const handleAddToCart = () => {
     addToCart({ name, amount: quantity });
@@ -21,30 +25,30 @@ export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
   };
 
   return (
-    <div className="w-full bg-[#fefefe] border border-gray-200 rounded-lg shadow dark:bg-[#2D2D37] dark:border-[#2D2D37]">
-      <div className="p-2">
-        <div className="flex justify-center">
+    <div className="product-card-container">
+      <div className="product-card-spacing">
+        <div className="image-card-spacing">
           {!image ? (
-            <div className="max-h-[328px] max-w-[438px]">
+            <div className="image-constrain-card">
               <img
                 src={"/img/noImageLico.jpg"}
                 width={438}
                 height={328}
                 alt="Imagen del producto"
-                className="p-8! mx-auto! rounded-md!"
+                className="image-card-style"
                 style={{
                   borderRadius: "0.25rem",
                 }}
               />
             </div>
           ) : (
-            <div className="max-h-[328px] max-w-[438px]">
+            <div className="image-constrain-card">
               <img
                 src={image}
                 width={438}
                 height={328}
                 alt="Imagen del producto"
-                className="p-8! mx-auto! rounded-md!"
+                className="image-card-style"
                 style={{
                   borderRadius: "0.25rem",
                 }}
@@ -53,16 +57,12 @@ export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
           )}
         </div>
 
-        <h3 className="text-lg flex items-center h-[56px] font-semibold tracking-tight text-[#10171D] dark:text-[#fefefe]">
-          {name}
-        </h3>
+        <h3 className="product-name-style">{name}</h3>
 
-        <div className="flex justify-between items-center">
-          <p className="text-lg font-bold text-[#3f7d20] dark:text-[#7BDDD7]">
-            💵 C${price}
-          </p>
+        <div className="price-status-container">
+          <p className="product-price-style">💵 C${price}</p>
 
-          <span className="bg-[#AF503B] px-3 py-1 rounded-xl dark:font-bold text-[#fefefe] text-sm dark:bg-[#38344B] dark:text-[#BC8BEC]">
+          <span className="product-status-style">
             {tag === "Disponible"
               ? tagsEmojis.disponible
               : tag === "Promo"
@@ -72,17 +72,45 @@ export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
           </span>
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
-          <input
-            type="number"
-            value={quantity}
-            min="1"
-            onChange={(e) => setQuantity(Number(e.target.value))}
-            className="w-16 text-center border border-gray-300 rounded"
-          />
-          <Button variant="primary" type="button" onClick={handleAddToCart}>
-            Agregar al carrito
-          </Button>
+        <div className="input-card-container">
+          <div className="input-flex-spacing">
+            <input
+              type="number"
+              value={quantity}
+              min="1"
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="input-number-cart"
+            />
+          </div>
+
+          <Toast.Provider swipeDirection="right" duration={2500}>
+            <Button
+              variant="primary"
+              type="button"
+              onClick={() => {
+                handleAddToCart();
+                setOpen(false);
+                window.clearTimeout(timerRef.current);
+                timerRef.current = window.setTimeout(() => {
+                  setOpen(true);
+                }, 100);
+              }}
+            >
+              Agregar al carrito
+            </Button>
+
+            <Toast.Root
+              open={open}
+              onOpenChange={setOpen}
+              className="toast-root-custom"
+            >
+              <Toast.Title className="font-bold">Producto agregado</Toast.Title>
+              <Toast.Description>{`${name} agregado al carrito`}</Toast.Description>
+
+              <Toast.Close className="toast-close-custom">Cerrar</Toast.Close>
+            </Toast.Root>
+            <Toast.Viewport className="toast-viewport-custom" />
+          </Toast.Provider>
         </div>
       </div>
     </div>

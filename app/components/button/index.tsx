@@ -2,7 +2,7 @@ import "./style.css";
 import { CSSProperties, FC, PropsWithChildren } from "react";
 
 type ButtonProps = {
-  variant?: "primary" | "dark";
+  variant?: "primary" | "dark" | "warning";
   style?: CSSProperties;
   className?: string;
   type?: "submit" | "reset" | "button" | undefined;
@@ -26,6 +26,19 @@ export const Button: FC<PropsWithChildren & ButtonProps> = ({
         type={type}
         style={style}
         className={`${className} button-dark-style`}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    );
+
+  if (variant === "warning")
+    return (
+      <button
+        disabled={disabled}
+        type={type}
+        style={style}
+        className={`${className} button-warning-style`}
         onClick={onClick}
       >
         {children}

@@ -2,12 +2,6 @@ import { useSearchParams } from "@remix-run/react";
 import { CSSProperties } from "react";
 import { Button } from "~/components/button";
 
-type CategoryButtonProps = {
-  category: string;
-  categoryP: string;
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
-};
-
 export const CategoryButton = ({
   category,
   categoryP,

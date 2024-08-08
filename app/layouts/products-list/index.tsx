@@ -1,13 +1,8 @@
+import "./style.css";
+
 import { useState } from "react";
 import { SearchBar } from "./search-bar";
 import { ProductCard } from "./product-card";
-
-type ProductListProps = {
-  query: string;
-  results: Product[];
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  isDebouncing: boolean;
-};
 
 export const ProductList = ({
   isDebouncing,
@@ -24,7 +19,7 @@ export const ProductList = ({
   );
 
   return (
-    <div className="flex flex-col items-center w-full mb-10">
+    <div className="product-list-container">
       <SearchBar
         isDebouncing={isDebouncing}
         query={query}
@@ -32,12 +27,10 @@ export const ProductList = ({
       />
 
       {filteredResults.length === 0 ? (
-        <div className="h-16 w-full p-2 flex items-center justify-center text-xl rounded-lg">
-          Sin coincidencias 😵
-        </div>
+        <div className="not-result-style">Sin coincidencias 😵</div>
       ) : (
         <>
-          <div className="grid justify-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+          <div className="result-grid-style">
             {filteredResults.map((product, i) => {
               return (
                 <ProductCard

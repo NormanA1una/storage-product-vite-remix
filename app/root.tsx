@@ -7,11 +7,7 @@ import {
   ScrollRestoration,
   useRouteError,
 } from "@remix-run/react";
-import {
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
+import { LinksFunction, MetaFunction } from "@remix-run/node";
 
 import stylesheet from "./tailwind.css?url";
 import ErrorHandler from "./layouts/errors";
@@ -30,7 +26,7 @@ export const meta: MetaFunction = () => {
       content: "Conoce nuestro catálogo de productos y precios!",
     },
     { property: "og:type", content: "website" },
-    // { property: "og:url", content: "https://www.immigrationdocsllc.com/" },
+    { property: "og:url", content: "https://cocibolca-web.vercel.app/" },
     {
       property: "og:image",
       content: "/images/cocibolcaLogoOg.png",

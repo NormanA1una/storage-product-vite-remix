@@ -8,4 +8,8 @@
   .button-dark-style {
     @apply bg-[#252c3b] hover:bg-[#2c323d] py-2 px-4 rounded-md text-[#fff] font-medium disabled:opacity-50;
   }
+
+  .button-warning-style {
+    @apply bg-[#db2626] hover:bg-[#a71d1d] py-2 px-4 rounded-md text-[#fff] font-medium disabled:opacity-50;
+  }
 }

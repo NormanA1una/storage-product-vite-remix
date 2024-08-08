@@ -1,13 +1,8 @@
+import "./style.css";
+
 import { useState } from "react";
 import { CategoryButton } from "./category-button";
 import { Button } from "~/components/button";
-
-type CategoriesButtonsProps = {
-  categoryP: string;
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
-  currentPage: number;
-  setSearchParams: any;
-};
 
 const CATEGORIES = [
   "Consumo",
@@ -47,7 +42,7 @@ export const CategoriesButtons = ({
   };
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 my-2">
+    <div className="container-category-btn">
       {CATEGORIES.map((category, i) => {
         return (
           <CategoryButton

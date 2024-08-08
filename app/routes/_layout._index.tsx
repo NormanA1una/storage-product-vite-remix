@@ -18,10 +18,6 @@ import qs from "qs";
   };
 }; */
 
-type ContextType = {
-  setCart: React.Dispatch<React.SetStateAction<CartProduct[]>>;
-};
-
 const ITEM_PER_PAGE = 19;
 
 export const loader = async (params: LoaderFunctionArgs) => {

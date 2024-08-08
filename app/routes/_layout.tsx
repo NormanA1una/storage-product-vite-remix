@@ -1,4 +1,4 @@
-import MainLayout from "~/layouts/main-layout/main-layout";
+import MainLayout from "~/layouts/main/main-layout";
 
 export default function LayoutMainContainer() {
   return (

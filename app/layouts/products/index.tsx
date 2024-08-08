@@ -1,3 +1,5 @@
+import "./style.css";
+
 import {
   Await,
   useLocation,
@@ -12,12 +14,6 @@ import { H1 } from "~/components/typography/h1";
 import { CategoriesButtons } from "../categories-buttons";
 import { ProductList } from "../products-list";
 import { PaginationProducts } from "../products-list/pagination";
-
-type ProductsProps = {
-  dataLoader: PostgrestSingleResponse<any[]>;
-  queryPage: string;
-  q: string;
-};
 
 const ITEM_PER_PAGE = 19;
 
@@ -45,9 +41,9 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   }, [debouncedQuery, queryPage]);
 
   return (
-    <div className="py-20 px-2 bg-[#EEE7D9] dark:bg-[#1E1D2B]">
+    <div className="product-container">
       {/* Title */}
-      <div className="text-center mb-10">
+      <div className="principal-text-container">
         <H1>Catálogo de productos</H1>
       </div>
 
