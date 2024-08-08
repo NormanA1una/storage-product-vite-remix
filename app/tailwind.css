@@ -21,4 +21,8 @@ body {
   .html-custom {
     @apply scroll-smooth pt-[74px];
   }
+
+  .html-error {
+    @apply scroll-smooth;
+  }
 }

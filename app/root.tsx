@@ -1,13 +1,20 @@
 import {
+  isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
-import { LinksFunction, MetaFunction } from "@remix-run/node";
+import {
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 
 import stylesheet from "./tailwind.css?url";
+import ErrorHandler from "./layouts/errors";
 
 export const meta: MetaFunction = () => {
   return [
@@ -55,8 +62,11 @@ export const links: LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const error = useRouteError();
+  const isError = isRouteErrorResponse(error);
+
   return (
-    <html lang="en" className="html-custom">
+    <html lang="en" className={`${isError ? "html-error" : "html-custom"}`}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -65,8 +75,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
         <Scripts />
+        <ScrollRestoration />
       </body>
     </html>
   );
@@ -74,4 +84,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return <ErrorHandler error={error} />;
 }

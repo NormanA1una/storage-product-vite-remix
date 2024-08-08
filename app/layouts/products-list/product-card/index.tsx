@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "~/components/button";
 import { useCart } from "~/context/cart-context";
 
 type ProductCardProps = {
@@ -79,13 +80,9 @@ export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
             onChange={(e) => setQuantity(Number(e.target.value))}
             className="w-16 text-center border border-gray-300 rounded"
           />
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
-          >
+          <Button variant="primary" type="button" onClick={handleAddToCart}>
             Agregar al carrito
-          </button>
+          </Button>
         </div>
       </div>
     </div>
