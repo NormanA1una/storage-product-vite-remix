@@ -14,11 +14,15 @@
   }
 
   .link-active {
-    @apply border-b-[1px] border-[#0E8499] pb-[2.5px] font-bold text-[#0E8499];
+    @apply pb-[2.5px] font-bold text-[#0E8499];
+  }
+
+  .link-pending {
+    @apply text-[#0E8499];
   }
 
   .link-active-light {
-    @apply border-b-[1px] border-[#0E8499] pb-[2.5px] font-bold text-[#0E8499];
+    @apply pb-[2.5px] font-bold text-[#0E8499];
   }
 
   .link-span-animated {

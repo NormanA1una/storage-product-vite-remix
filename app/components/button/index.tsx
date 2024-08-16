@@ -26,7 +26,7 @@ const variantMap: Record<NonNullable<ButtonProps["variant"]>, CSSObject> = {
     backgroundColor: "#0E8499",
     color: "#FFFFFF",
     ":hover": { backgroundColor: "#0B6779" },
-    ":focus": {
+    ":active": {
       backgroundColor: "#084A59",
       boxShadow: "0px 0px 0px 4px #E2E2E2",
     },
@@ -41,7 +41,7 @@ const variantMap: Record<NonNullable<ButtonProps["variant"]>, CSSObject> = {
     borderWidth: "1px",
     borderColor: "#C5C5C5",
     ":hover": { backgroundColor: "#EAF6F8" },
-    ":focus": {
+    ":active": {
       backgroundColor: "#FFFFFF",
       boxShadow: "0px 0px 0px 4px #CCF3F9",
     },

@@ -17,7 +17,7 @@ export const Navigation = ({ pathNames }: NavigationProps) => {
                       ? "link-active"
                       : "link-active-light"
                     : isPending
-                    ? "pending"
+                    ? "link-pending"
                     : "link-inactive"
                 }
                 to={pathName.path}
