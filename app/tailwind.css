@@ -19,7 +19,7 @@ body {
 
 @layer components {
   .html-custom {
-    @apply scroll-smooth pt-[74px];
+    @apply scroll-smooth pt-[74.14px];
   }
 
   .html-error {

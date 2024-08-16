@@ -1,63 +1,70 @@
-import { defer, LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData, useOutletContext } from "@remix-run/react";
-import { Products } from "~/layouts/products";
-import supabase from "~/utils/supabase";
-import qs from "qs";
-
-/* type QS_PRODUCT_TYPE = {
-  sort: string[];
-  populate: { image: { fields: string[] } };
-  pagination: { start: number; limit: number };
-  filters?: {
-    category?: {
-      $eq: string;
-    };
-    name?: {
-      $contains: string;
-    };
-  };
-}; */
-
-const ITEM_PER_PAGE = 19;
-
-export const loader = async (params: LoaderFunctionArgs) => {
-  const paramCategory = new URL(params.request.url).searchParams.get(
-    "category"
-  ) as Category;
-
-  let page = new URL(params.request.url).searchParams.get("page") || "1";
-
-  let from = (parseInt(page) - 1) * ITEM_PER_PAGE;
-
-  let to = from + ITEM_PER_PAGE;
-
-  let url = new URL(params.request.url);
-
-  let { q } = Object.fromEntries(url.searchParams);
-
-  let query = supabase.from("products").select();
-
-  if (paramCategory) query = query.eq("categories", paramCategory);
-
-  if (q) query = query.ilike("name", `%${q}%`);
-
-  query = query.order("name", { ascending: true }).range(from, to);
-
-  try {
-    const dataLoader = await query;
-    return defer({ dataLoader, q, queryPage: page });
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw new Response("Error fetching data", { status: 500 });
-  }
-};
+import { useState } from "react";
+import { Badges } from "~/components/badges";
+import { Button } from "~/components/button";
+import { Checkbox } from "~/components/inputs/checkbox";
 
 export default function Index() {
-  const { dataLoader, q, queryPage } = useLoaderData<typeof loader>();
+  const [isChecked, setIsChecked] = useState(true);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
   return (
-    <div>
-      <Products dataLoader={dataLoader} q={q} queryPage={queryPage} />
+    <div className="p-10 flex flex-col gap-10">
+      <div className="flex gap-4 items-center">
+        <Button variant="primary">Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="link">Link</Button>
+        <Button variant="link" active={true} nav={true}>
+          Link active nav
+        </Button>
+        <Button variant="link" active={true}>
+          Link active filter
+        </Button>
+      </div>
+
+      <div className="flex gap-4 items-center">
+        <Checkbox id="test" />
+        <Checkbox id="test 2" defaultChecked={true} />
+      </div>
+
+      <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center">
+          <Badges variant="base">Label</Badges>
+          <Badges variant="base" icon={true}>
+            Label
+          </Badges>
+        </div>
+
+        <div className="flex gap-4 items-center">
+          <Badges variant="info">Label</Badges>
+          <Badges variant="info" icon={true}>
+            Label
+          </Badges>
+        </div>
+
+        <div className="flex gap-4 items-center">
+          <Badges variant="error">Label</Badges>
+          <Badges variant="error" icon={true}>
+            Label
+          </Badges>
+        </div>
+
+        <div className="flex gap-4 items-center">
+          <Badges variant="warning">Label</Badges>
+          <Badges variant="warning" icon={true}>
+            Label
+          </Badges>
+        </div>
+
+        <div className="flex gap-4 items-center">
+          <Badges variant="success">Label</Badges>
+          <Badges variant="success" icon={true}>
+            Label
+          </Badges>
+        </div>
+      </div>
     </div>
   );
 }

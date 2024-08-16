@@ -1,0 +1,27 @@
+@tailwind components;
+
+@layer components {
+  .ul-style {
+    @apply flex gap-9;
+  }
+
+  .li-style-group {
+    @apply relative inline-block font-semibold;
+  }
+
+  .link-inactive {
+    @apply text-[#595959];
+  }
+
+  .link-active {
+    @apply border-b-[1px] border-[#0E8499] pb-[2.5px] font-bold text-[#0E8499];
+  }
+
+  .link-active-light {
+    @apply border-b-[1px] border-[#0E8499] pb-[2.5px] font-bold text-[#0E8499];
+  }
+
+  .link-span-animated {
+    @apply ease-out absolute bottom-0 left-0 h-0 w-0 border-b-[1px] border-[#0E8499] transition-all duration-200 group-hover:w-full;
+  }
+}

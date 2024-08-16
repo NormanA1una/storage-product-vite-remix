@@ -59,3 +59,16 @@ type ProductCardProps = {
   price: number;
   tag: string;
 };
+
+type PathName = {
+  name: string;
+  nombre: string;
+  path: string;
+};
+
+type MainLayoutProps = {
+  pathNames: PathName[];
+};
+
+type NavbarProps = MainLayoutProps;
+type NavigationProps = NavbarProps;
