@@ -22,12 +22,7 @@
   }
 
   .offset-menu {
-    @apply bg-[#0E8499] fixed top-0 right-0 bottom-0 w-[100%] flex flex-col justify-center items-center transform translate-x-full transition ease-in duration-[0.3s] z-40 pt-[70px];
-  }
-
-  .offset-menu li,
-  .offset-menu li a {
-    @apply w-full box-border text-center h-12 leading-[48px];
+    @apply bg-[#0E8499] fixed top-0 right-0 bottom-0 w-[100%] flex flex-col justify-center px-6 items-center transform translate-x-full transition ease-in duration-[0.3s] z-40 pt-[70px];
   }
 
   .bg-blur-sidebar {
@@ -43,10 +38,10 @@
   }
 
   .ul-mobile {
-    @apply text-[#FCFCFC] font-medium flex flex-col;
+    @apply text-[#FCFCFC] font-medium flex flex-col my-auto gap-4;
   }
 
-  .link-active-mobile {
-    @apply border-b border-[#6a2475] pb-[2.5px] text-[#6a2475] font-bold;
+  .navigation-li {
+    @apply text-center;
   }
 }

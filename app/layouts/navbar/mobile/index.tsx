@@ -2,6 +2,25 @@ import "./style.css";
 
 import { Link, useLocation, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import { Button } from "~/components/button";
+
+const CONTACT_MEDIA = [
+  {
+    src: "/images/whatsappIcon.svg",
+    alt: "Whatsapp logo en la barra de navegación desplegable",
+    url: "https://cocibolca-web.vercel.app/",
+  },
+  {
+    src: "/images/facebookIcon.svg",
+    alt: "Facebook logo en la barra de navegación desplegable",
+    url: "https://cocibolca-web.vercel.app/",
+  },
+  {
+    src: "/images/instagramIcon.svg",
+    alt: "Instagram logo en la barra de navegación desplegable",
+    url: "https://cocibolca-web.vercel.app/",
+  },
+];
 
 export const SideNav = ({ pathNames }: SideNavProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,29 +78,37 @@ export const SideNav = ({ pathNames }: SideNavProps) => {
 
         <ul id="list-nav" className="ul-mobile">
           {pathNames.map((pathName) => (
-            <li key={pathName.name}>
+            <li className="navigation-li" key={pathName.name}>
               <Link
                 to={pathName.path}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={
-                  location.pathname === pathName.path
-                    ? "link-active-mobile"
-                    : "pending"
-                }
               >
-                {/* {lng === "en" ? pathName.name : pathName.nameSpanish} */}
-                {pathName.nombre}
+                <Button variant="primary" size="2xl">
+                  {pathName.nombre}
+                </Button>
               </Link>
             </li>
           ))}
         </ul>
 
-        <div>
+        <div className="flex flex-col gap-6 mb-8">
           {/* Copy div */}
-          <div></div>
+          <div className="text-center text-[#FFFFFF] font-normal text-base">
+            © 2024 Licorería cocibolca. Todos los derechos reservados.
+          </div>
 
           {/* Social medias ul */}
-          <ul></ul>
+          <ul className="flex justify-center items-center gap-6">
+            {CONTACT_MEDIA.map((media, i) => {
+              return (
+                <li key={i}>
+                  <Link to={media.url}>
+                    <img src={media.src} alt={media.alt} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
 
