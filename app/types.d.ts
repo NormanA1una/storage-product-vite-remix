@@ -73,3 +73,4 @@ type MainLayoutProps = {
 type NavbarProps = MainLayoutProps;
 type NavigationProps = NavbarProps;
 type SideNavProps = NavbarProps;
+type FooterProps = SideNavProps;

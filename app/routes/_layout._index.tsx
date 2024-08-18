@@ -12,7 +12,7 @@ export default function Index() {
 
   return (
     <div className="p-10 flex flex-col gap-10">
-      <div className="flex gap-4 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         <Button variant="primary">Primary</Button>
         <Button variant="secondary">Secondary</Button>
         <Button variant="link">Link</Button>
@@ -24,12 +24,12 @@ export default function Index() {
         </Button>
       </div>
 
-      <div className="flex gap-4 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         <Checkbox id="test" />
         <Checkbox id="test 2" defaultChecked={true} />
       </div>
 
-      <div className="flex gap-4 items-center">
+      <div className="flex flex-wrap gap-4 items-center">
         <div className="flex gap-4 items-center">
           <Badges variant="base">Label</Badges>
           <Badges variant="base" icon={true}>
