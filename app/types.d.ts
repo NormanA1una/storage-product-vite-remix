@@ -70,7 +70,19 @@ type MainLayoutProps = {
   pathNames: PathName[];
 };
 
-type NavbarProps = MainLayoutProps;
+type Media = {
+  src: string;
+  srcDark: string;
+  alt: string;
+  url: string;
+};
+
+type ContactMedia = Media[];
+
+type NavbarProps = {
+  pathNames: PathName[];
+  contactMedia?: Media[];
+};
 type NavigationProps = NavbarProps;
 type SideNavProps = NavbarProps;
 type FooterProps = SideNavProps;

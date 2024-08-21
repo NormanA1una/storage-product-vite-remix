@@ -4,7 +4,7 @@ import { useNavigate } from "@remix-run/react";
 import { Navigation } from "./navigation";
 import { SideNav } from "./mobile";
 
-export const Navbar = ({ pathNames }: NavbarProps) => {
+export const Navbar = ({ pathNames, contactMedia }: NavbarProps) => {
   const navigate = useNavigate();
 
   return (
@@ -12,7 +12,7 @@ export const Navbar = ({ pathNames }: NavbarProps) => {
       <LogoSection navigate={navigate} />
       <Navigation pathNames={pathNames} />
       <CtaButtons navigate={navigate} />
-      <SideNav pathNames={pathNames} />
+      <SideNav pathNames={pathNames} contactMedia={contactMedia} />
     </nav>
   );
 };

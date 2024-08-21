@@ -2,6 +2,6 @@
 
 @layer components {
   .primary-h5-style {
-    @apply text-sm font-normal;
+    @apply text-sm;
   }
 }

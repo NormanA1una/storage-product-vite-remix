@@ -4,25 +4,7 @@ import { Link, useLocation, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/button";
 
-const CONTACT_MEDIA = [
-  {
-    src: "/images/whatsappIcon.svg",
-    alt: "Whatsapp logo en la barra de navegación desplegable",
-    url: "https://cocibolca-web.vercel.app/",
-  },
-  {
-    src: "/images/facebookIcon.svg",
-    alt: "Facebook logo en la barra de navegación desplegable",
-    url: "https://cocibolca-web.vercel.app/",
-  },
-  {
-    src: "/images/instagramIcon.svg",
-    alt: "Instagram logo en la barra de navegación desplegable",
-    url: "https://cocibolca-web.vercel.app/",
-  },
-];
-
-export const SideNav = ({ pathNames }: SideNavProps) => {
+export const SideNav = ({ pathNames, contactMedia }: SideNavProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const location = useLocation();
@@ -99,7 +81,7 @@ export const SideNav = ({ pathNames }: SideNavProps) => {
 
           {/* Social medias ul */}
           <ul className="flex justify-center items-center gap-6">
-            {CONTACT_MEDIA.map((media, i) => {
+            {contactMedia?.map((media, i) => {
               return (
                 <li key={i}>
                   <Link to={media.url}>

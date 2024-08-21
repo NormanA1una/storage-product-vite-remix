@@ -2,6 +2,6 @@
 
 @layer components {
   .primary-h6-style {
-    @apply text-xs md:text-sm font-normal;
+    @apply text-xs md:text-sm;
   }
 }
