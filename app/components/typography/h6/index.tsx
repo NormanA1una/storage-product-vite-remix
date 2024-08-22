@@ -1,26 +1,41 @@
-import "./style.css";
-import { CSSProperties, FC, PropsWithChildren } from "react";
+import styled, { CSSObject } from "@emotion/styled";
+import { FC, PropsWithChildren } from "react";
+import { variantStyles, variantWeights } from "~/utils/variant-styles";
 
-type H6Props = {
-  variant?: "primary" | "secondary";
-  style?: CSSProperties;
+const baseStyles: CSSObject = {
+  color: "#101828",
 };
 
-export const H6: FC<PropsWithChildren & H6Props> = ({
+const getH6Style = ({
+  variant = "md",
+  weight = "regular",
+}: Typography): CSSObject => {
+  const variantStyle = variantStyles[variant];
+  const variantWeight = variantWeights[weight];
+  return {
+    ...baseStyles,
+    ...variantStyle,
+    ...variantWeight,
+  };
+};
+
+const H6Styled = styled.h6<Typography>(getH6Style);
+
+export const H6: FC<PropsWithChildren & Typography> = ({
   children,
   variant,
   style,
+  classname,
+  weight,
 }) => {
-  if (variant === "secondary")
-    return (
-      <h6 className="secondary-h6-style" style={style}>
-        {children}
-      </h6>
-    );
-
   return (
-    <h6 className="primary-h6-style" style={style}>
+    <H6Styled
+      className={classname}
+      style={style}
+      variant={variant}
+      weight={weight}
+    >
       {children}
-    </h6>
+    </H6Styled>
   );
 };

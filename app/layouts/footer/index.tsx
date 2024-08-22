@@ -3,29 +3,6 @@ import { Link } from "@remix-run/react";
 import { H5 } from "~/components/typography/h5";
 import { Paragraph } from "~/components/typography/paragraph";
 
-const CONTACTANOS = [
-  {
-    text: (
-      <>
-        Villa Sandino, de la Iglesia <br />
-        Espíritu Santo 1c al norte
-      </>
-    ),
-    icoSrc: "/images/locationIcon.svg",
-    iconAlt: "Location icon in footer",
-  },
-  {
-    text: "(+505) 8485 9914",
-    icoSrc: "/images/phoneIcon.svg",
-    iconAlt: "Phone icon in footer",
-  },
-  {
-    text: "soporte@licoreriacociolca.com",
-    icoSrc: "/images/emailIcon.svg",
-    iconAlt: "Email icon in footer",
-  },
-];
-
 export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
   const footerStyles = {
     footer: css({ backgroundColor: "#EAF6F8" }),
@@ -34,7 +11,7 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       padding: "24px",
 
       "@media(min-width: 1024px)": {
-        padding: "48px 0px",
+        padding: "48px 96px",
       },
     }),
 
@@ -42,25 +19,28 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyItems: "center",
+      justifyContent: "center",
       gap: "24px",
       marginBottom: "40px",
 
       "@media(min-width: 1024px)": {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
+        alignItems: "normal",
       },
     }),
 
     logoSection: css({
       display: "flex",
       flexDirection: "column",
-      justifyItems: "center",
+      justifyContent: "space-between",
       alignItems: "center",
-      gap: "32px",
+      // gap: "32px",
 
       "@media(min-width: 1024px)": {
         alignItems: "start",
+        height: "auto",
+        justifyContent: "space-around",
       },
     }),
 
@@ -71,7 +51,7 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       },
     }),
 
-    subtitleLogo: css({ color: "#A74B3B", fontWeight: 600 }),
+    subtitleLogo: css({ color: "#A74B3B" }),
 
     containerNav: css({
       display: "flex",
@@ -102,9 +82,6 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
 
     titleNavigation: css({
       color: "#2C2C2C",
-      fontWeight: 600,
-      fontSize: "14px",
-      lineHeight: "20px",
     }),
 
     listPaths: css({
@@ -112,15 +89,13 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       flexDirection: "column",
       gap: "12px",
       textAlign: "center",
-      color: "#595959",
-      fontWeight: 600,
-      fontSize: "14px",
-      lineHeight: "20px",
 
       "@media(min-width: 1024px)": {
         textAlign: "start",
       },
     }),
+
+    pathLink: css({ color: "#595959" }),
 
     listContact: css({
       display: "flex",
@@ -138,6 +113,30 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       },
     }),
 
+    listDisplay: css({
+      display: "flex",
+      alignItems: "center",
+      gap: "18px",
+    }),
+
+    brLocation: css({ "@media(min-width: 1024px)": { display: "none" } }),
+
+    copySection: css({
+      padding: "32px 0",
+      borderTop: "1px solid #E2E2E2",
+      display: "flex",
+      flexDirection: "column",
+      gap: "24px",
+
+      "@media(min-width: 1024px)": {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+      },
+    }),
+
+    copyText: css({ textAlign: "center", color: "#595959" }),
+
     pattern: css({
       height: "136px",
       width: "100%",
@@ -148,31 +147,58 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
     }),
   };
 
+  const CONTACTANOS = [
+    {
+      text: (
+        <>
+          Villa Sandino, de la Iglesia{" "}
+          <br className={footerStyles.brLocation} />
+          Espíritu Santo 1c al norte
+        </>
+      ),
+      icoSrc: "/images/locationIcon.svg",
+      iconAlt: "Location icon in footer",
+    },
+    {
+      text: "(+505) 8485 9914",
+      icoSrc: "/images/phoneIcon.svg",
+      iconAlt: "Phone icon in footer",
+    },
+    {
+      text: "soporte@licoreriacociolca.com",
+      icoSrc: "/images/emailIcon.svg",
+      iconAlt: "Email icon in footer",
+    },
+  ];
+
   return (
     <footer className={footerStyles.footer}>
-      {/* Text */}
       <div className={footerStyles.container}>
-        {/* Info */}
         <div className={footerStyles.containerInfo}>
-          {/* Logo section */}
           <div className={footerStyles.logoSection}>
             <div>
               <img src="/images/cocibolcaLogoFooter.svg" alt="" />
             </div>
 
             <div>
-              <Paragraph classname={footerStyles.subtitleLogo}>
+              <Paragraph
+                variant="md"
+                weight="semi-bold"
+                classname={footerStyles.subtitleLogo}
+              >
                 Licorería Cocibolca: ¡De todo para vos!
               </Paragraph>
             </div>
           </div>
 
-          {/* Content section */}
           <div className={footerStyles.contentSection}>
-            {/* Navegacion */}
             <div className={footerStyles.containerNav}>
               <div>
-                <H5 classname={footerStyles.titleNavigation}>
+                <H5
+                  variant="sm"
+                  weight="semi-bold"
+                  classname={footerStyles.titleNavigation}
+                >
                   Navega en el sitio
                 </H5>
               </div>
@@ -182,7 +208,13 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
                   return (
                     <li key={i}>
                       <Link to={path.path}>
-                        <H5>{path.nombre}</H5>
+                        <Paragraph
+                          variant="sm"
+                          weight="semi-bold"
+                          classname={footerStyles.pathLink}
+                        >
+                          {path.nombre}
+                        </Paragraph>
                       </Link>
                     </li>
                   );
@@ -190,26 +222,31 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
               </ul>
             </div>
 
-            {/* Contacto */}
             <div className={footerStyles.containerContact}>
               <div>
-                <H5 classname={footerStyles.titleNavigation}>Contáctanos</H5>
+                <H5
+                  variant="sm"
+                  weight="semi-bold"
+                  classname={footerStyles.titleNavigation}
+                >
+                  Contáctanos
+                </H5>
               </div>
 
               <ul className={footerStyles.listContact}>
-                {CONTACTANOS.map((contacto) => {
+                {CONTACTANOS.map((contacto, i) => {
                   return (
-                    <li
-                      className={css({
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "18px",
-                      })}
-                    >
+                    <li key={i} className={footerStyles.listDisplay}>
                       <div>
                         <img src={contacto.icoSrc} alt={contacto.iconAlt} />
                       </div>
-                      <H5>{contacto.text}</H5>
+                      <Paragraph
+                        variant="sm"
+                        weight="semi-bold"
+                        classname={footerStyles.pathLink}
+                      >
+                        {contacto.text}
+                      </Paragraph>
                     </li>
                   );
                 })}
@@ -218,20 +255,9 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
           </div>
         </div>
 
-        <div
-          className={css({
-            padding: "32px 0",
-            borderTop: "1px solid #E2E2E2",
-            display: "flex",
-            flexDirection: "column",
-            gap: "24px",
-          })}
-        >
-          {/* Copy */}
+        <div className={footerStyles.copySection}>
           <div>
-            <Paragraph
-              classname={css({ textAlign: "center", color: "#595959" })}
-            >
+            <Paragraph variant="md" classname={footerStyles.copyText}>
               © 2024 Licorería cocibolca. All rights reserved.
             </Paragraph>
           </div>

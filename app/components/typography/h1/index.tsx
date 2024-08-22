@@ -1,40 +1,41 @@
-import "./style.css";
-import { CSSProperties, FC, PropsWithChildren } from "react";
+import styled, { CSSObject } from "@emotion/styled";
+import { FC, PropsWithChildren } from "react";
+import { variantStyles, variantWeights } from "~/utils/variant-styles";
 
-type H1Props = {
-  variant?: "primary" | "secondary" | "hero" | "nav";
-  style?: CSSProperties;
+const baseStyles: CSSObject = {
+  color: "#101828",
 };
 
-export const H1: FC<PropsWithChildren & H1Props> = ({
+const getH1Style = ({
+  variant = "md",
+  weight = "regular",
+}: Typography): CSSObject => {
+  const variantStyle = variantStyles[variant];
+  const variantWeight = variantWeights[weight];
+  return {
+    ...baseStyles,
+    ...variantStyle,
+    ...variantWeight,
+  };
+};
+
+const H1Styled = styled.h1<Typography>(getH1Style);
+
+export const H1: FC<PropsWithChildren & Typography> = ({
   children,
   variant,
   style,
+  classname,
+  weight,
 }) => {
-  if (variant === "secondary")
-    return (
-      <h1 className="secondary-h1-style" style={style}>
-        {children}
-      </h1>
-    );
-
-  if (variant === "hero")
-    return (
-      <h1 className="hero-h1-style" style={style}>
-        {children}
-      </h1>
-    );
-
-  if (variant === "nav")
-    return (
-      <h1 className="nav-h1-style" style={style}>
-        {children}
-      </h1>
-    );
-
   return (
-    <h1 className="primary-h1-style" style={style}>
+    <H1Styled
+      className={classname}
+      style={style}
+      variant={variant}
+      weight={weight}
+    >
       {children}
-    </h1>
+    </H1Styled>
   );
 };

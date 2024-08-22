@@ -1,35 +1,41 @@
-import "./style.css";
-import { CSSProperties, FC, PropsWithChildren } from "react";
+import styled, { CSSObject } from "@emotion/styled";
+import { FC, PropsWithChildren } from "react";
+import { variantStyles, variantWeights } from "~/utils/variant-styles";
 
-type ParagraphProps = {
-  variant?: "primary" | "secondary" | "form";
-  style?: CSSProperties;
-  classname?: string;
+const baseStyles: CSSObject = {
+  color: "#101828",
 };
 
-export const Paragraph: FC<PropsWithChildren & ParagraphProps> = ({
+const getParagraphStyle = ({
+  variant = "md",
+  weight = "regular",
+}: Typography): CSSObject => {
+  const variantStyle = variantStyles[variant];
+  const variantWeight = variantWeights[weight];
+  return {
+    ...baseStyles,
+    ...variantStyle,
+    ...variantWeight,
+  };
+};
+
+const ParagraphStyled = styled.p<Typography>(getParagraphStyle);
+
+export const Paragraph: FC<PropsWithChildren & Typography> = ({
   children,
   variant,
   style,
   classname,
+  weight,
 }) => {
-  if (variant === "form")
-    return (
-      <p className={`${classname} form-p-style`} style={style}>
-        {children}
-      </p>
-    );
-
-  if (variant === "secondary")
-    return (
-      <p className={`${classname} secondary-p-style`} style={style}>
-        {children}
-      </p>
-    );
-
   return (
-    <p className={`${classname} primary-p-style`} style={style}>
+    <ParagraphStyled
+      className={classname}
+      style={style}
+      variant={variant}
+      weight={weight}
+    >
       {children}
-    </p>
+    </ParagraphStyled>
   );
 };

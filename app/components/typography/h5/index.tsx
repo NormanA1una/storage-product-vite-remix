@@ -1,28 +1,41 @@
-import "./style.css";
-import { CSSProperties, FC, PropsWithChildren } from "react";
+import styled, { CSSObject } from "@emotion/styled";
+import { FC, PropsWithChildren } from "react";
+import { variantStyles, variantWeights } from "~/utils/variant-styles";
 
-type H5Props = {
-  variant?: "primary" | "secondary";
-  style?: CSSProperties;
-  classname?: string;
+const baseStyles: CSSObject = {
+  color: "#101828",
 };
 
-export const H5: FC<PropsWithChildren & H5Props> = ({
+const getH5Style = ({
+  variant = "md",
+  weight = "regular",
+}: Typography): CSSObject => {
+  const variantStyle = variantStyles[variant];
+  const variantWeight = variantWeights[weight];
+  return {
+    ...baseStyles,
+    ...variantStyle,
+    ...variantWeight,
+  };
+};
+
+const H5Styled = styled.h5<Typography>(getH5Style);
+
+export const H5: FC<PropsWithChildren & Typography> = ({
   children,
   variant,
   style,
   classname,
+  weight,
 }) => {
-  if (variant === "secondary")
-    return (
-      <h5 className={`"s${classname} condary-h5-style`} style={style}>
-        {children}
-      </h5>
-    );
-
   return (
-    <h5 className={`${classname} primary-h5-style`} style={style}>
+    <H5Styled
+      className={classname}
+      style={style}
+      variant={variant}
+      weight={weight}
+    >
       {children}
-    </h5>
+    </H5Styled>
   );
 };
