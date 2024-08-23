@@ -32,6 +32,19 @@ type Typography = {
   classname?: string;
 };
 
+type StarProduct = {
+  imgSrc: string;
+  imgAlt: string;
+  star: boolean;
+  promo: boolean;
+  stock: string;
+  product: string;
+  normalPrice: string;
+  discountPrice: string;
+};
+
+type StarProducts = StarProduct[];
+
 type Product = {
   id: string;
   image: string;

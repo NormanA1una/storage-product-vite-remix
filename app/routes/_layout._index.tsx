@@ -1,4 +1,6 @@
 import { HomeHero } from "~/layouts/home/hero";
+import { SocialMedia } from "~/layouts/home/social-media";
+import { StarProducts } from "~/layouts/home/star-products";
 import { TitoSection } from "~/layouts/home/tito";
 
 export default function Index() {
@@ -6,6 +8,8 @@ export default function Index() {
     <div>
       <HomeHero />
       <TitoSection />
+      <StarProducts />
+      <SocialMedia />
     </div>
   );
 }

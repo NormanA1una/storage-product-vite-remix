@@ -5,6 +5,7 @@ import { FC, PropsWithChildren } from "react";
 type BadgesProps = {
   variant: "base" | "info" | "error" | "warning" | "success";
   icon?: boolean;
+  classname?: string;
 };
 
 const variantMap: Record<NonNullable<BadgesProps["variant"]>, CSSObject> = {
@@ -103,9 +104,10 @@ export const Badges: FC<PropsWithChildren & BadgesProps> = ({
   children,
   variant,
   icon,
+  classname,
 }) => {
   return (
-    <StyleDiv variant={variant} icon={icon}>
+    <StyleDiv variant={variant} icon={icon} className={classname}>
       {icon && <StyleDot variant={variant} />} {children}
     </StyleDiv>
   );
