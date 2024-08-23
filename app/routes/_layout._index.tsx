@@ -2,6 +2,7 @@ import { HomeHero } from "~/layouts/home/hero";
 import { SocialMedia } from "~/layouts/home/social-media";
 import { StarProducts } from "~/layouts/home/star-products";
 import { TitoSection } from "~/layouts/home/tito";
+import { VisitUs } from "~/layouts/home/visit-us";
 
 export default function Index() {
   return (
@@ -10,6 +11,7 @@ export default function Index() {
       <TitoSection />
       <StarProducts />
       <SocialMedia />
+      <VisitUs />
     </div>
   );
 }
