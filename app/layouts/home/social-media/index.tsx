@@ -5,7 +5,12 @@ import { H2 } from "~/components/typography/h2";
 
 export const SocialMedia = () => {
   const socialMediaStyles = {
-    mainContainer: css({ backgroundColor: "#0E8499" }),
+    mainContainer: css({
+      backgroundColor: "#FFFFFF",
+      "@media(min-width: 1024px)": {
+        backgroundColor: "#0E8499",
+      },
+    }),
     contentText: css({
       width: "100%",
       maxWidth: "700px",
@@ -16,10 +21,18 @@ export const SocialMedia = () => {
     }),
 
     container: css({
-      padding: "64px 96px",
+      padding: "50px 24px",
       display: "flex",
       alignItems: "center",
       justifyContent: "space-around",
+      flexDirection: "column",
+      gap: "72px",
+
+      "@media(min-width: 1024px)": {
+        flexDirection: "row",
+        padding: "64px 96px",
+        gap: "0px",
+      },
     }),
 
     containerTitles: css({
@@ -29,16 +42,33 @@ export const SocialMedia = () => {
       gap: "24px",
     }),
 
-    contentTitle: css({ color: "#FFFFFF" }),
+    contentTitle: css({
+      color: "#2C2C2C",
+      "@media(min-width: 1024px)": {
+        color: "#FFFFFF",
+      },
+    }),
 
     subtitleDisplay: css({ maxWidth: "670px" }),
 
-    contentSubTitle: css({ color: "#FFFFFF" }),
+    contentSubTitle: css({
+      color: "#706F6F",
+      "@media(min-width: 1024px)": {
+        color: "#FFFFFF",
+      },
+    }),
 
     mosaicoContainer: css({
       display: "flex",
-      gap: "40px",
+      gap: "10px",
       alignItems: "center",
+      justifyContent: "space-around",
+      width: "100%",
+
+      "@media(min-width: 1024px)": {
+        gap: "40px",
+        width: "auto",
+      },
     }),
 
     imageDisplayRelative: css({
@@ -47,8 +77,13 @@ export const SocialMedia = () => {
 
     facebookTag: css({
       position: "absolute",
-      left: -95,
-      top: -48,
+      right: -45,
+      top: -58,
+
+      "@media(min-width: 1024px)": {
+        left: -95,
+        top: -48,
+      },
     }),
 
     largeImage: css({
@@ -56,11 +91,18 @@ export const SocialMedia = () => {
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      width: "336px",
-      height: "336px",
+      width: "40vw", // Responsive width
+      height: "40vw", // Responsive height
+      maxWidth: "336px",
+      maxHeight: "336px",
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
+
+      "@media(min-width: 1024px)": {
+        width: "336px",
+        height: "336px",
+      },
     }),
 
     smallImageContainer: css({
@@ -80,11 +122,17 @@ export const SocialMedia = () => {
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      width: "184px",
-      height: "204px",
+      width: "30vw", // Responsive width
+      height: "35vw", // Responsive height
+      maxWidth: "184px",
+      maxHeight: "204px",
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
+      "@media(min-width: 1024px)": {
+        width: "184px",
+        height: "204px",
+      },
     }),
 
     whatsappTag: css({
@@ -98,11 +146,17 @@ export const SocialMedia = () => {
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
-      width: "184px",
-      height: "204px",
+      width: "30vw", // Responsive width
+      height: "35vw", // Responsive height
+      maxWidth: "184px",
+      maxHeight: "204px",
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
+      "@media(min-width: 1024px)": {
+        width: "184px",
+        height: "204px",
+      },
     }),
   };
   return (

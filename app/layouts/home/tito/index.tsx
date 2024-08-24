@@ -12,17 +12,54 @@ export const TitoSection = () => {
       height: "218px",
       display: "flex",
       justifyContent: "center",
+      alignItems: "center",
     }),
 
     tito: css({
+      display: "none",
       position: "absolute",
       top: "-150px",
       pointerEvents: "none",
+
+      "@media(min-width: 1024px)": {
+        display: "block",
+      },
+    }),
+
+    titoMobile: css({
+      position: "absolute",
+      pointerEvents: "none",
+      "@media(min-width: 1024px)": {
+        display: "none",
+      },
+    }),
+
+    titoSaludo: css({
+      backgroundColor: "#FFFFFF",
+      borderRadius: "6px",
+      padding: "8px 12px",
+      fontWeight: 600,
+      fontSize: "16px",
+      lineHeight: "24px",
+      color: "#000000",
+      position: "absolute",
+      zIndex: 1,
+      boxShadow: "0px 4px 32px 0px #2C2C2C1F",
+      top: -140,
+
+      "@media(min-width: 1024px)": {
+        display: "none",
+      },
     }),
 
     content: css({
-      backgroundColor: "#F8EED8",
-      padding: "290px 96px 64px 96px",
+      backgroundColor: "#FFFFFF",
+      padding: "200px 24px 64px 24px",
+
+      "@media(min-width: 1024px)": {
+        padding: "290px 96px 64px 96px",
+        backgroundColor: "#F8EED8",
+      },
     }),
 
     contentText: css({
@@ -46,9 +83,54 @@ export const TitoSection = () => {
 
     contentSubTitle: css({ color: "#706F6F" }),
 
+    buttonDisplay: css({
+      display: "none",
+      "@media(min-width: 1024px)": {
+        display: "block",
+      },
+    }),
+
     containerPhotos: css({
+      display: "none",
+      justifyContent: "space-around",
+
+      "@media(min-width: 1024px)": {
+        display: "flex",
+      },
+    }),
+
+    containerPhotosMobile: css({
       display: "flex",
       justifyContent: "space-around",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "24px",
+
+      "@media(min-width: 1024px)": {
+        display: "none",
+      },
+    }),
+
+    firstPhotoMobile: css({
+      width: "100%",
+      height: "202px",
+      borderRadius: "24px",
+      overflow: "hidden",
+      backgroundImage: "url(/images/mosaicoTito3.webp)",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+    }),
+
+    secondPhotoMobile: css({
+      width: "100%",
+      height: "202px",
+      borderRadius: "24px",
+      overflow: "hidden",
+      backgroundImage: "url(/images/secondMobileImg.webp)",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
     }),
 
     smallPhotosContainer: css({
@@ -108,6 +190,14 @@ export const TitoSection = () => {
             alt="Tito saludando con un trago en la mano"
           />
         </div>
+
+        <div className={titoStyles.titoSaludo}>¡Hola, soy Tito!</div>
+        <div className={titoStyles.titoMobile}>
+          <img
+            src="/images/titoMobile.svg"
+            alt="Tito saludando con un trago en la mano"
+          />
+        </div>
       </div>
 
       <div className={titoStyles.content}>
@@ -139,7 +229,7 @@ export const TitoSection = () => {
                 </H2>
               </div>
 
-              <div>
+              <div className={titoStyles.buttonDisplay}>
                 <Button variant="secondary" size="lg">
                   Contáctanos
                 </Button>
@@ -148,6 +238,11 @@ export const TitoSection = () => {
           </div>
 
           {/* Photos */}
+          <div className={titoStyles.containerPhotosMobile}>
+            <div className={titoStyles.firstPhotoMobile} />
+            <div className={titoStyles.secondPhotoMobile} />
+          </div>
+
           <div className={titoStyles.containerPhotos}>
             <div className={titoStyles.smallPhotosContainer}>
               <div className={titoStyles.smallPhotoDimension}>

@@ -51,7 +51,12 @@ export const StarProducts = () => {
   const starProductsStyles = {
     mainContainer: css({ backgroundColor: "#FFFFFF" }),
 
-    container: css({ padding: "196px 96px" }),
+    container: css({
+      padding: "50px 24px",
+      "@media(min-width: 1024px)": {
+        padding: "196px 96px",
+      },
+    }),
 
     contentText: css({
       width: "100%",
@@ -74,12 +79,24 @@ export const StarProducts = () => {
 
     contentSubTitle: css({ color: "#706F6F" }),
 
+    buttonDisplay: css({
+      width: "100%",
+
+      "@media(min-width: 1024px)": {
+        width: "fit-content",
+      },
+    }),
+
     starProductsGrid: css({
       display: "grid",
-      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+      gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
       width: "fit-content",
       gap: "24px",
       margin: "0 auto",
+
+      "@media(min-width: 1024px)": {
+        gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+      },
     }),
   };
   return (
@@ -110,7 +127,11 @@ export const StarProducts = () => {
             </div>
 
             <div>
-              <Button variant="primary" size="lg">
+              <Button
+                variant="primary"
+                size="lg"
+                className={starProductsStyles.buttonDisplay}
+              >
                 Ver catálogo
               </Button>
             </div>

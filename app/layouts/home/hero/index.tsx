@@ -7,7 +7,11 @@ export const HomeHero = () => {
   const heroStyles = {
     container: css({
       backgroundColor: "#FFFFFF",
-      padding: "72px 0 193px 0",
+      padding: "72px 24px 193px 24px",
+
+      "@media(min-width: 1024px)": {
+        padding: "72px 0 193px 0",
+      },
     }),
 
     containerText: css({
@@ -31,6 +35,15 @@ export const HomeHero = () => {
       alignItems: "center",
       gap: "12px",
       justifyContent: "center",
+      flexDirection: "column",
+
+      "@media(min-width: 1024px)": { flexDirection: "row" },
+    }),
+
+    buttonHero: css({
+      width: "100%",
+
+      "@media(min-width: 1024px)": { width: "fit-content" },
     }),
   };
 
@@ -53,10 +66,14 @@ export const HomeHero = () => {
         </div>
 
         <div className={heroStyles.buttons}>
-          <Button variant="secondary" size="lg">
+          <Button
+            variant="secondary"
+            size="lg"
+            className={heroStyles.buttonHero}
+          >
             Contáctanos
           </Button>
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" className={heroStyles.buttonHero}>
             Ver catálogo
           </Button>
         </div>
