@@ -6,9 +6,12 @@ import { H2 } from "~/components/typography/h2";
 export const VisitUs = () => {
   const visitStyles = {
     mainContainer: css({
-      backgroundColor: "#CCF3F9",
+      backgroundColor: "#FFFFFF",
       padding: "160px 0",
       position: "relative",
+      "@media(min-width: 1024px)": {
+        backgroundColor: "#CCF3F9",
+      },
     }),
     containerTitles: css({
       textAlign: "center",
@@ -24,11 +27,15 @@ export const VisitUs = () => {
       backgroundColor: "#FFFFFF",
       width: "fit-content",
       height: "fit-content",
-      padding: "40px 128px",
+      padding: "20px 24px",
       borderRadius: "24px",
       margin: "0 auto",
       position: "relative",
       zIndex: 2,
+
+      "@media(min-width: 1024px)": {
+        padding: "40px 128px",
+      },
     }),
 
     contentTitle: css({ color: "#2C2C2C" }),
@@ -52,6 +59,19 @@ export const VisitUs = () => {
       alignItems: "center",
       gap: "12px",
       justifyContent: "center",
+      flexDirection: "column",
+
+      "@media(min-width: 1024px)": {
+        flexDirection: "row",
+      },
+    }),
+
+    displayButton: css({
+      width: "100%",
+
+      "@media(min-width: 1024px)": {
+        width: "fit-content",
+      },
     }),
 
     mapContainer: css({
@@ -115,8 +135,14 @@ export const VisitUs = () => {
             </div>
 
             <div className={visitStyles.buttonsDisplay}>
-              <Button variant="link">Ver en Google Maps</Button>
-              <Button variant="secondary" size="sm">
+              <Button variant="link" className={visitStyles.displayButton}>
+                Ver en Google Maps
+              </Button>
+              <Button
+                variant="secondary"
+                size="sm"
+                className={visitStyles.displayButton}
+              >
                 Ver detalles
               </Button>
             </div>

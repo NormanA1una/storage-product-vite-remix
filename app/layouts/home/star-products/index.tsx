@@ -56,6 +56,14 @@ export const StarProducts = () => {
       "@media(min-width: 1024px)": {
         padding: "196px 96px",
       },
+
+      "@media(min-width: 1280px)": {
+        padding: "196px 0",
+      },
+
+      "@media(min-width: 1440px)": {
+        padding: "196px 56px",
+      },
     }),
 
     contentText: css({
@@ -94,7 +102,22 @@ export const StarProducts = () => {
       gap: "24px",
       margin: "0 auto",
 
+      "@media(min-width: 768px)": {
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gap: "48px",
+      },
+
       "@media(min-width: 1024px)": {
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gap: "48px",
+      },
+
+      "@media(min-width: 1280px)": {
+        gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+        gap: "24px",
+      },
+
+      "@media(min-width: 1440px)": {
         gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
       },
     }),

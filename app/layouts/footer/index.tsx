@@ -35,7 +35,7 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       flexDirection: "column",
       justifyContent: "space-between",
       alignItems: "center",
-      // gap: "32px",
+      gap: "32px",
 
       "@media(min-width: 1024px)": {
         alignItems: "start",

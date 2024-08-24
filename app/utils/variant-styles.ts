@@ -36,7 +36,8 @@ export const variantStyles: Record<
   "5xl": {
     fontSize: "28px",
     lineHeight: "36px",
-    "@media(min-width: 1024px)": { fontSize: "48px", lineHeight: "60px" },
+    "@media(min-width: 1024px)": { fontSize: "38px", lineHeight: "50px" },
+    "@media(min-width: 1280px)": { fontSize: "48px", lineHeight: "60px" },
   },
 
   "6xl": {

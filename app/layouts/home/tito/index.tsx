@@ -57,6 +57,11 @@ export const TitoSection = () => {
       padding: "200px 24px 64px 24px",
 
       "@media(min-width: 1024px)": {
+        padding: "290px 28px 64px 28px",
+        backgroundColor: "#F8EED8",
+      },
+
+      "@media(min-width: 1280px)": {
         padding: "290px 96px 64px 96px",
         backgroundColor: "#F8EED8",
       },
@@ -95,6 +100,11 @@ export const TitoSection = () => {
       justifyContent: "space-around",
 
       "@media(min-width: 1024px)": {
+        display: "flex",
+        gap: "40px",
+      },
+
+      "@media(min-width: 1280px)": {
         display: "flex",
       },
     }),
@@ -140,44 +150,54 @@ export const TitoSection = () => {
     }),
 
     smallPhotoDimension: css({
-      maxWidth: "384px",
-      maxHeight: "204px",
+      width: "100%",
+      aspectRatio: "16/9", // Maintain aspect ratio
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
     }),
 
     firstPhoto: css({
-      borderRadius: "24px",
-      transform: "translateY(-5px)",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover", // Ensure the image covers the entire container without distortion
+      objectPosition: "top",
     }),
 
     secondPhoto: css({
-      borderRadius: "24px",
-      transform: "translateY(-110px)",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover", // Ensure the image covers the entire container without distortion
+      objectPosition: "center",
     }),
 
     bigPhotoDimension: css({
-      maxWidth: "472px",
-      maxHeight: "448px",
+      width: "100%",
+      aspectRatio: "1/1", // Maintain aspect ratio for square-like image
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
     }),
 
     thirdPhoto: css({
-      borderRadius: "24px",
+      width: "100%",
       height: "100%",
+      objectFit: "cover", // Ensure the image covers the entire container without distortion
+      objectPosition: "center",
     }),
 
     fourthPhoto: css({
-      borderRadius: "24px",
-      transform: "translateY(-110px)",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover", // Ensure the image covers the entire container without distortion
+      objectPosition: "center",
     }),
 
     fifthPhoto: css({
-      borderRadius: "24px",
-      transform: "translate(-1px, -180px)",
+      width: "100%",
+      height: "100%",
+      objectFit: "cover", // Ensure the image covers the entire container without distortion
+      objectPosition: "bottom",
     }),
   };
 

@@ -11,7 +11,7 @@ export default function Index() {
       <TitoSection />
       <StarProducts />
       <SocialMedia />
-      {/* <VisitUs /> */}
+      <VisitUs />
     </div>
   );
 }

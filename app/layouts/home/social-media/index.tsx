@@ -11,13 +11,31 @@ export const SocialMedia = () => {
         backgroundColor: "#0E8499",
       },
     }),
+
     contentText: css({
       width: "100%",
       maxWidth: "700px",
       display: "flex",
       flexDirection: "column",
-      alignItems: "start",
+      alignItems: "center",
       gap: "24px",
+
+      "@media(min-width: 1024px)": {
+        alignItems: "start",
+      },
+    }),
+
+    displayCampanaDesktop: css({
+      display: "none",
+
+      "@media(min-width: 1024px)": {
+        display: "block",
+      },
+    }),
+    displayCampanaMobile: css({
+      "@media(min-width: 1024px)": {
+        display: "none",
+      },
     }),
 
     container: css({
@@ -31,15 +49,25 @@ export const SocialMedia = () => {
       "@media(min-width: 1024px)": {
         flexDirection: "row",
         padding: "64px 96px",
-        gap: "0px",
+        gap: "32px",
+      },
+
+      "@media(min-width: 1280px)": {
+        flexDirection: "row",
+        padding: "64px 96px",
+        gap: "40px",
       },
     }),
 
     containerTitles: css({
-      textAlign: "start",
+      textAlign: "center",
       display: "flex",
       flexDirection: "column",
       gap: "24px",
+
+      "@media(min-width: 1024px)": {
+        textAlign: "start",
+      },
     }),
 
     contentTitle: css({
@@ -58,14 +86,26 @@ export const SocialMedia = () => {
       },
     }),
 
+    displayButton: css({
+      width: "100%",
+      "@media(min-width: 1024px)": {
+        width: "fit-content",
+      },
+    }),
+
     mosaicoContainer: css({
       display: "flex",
-      gap: "10px",
+      gap: "40px",
       alignItems: "center",
-      justifyContent: "space-around",
+      justifyContent: "center",
       width: "100%",
 
       "@media(min-width: 1024px)": {
+        gap: "28px",
+        width: "auto",
+      },
+
+      "@media(min-width: 1280px)": {
         gap: "40px",
         width: "auto",
       },
@@ -100,6 +140,11 @@ export const SocialMedia = () => {
       overflow: "hidden",
 
       "@media(min-width: 1024px)": {
+        width: "15vw",
+        height: "15vw",
+      },
+
+      "@media(min-width: 1280px)": {
         width: "336px",
         height: "336px",
       },
@@ -129,9 +174,15 @@ export const SocialMedia = () => {
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
+
       "@media(min-width: 1024px)": {
-        width: "184px",
-        height: "204px",
+        width: "10vw", // Responsive width
+        height: "10vw",
+      },
+
+      "@media(min-width: 1280px)": {
+        width: "25vw", // Responsive width
+        height: "25vw",
       },
     }),
 
@@ -153,9 +204,15 @@ export const SocialMedia = () => {
       borderRadius: "24px",
       boxShadow: "0 0 0 2px #9DD3DA",
       overflow: "hidden",
+
       "@media(min-width: 1024px)": {
-        width: "184px",
-        height: "204px",
+        width: "10vw", // Responsive width
+        height: "10vw",
+      },
+
+      "@media(min-width: 1280px)": {
+        width: "25vw", // Responsive width
+        height: "25vw",
       },
     }),
   };
@@ -165,8 +222,14 @@ export const SocialMedia = () => {
       <div className={socialMediaStyles.container}>
         {/* Texts */}
         <div className={socialMediaStyles.contentText}>
-          <div>
+          <div className={socialMediaStyles.displayCampanaDesktop}>
             <img src="/images/campanaSvg.svg" alt="Dibujo de una campana" />
+          </div>
+          <div className={socialMediaStyles.displayCampanaMobile}>
+            <img
+              src="/images/campanaMobile.svg"
+              alt="Dibujo de una campana azul"
+            />
           </div>
 
           <div className={socialMediaStyles.containerTitles}>
@@ -189,7 +252,11 @@ export const SocialMedia = () => {
             </div>
 
             <div>
-              <Button variant="secondary" size="lg">
+              <Button
+                variant="secondary"
+                size="lg"
+                className={socialMediaStyles.displayButton}
+              >
                 ¡Quiero seguirlos!
               </Button>
             </div>
