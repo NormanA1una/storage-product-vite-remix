@@ -24,12 +24,19 @@ const CONTACT_MEDIA: ContactMedia = [
   },
 ];
 
-export default function MainLayout({ pathNames }: MainLayoutProps) {
+export default function MainLayout({
+  pathNames,
+  phoneNumber,
+}: MainLayoutProps) {
   return (
     <>
       <CartProvider>
-        <Navbar pathNames={pathNames} contactMedia={CONTACT_MEDIA} />
-        <Outlet />
+        <Navbar
+          pathNames={pathNames}
+          contactMedia={CONTACT_MEDIA}
+          phoneNumber={phoneNumber}
+        />
+        <Outlet context={{ phoneNumber }} />
         <Footer pathNames={pathNames} contactMedia={CONTACT_MEDIA} />
       </CartProvider>
     </>

@@ -2,8 +2,13 @@ import { css } from "@emotion/css";
 import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
+import { contactUs } from "~/utils/contact-whatsapp";
 
-export const TitoSection = () => {
+type TitoSectionProps = {
+  phoneNumber: string;
+};
+
+export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
   const titoStyles = {
     titoContainer: css({
       backgroundImage: "url(/images/titoPattern.svg)",
@@ -98,6 +103,7 @@ export const TitoSection = () => {
     containerPhotos: css({
       display: "none",
       justifyContent: "space-around",
+      maxHeight: "448px",
 
       "@media(min-width: 1024px)": {
         display: "flex",
@@ -250,7 +256,11 @@ export const TitoSection = () => {
               </div>
 
               <div className={titoStyles.buttonDisplay}>
-                <Button variant="secondary" size="lg">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => contactUs(phoneNumber)}
+                >
                   Contáctanos
                 </Button>
               </div>

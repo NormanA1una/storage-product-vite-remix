@@ -5,7 +5,11 @@ import { Navigation } from "./navigation";
 import { SideNav } from "./mobile";
 import { css } from "@emotion/css";
 
-export const Navbar = ({ pathNames, contactMedia }: NavbarProps) => {
+export const Navbar = ({
+  pathNames,
+  contactMedia,
+  phoneNumber,
+}: NavbarProps) => {
   const navigate = useNavigate();
 
   const navbarStyle = {
@@ -21,6 +25,10 @@ export const Navbar = ({ pathNames, contactMedia }: NavbarProps) => {
       justifyContent: "space-between",
       cursor: "pointer",
       zIndex: 99,
+
+      "@media(min-width: 1024px)": {
+        padding: "12px 96px",
+      },
     }),
   };
 
@@ -28,7 +36,7 @@ export const Navbar = ({ pathNames, contactMedia }: NavbarProps) => {
     <nav className={navbarStyle.container}>
       <LogoSection navigate={navigate} />
       <Navigation pathNames={pathNames} />
-      <CtaButtons navigate={navigate} />
+      <CtaButtons navigate={navigate} phoneNumber={phoneNumber as string} />
       <SideNav pathNames={pathNames} contactMedia={contactMedia} />
     </nav>
   );

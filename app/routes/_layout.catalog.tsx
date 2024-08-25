@@ -3,6 +3,7 @@ import { useLoaderData, useOutletContext } from "@remix-run/react";
 import { Products } from "~/layouts/products";
 import supabase from "~/utils/supabase";
 import qs from "qs";
+import { HeroCatalog } from "~/layouts/catalog/hero";
 
 /* type QS_PRODUCT_TYPE = {
   sort: string[];
@@ -57,6 +58,7 @@ export default function Catalog() {
 
   return (
     <div>
+      <HeroCatalog />
       <Products dataLoader={dataLoader} q={q} queryPage={queryPage} />
     </div>
   );

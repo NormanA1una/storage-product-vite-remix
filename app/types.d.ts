@@ -99,6 +99,7 @@ type PathName = {
 
 type MainLayoutProps = {
   pathNames: PathName[];
+  phoneNumber: string;
 };
 
 type Media = {
@@ -113,6 +114,7 @@ type ContactMedia = Media[];
 type NavbarProps = {
   pathNames: PathName[];
   contactMedia?: Media[];
+  phoneNumber?: string;
 };
 type NavigationProps = NavbarProps;
 type SideNavProps = NavbarProps;

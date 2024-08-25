@@ -1,9 +1,17 @@
 import { css } from "@emotion/css";
+import { useNavigate } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
+import { contactUs } from "~/utils/contact-whatsapp";
 
-export const HomeHero = () => {
+type HomeHeroProps = {
+  phoneNumber: string;
+};
+
+export const HomeHero = ({ phoneNumber }: HomeHeroProps) => {
+  const navigate = useNavigate();
+
   const heroStyles = {
     container: css({
       backgroundColor: "#FFFFFF",
@@ -70,10 +78,16 @@ export const HomeHero = () => {
             variant="secondary"
             size="lg"
             className={heroStyles.buttonHero}
+            onClick={() => contactUs(phoneNumber)}
           >
             Contáctanos
           </Button>
-          <Button variant="primary" size="lg" className={heroStyles.buttonHero}>
+          <Button
+            onClick={() => navigate({ pathname: "/" })}
+            variant="primary"
+            size="lg"
+            className={heroStyles.buttonHero}
+          >
             Ver catálogo
           </Button>
         </div>

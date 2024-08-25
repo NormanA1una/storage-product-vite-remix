@@ -1,4 +1,5 @@
 import { css } from "@emotion/css";
+import { useNavigate } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { ProductCard } from "~/components/product-card";
 import { H1 } from "~/components/typography/h1";
@@ -48,6 +49,8 @@ const STAR_PRODUCTS = [
 ];
 
 export const StarProducts = () => {
+  const navigate = useNavigate();
+
   const starProductsStyles = {
     mainContainer: css({ backgroundColor: "#FFFFFF" }),
 
@@ -154,6 +157,7 @@ export const StarProducts = () => {
                 variant="primary"
                 size="lg"
                 className={starProductsStyles.buttonDisplay}
+                onClick={() => navigate({ pathname: "/" })}
               >
                 Ver catálogo
               </Button>

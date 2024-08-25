@@ -8,15 +8,17 @@ export const loader: LoaderFunction = async ({}) => {
     { name: "Catalog", nombre: "Catálogo", path: "/catalog" },
     { name: "Visit us", nombre: "Visítanos", path: "/visitanos" },
   ];
-  return json({ NAV_PATHNAMES });
+
+  const PHONE_NUMBER = process.env.PHONE_NUMBER;
+  return json({ NAV_PATHNAMES, PHONE_NUMBER });
 };
 
 export default function LayoutMainContainer() {
-  const { NAV_PATHNAMES } = useLoaderData<typeof loader>();
+  const { NAV_PATHNAMES, PHONE_NUMBER } = useLoaderData<typeof loader>();
 
   return (
     <>
-      <MainLayout pathNames={NAV_PATHNAMES} />
+      <MainLayout pathNames={NAV_PATHNAMES} phoneNumber={PHONE_NUMBER} />
     </>
   );
 }

@@ -135,7 +135,16 @@ export const VisitUs = () => {
             </div>
 
             <div className={visitStyles.buttonsDisplay}>
-              <Button variant="link" className={visitStyles.displayButton}>
+              <Button
+                variant="link"
+                className={visitStyles.displayButton}
+                onClick={() =>
+                  window.open(
+                    "https://maps.app.goo.gl/a8SYf4RDQD7PMvXw6",
+                    "_blank"
+                  )
+                }
+              >
                 Ver en Google Maps
               </Button>
               <Button

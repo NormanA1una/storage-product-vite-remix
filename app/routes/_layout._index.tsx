@@ -1,14 +1,21 @@
+import { useOutletContext } from "@remix-run/react";
 import { HomeHero } from "~/layouts/home/hero";
 import { SocialMedia } from "~/layouts/home/social-media";
 import { StarProducts } from "~/layouts/home/star-products";
 import { TitoSection } from "~/layouts/home/tito";
 import { VisitUs } from "~/layouts/home/visit-us";
 
+type DataContext = {
+  phoneNumber: string;
+};
+
 export default function Index() {
+  const data: DataContext = useOutletContext();
+
   return (
     <div>
-      <HomeHero />
-      <TitoSection />
+      <HomeHero phoneNumber={data.phoneNumber} />
+      <TitoSection phoneNumber={data.phoneNumber} />
       <StarProducts />
       <SocialMedia />
       <VisitUs />
