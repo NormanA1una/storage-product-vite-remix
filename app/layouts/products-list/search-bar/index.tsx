@@ -1,18 +1,50 @@
 import { useSearchParams } from "@remix-run/react";
 import { Loader } from "lucide-react";
+import { css } from "@emotion/css";
+import { Paragraph } from "~/components/typography/paragraph";
 
 type SearchBarProps = {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
-  isDebouncing: boolean;
+  // isDebouncing: boolean;
 };
 
 export const SearchBar = ({
-  isDebouncing,
+  // isDebouncing,
   query,
   setQuery,
 }: SearchBarProps) => {
   const [_searchParams, setSearchParams] = useSearchParams();
+
+  const searchBarStyles = {
+    container: css({
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px",
+    }),
+
+    inputDisplay: css({
+      position: "relative",
+      display: "flex",
+      alignItems: "center",
+    }),
+
+    inputStyle: css({
+      padding: "10px 14px 10px 46px",
+      borderRadius: "8px",
+      border: "1px solid #E2E2E2",
+      width: "100%",
+      outline: "none",
+
+      "::placeholder": {
+        color: "#A9A9A9",
+      },
+    }),
+
+    displayImg: css({ position: "absolute", left: 13 }),
+
+    displayCircle: css({ position: "absolute", right: 13 }),
+  };
 
   const paramHandler = (currentPageF: number) => {
     setSearchParams((prev) => {
@@ -21,23 +53,40 @@ export const SearchBar = ({
     });
   };
   return (
-    <div className="min-w-[full] max-w-[400px] w-full my-4 h-10 rounded-lg shadow-md mt-2 mb-4 px-2 bg-white flex items-center border border-gray-200 dark:bg-[#2D2D37] dark:border-[#2D2D37]">
-      <input
-        type="text"
-        value={query}
-        className="md:w-[400px] w-full appearance-none outline-none dark:bg-[#2D2D37] dark:text-[#FFFF]"
-        placeholder="Buscar un producto"
-        onChange={(e) => (setQuery(e.target.value), paramHandler(1))}
-      />
-      <span>
-        {isDebouncing ? (
-          <span>
-            <Loader className="animate-spin" />
-          </span>
-        ) : (
-          <span>🔍</span>
+    <div className={searchBarStyles.container}>
+      <div>
+        <Paragraph variant="sm" weight="semi-bold">
+          ¿Qué te gustaría buscar hoy?
+        </Paragraph>
+      </div>
+      <div className={searchBarStyles.inputDisplay}>
+        <div className={searchBarStyles.displayImg}>
+          <img
+            src="/images/searchIcon.svg"
+            alt="Imagen de una lupa dentro de la barra de busqueda"
+          />
+        </div>
+
+        <input
+          className={searchBarStyles.inputStyle}
+          type="text"
+          value={query}
+          placeholder="Busca tu producto"
+          onChange={(e) => (setQuery(e.target.value), paramHandler(1))}
+        />
+
+        {query && (
+          <div
+            className={searchBarStyles.displayCircle}
+            onClick={() => setQuery("")}
+          >
+            <img
+              src="/images/cancelCircle.svg"
+              alt="Equis encerrada en un circulo"
+            />
+          </div>
         )}
-      </span>
+      </div>
     </div>
   );
 };

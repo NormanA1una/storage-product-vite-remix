@@ -65,7 +65,7 @@ type ProductsProps = {
 };
 
 type CategoriesButtonsProps = {
-  categoryP: string;
+  categoryP?: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   currentPage: number;
   setSearchParams: any;
@@ -73,7 +73,7 @@ type CategoriesButtonsProps = {
 
 type CategoryButtonProps = {
   category: string;
-  categoryP: string;
+  categoryP?: string;
   setCategory: React.Dispatch<React.SetStateAction<string>>;
 };
 

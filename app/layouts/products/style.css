@@ -4,8 +4,4 @@
   .product-container {
     @apply py-20 px-2 bg-[#EEE7D9] dark:bg-[#1E1D2B];
   }
-
-  .principal-text-container {
-    @apply text-center mb-10;
-  }
 }

@@ -30,7 +30,6 @@ const StyleCheckbox = styled.input<CheckboxProps>({
     boxShadow: "0px 0px 0px 4px #98A2B324",
   },
 
-  // Estilos para el estado "checked"
   "&:checked": {
     backgroundColor: "#0E8499",
     ":hover": {

@@ -152,7 +152,7 @@ export const ProductCard = ({
       <div className={productCardStyles.contentDisplay}>
         <div className={productCardStyles.infoDisplay}>
           <Badges
-            variant={stock === "disponible" ? "success" : "error"}
+            variant={stock === "Disponible" ? "success" : "error"}
             icon={true}
             classname={productCardStyles.badgeCard}
           >
