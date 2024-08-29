@@ -1,5 +1,6 @@
 import "./style.css";
 
+import { css } from "@emotion/css";
 import { useState } from "react";
 import { CategoryButton } from "./category-button";
 import { Button } from "~/components/button";
@@ -28,6 +29,25 @@ export const CategoriesButtons = ({
 }: CategoriesButtonsProps) => {
   const [page, setPage] = useState(currentPage);
 
+  const categoriesButtonsStyles = {
+    container: css({
+      display: "none",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: "8px",
+      width: "280px",
+      backgroundColor: "#FDF8ED",
+      borderRadius: "24px",
+      padding: "32px",
+
+      "@media(min-width: 1024px)": {
+        display: "flex",
+      },
+    }),
+
+    buttonCategory: css({ width: "100%", textAlign: "start" }),
+  };
+
   const paramHandlerReset = (currentPage: number) => {
     const params = new URLSearchParams();
     params.set("page", `${currentPage}`);
@@ -41,27 +61,60 @@ export const CategoriesButtons = ({
     setCategory("");
   };
 
-  return (
-    <div className="container-category-btn">
-      {CATEGORIES.map((category, i) => {
-        return (
-          <CategoryButton
-            category={category}
-            categoryP={categoryP}
-            key={i}
-            setCategory={setCategory}
-          />
-        );
-      })}
+  const paramHandler = (category: string) => {
+    setSearchParams((prev: URLSearchParams) => {
+      prev.set("category", category);
+      prev.set("page", "1");
+      return prev;
+    });
+  };
 
+  return (
+    <div className={categoriesButtonsStyles.container}>
       <Button
-        variant="primary"
-        onClick={() => {
-          resetPageHandler();
-        }}
+        onClick={resetPageHandler}
+        variant="link"
+        className={categoriesButtonsStyles.buttonCategory}
+        active={!categoryP}
       >
         Todos los productos
       </Button>
+      {CATEGORIES.map((category, i) => {
+        return (
+          <Button
+            onClick={() => {
+              setCategory(category);
+              paramHandler(category);
+            }}
+            key={i}
+            variant="link"
+            className={categoriesButtonsStyles.buttonCategory}
+            active={categoryP === category}
+          >
+            {category}
+          </Button>
+        );
+      })}
     </div>
   );
 };
+
+/* {CATEGORIES.map((category, i) => {
+  return (
+    <CategoryButton
+      category={category}
+      categoryP={categoryP}
+      key={i}
+      setCategory={setCategory}
+    />
+  );
+})}
+
+<Button
+  variant="primary"
+  onClick={() => {
+    resetPageHandler();
+  }}
+>
+  Todos los productos
+</Button> */

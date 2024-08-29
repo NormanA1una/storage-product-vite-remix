@@ -3,7 +3,7 @@ import { CSSProperties, FC, PropsWithChildren } from "react";
 
 type ButtonProps = {
   variant?: "primary" | "secondary" | "link" | "dark" | "warning";
-  size?: "sm" | "md" | "lg" | "xl" | "2xl";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "icon";
   style?: CSSProperties;
   className?: string;
   type?: "submit" | "reset" | "button" | undefined;
@@ -19,6 +19,7 @@ const paddingMap: Record<NonNullable<ButtonProps["size"]>, string> = {
   lg: "12px 20px",
   xl: "12px 24px",
   "2xl": "16px 32px",
+  icon: "8px",
 };
 
 const variantMap: Record<NonNullable<ButtonProps["variant"]>, CSSObject> = {
@@ -46,8 +47,7 @@ const variantMap: Record<NonNullable<ButtonProps["variant"]>, CSSObject> = {
       boxShadow: "0px 0px 0px 4px #CCF3F9",
     },
     ":disabled": {
-      backgroundColor: "#E2E2E2",
-      color: "#A9A9A9",
+      backgroundColor: "#FFFFFF",
       borderColor: "#E2E2E2",
     },
   },

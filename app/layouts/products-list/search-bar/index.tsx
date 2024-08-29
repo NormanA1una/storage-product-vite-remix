@@ -21,6 +21,23 @@ export const SearchBar = ({
       display: "flex",
       flexDirection: "column",
       gap: "6px",
+      width: "100%",
+
+      "@media(min-width: 1024px)": {
+        maxWidth: "450px",
+      },
+
+      "@media(min-width: 1280px)": {
+        maxWidth: "780px",
+      },
+
+      "@media(min-width: 1440px)": {
+        maxWidth: "835px",
+      },
+
+      "@media(min-width: 1720px)": {
+        maxWidth: "1150px",
+      },
     }),
 
     inputDisplay: css({

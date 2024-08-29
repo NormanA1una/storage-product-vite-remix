@@ -36,7 +36,7 @@ export const loader = async (params: LoaderFunctionArgs) => {
 
   let { q } = Object.fromEntries(url.searchParams);
 
-  let query = supabase.from("products").select();
+  let query = supabase.from("products").select("*", { count: "exact" });
 
   if (paramCategory) query = query.eq("categories", paramCategory);
 
