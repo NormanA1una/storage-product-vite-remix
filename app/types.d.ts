@@ -48,6 +48,7 @@ type StarProducts = StarProduct[];
 type Product = {
   id: string;
   image: string;
+  image_description: string;
   name: string;
   price: string;
   tag: string;
@@ -58,10 +59,12 @@ type Product = {
 };
 
 type CartProduct = {
+  stock: string;
+  img: string;
+  img_description: string;
   name: string;
-  amount: number;
   price: number;
-  totalPrice: number;
+  amount: number;
 };
 
 type ProductsProps = {
@@ -125,3 +128,7 @@ type NavbarProps = {
 type NavigationProps = NavbarProps;
 type SideNavProps = NavbarProps;
 type FooterProps = SideNavProps;
+
+type DataContext = {
+  phoneNumber: string;
+};

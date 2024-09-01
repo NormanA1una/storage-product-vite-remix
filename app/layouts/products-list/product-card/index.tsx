@@ -20,7 +20,7 @@ export const ProductCard = ({ image, name, price, tag }: ProductCardProps) => {
   }, []);
 
   const handleAddToCart = () => {
-    addToCart({ name, amount: quantity });
+    addToCart({ name, amount: quantity, img, img_description, price, stock });
     setQuantity(1);
   };
 

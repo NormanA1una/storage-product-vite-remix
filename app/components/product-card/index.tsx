@@ -29,10 +29,12 @@ export const ProductCard = ({
   const handleAddToCart = () => {
     if (quantity > 0) {
       addToCart({
+        img: imgSrc,
+        stock: stock,
         name: product,
         price: +normalPrice,
         amount: quantity,
-        totalPrice: +normalPrice * quantity,
+        img_description: imgAlt,
       });
       setQuantity(0);
     }
@@ -46,7 +48,7 @@ export const ProductCard = ({
       boxShadow: "0px 4px 32px 0px #2C2C2C0F",
       maxWidth: "312px",
       width: "100%",
-      maxHeight: "486px",
+      minHeight: "496px",
       height: "100%",
       display: "flex",
       flexDirection: "column",
@@ -90,6 +92,8 @@ export const ProductCard = ({
       display: "flex",
       flexDirection: "column",
       gap: "24px",
+      justifyContent: "space-between",
+      height: "100%",
     }),
 
     infoDisplay: css({
@@ -242,6 +246,7 @@ export const ProductCard = ({
                 alignItems: "center",
                 gap: "8px",
               })}
+              onClick={handleAddToCart}
             >
               Agregar
               <img

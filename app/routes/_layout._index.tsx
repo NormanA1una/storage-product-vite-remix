@@ -7,10 +7,6 @@ import { TitoSection } from "~/layouts/home/tito";
 import { VisitUs } from "~/layouts/home/visit-us";
 import supabase from "~/utils/supabase";
 
-type DataContext = {
-  phoneNumber: string;
-};
-
 export const loader = async (params: LoaderFunctionArgs) => {
   let query = supabase.from("products").select().eq("start_product", "TRUE");
   query = query.order("name", { ascending: true });

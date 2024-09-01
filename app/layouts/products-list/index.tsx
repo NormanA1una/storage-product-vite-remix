@@ -61,7 +61,7 @@ export const ProductList = ({ results }: ProductListProps) => {
               return (
                 <ProductCard
                   key={product.id}
-                  imgAlt={product.name}
+                  imgAlt={product.image_description}
                   product={product.name}
                   imgSrc={product.image}
                   normalPrice={product.price}

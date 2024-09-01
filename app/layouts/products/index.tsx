@@ -16,6 +16,7 @@ import { Paragraph } from "~/components/typography/paragraph";
 import { SearchBar } from "../products-list/search-bar";
 import { CategoriesMobile } from "~/components/categories-mobile";
 import { Button } from "~/components/button";
+import { useCart } from "~/context/cart-context";
 
 const ITEM_PER_PAGE = 19;
 
@@ -30,6 +31,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   let location = useLocation();
   let submit = useSubmit();
   const navigate = useNavigate();
+  const { cart } = useCart();
 
   const productsStyles = {
     mainContainer: css({
@@ -71,16 +73,49 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
     buttonContainerDisplay: css({
       display: "none",
+      position: "relative",
 
       "@media(min-width: 1024px)": {
         display: "block",
       },
     }),
 
+    buttonContaineMobile: css({
+      position: "relative",
+
+      "@media(min-width: 1024px)": {
+        display: "none",
+      },
+    }),
+
+    badgeCart: css({
+      backgroundColor: "#E13636",
+      border: "2px solid #FFFFFF",
+      padding: "2px 6px",
+      borderRadius: "9999px",
+      position: "absolute",
+      color: "#FFFFFF",
+      fontSize: "10px",
+      lineHeight: "18px",
+      textAlign: "center",
+      fontWeight: 600,
+      right: -14,
+      top: -12,
+      pointerEvents: "none",
+    }),
+
     buttonCart: css({
       display: "flex",
       alignItems: "center",
       gap: "4px",
+    }),
+
+    buttonCartMobile: css({
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
+      width: "100%",
+      justifyContent: "center",
     }),
   };
 
@@ -116,6 +151,13 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
               <div className={productsStyles.searchDisplay}>
                 <SearchBar query={query} setQuery={setQuery} />
                 <div className={productsStyles.buttonContainerDisplay}>
+                  {cart.length > 0 && (
+                    <div className={productsStyles.badgeCart}>
+                      {cart.length <= 9 && 0}
+                      {cart.length}
+                    </div>
+                  )}
+
                   <Button
                     className={productsStyles.buttonCart}
                     variant="primary"
@@ -136,6 +178,28 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
                 setCategory={setCategory}
                 setSearchParams={setSearchParams}
               />
+
+              <div className={productsStyles.buttonContaineMobile}>
+                {cart.length > 0 && (
+                  <div className={productsStyles.badgeCart}>
+                    {cart.length <= 9 && 0}
+                    {cart.length}
+                  </div>
+                )}
+
+                <Button
+                  className={productsStyles.buttonCartMobile}
+                  variant="primary"
+                  size="lg"
+                  onClick={() => navigate({ pathname: "/cart" })}
+                >
+                  Ver mi carrito{" "}
+                  <img
+                    src="/images/shoppingCartVector.svg"
+                    alt="Carrito de comprar a la par de la barra de busqueda"
+                  />
+                </Button>
+              </div>
             </div>
             <Suspense fallback={<FallBackIndex />}>
               <Await resolve={dataLoader}>
