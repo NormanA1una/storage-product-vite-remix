@@ -3,6 +3,7 @@ import { Badges } from "../badges";
 import { Paragraph } from "../typography/paragraph";
 import { useState } from "react";
 import { Button } from "../button";
+import { useCart } from "~/context/cart-context";
 
 export const ProductCard = ({
   promo,
@@ -15,6 +16,7 @@ export const ProductCard = ({
   stock,
 }: StarProduct) => {
   const [quantity, setQuantity] = useState(0);
+  const { addToCart } = useCart();
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -23,6 +25,19 @@ export const ProductCard = ({
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 0 ? prev - 1 : 0));
   };
+
+  const handleAddToCart = () => {
+    if (quantity > 0) {
+      addToCart({
+        name: product,
+        price: +normalPrice,
+        amount: quantity,
+        totalPrice: +normalPrice * quantity,
+      });
+      setQuantity(0);
+    }
+  };
+
   const productCardStyles = {
     cardBody: css({
       backgroundColor: "#FFFFFF",

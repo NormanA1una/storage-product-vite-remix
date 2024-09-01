@@ -65,10 +65,10 @@ export const ProductList = ({ results }: ProductListProps) => {
                   product={product.name}
                   imgSrc={product.image}
                   normalPrice={product.price}
-                  discountPrice={product.price}
+                  discountPrice={product.price_discount.toString()}
                   stock={product.tag}
-                  promo={false}
-                  star={false}
+                  promo={product.price_discount > 1}
+                  star={product.start_product}
                 />
               );
             })}

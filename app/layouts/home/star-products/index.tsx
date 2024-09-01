@@ -48,7 +48,11 @@ const STAR_PRODUCTS = [
   },
 ];
 
-export const StarProducts = () => {
+type StartProductsProps = {
+  products: Product[];
+};
+
+export const StarProducts = ({ products }: StartProductsProps) => {
   const navigate = useNavigate();
 
   const starProductsStyles = {

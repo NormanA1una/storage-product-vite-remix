@@ -1,22 +1,38 @@
-import { useOutletContext } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { defer, useLoaderData, useOutletContext } from "@remix-run/react";
 import { HomeHero } from "~/layouts/home/hero";
 import { SocialMedia } from "~/layouts/home/social-media";
 import { StarProducts } from "~/layouts/home/star-products";
 import { TitoSection } from "~/layouts/home/tito";
 import { VisitUs } from "~/layouts/home/visit-us";
+import supabase from "~/utils/supabase";
 
 type DataContext = {
   phoneNumber: string;
 };
 
+export const loader = async (params: LoaderFunctionArgs) => {
+  let query = supabase.from("products").select().eq("start_product", "TRUE");
+  query = query.order("name", { ascending: true });
+
+  try {
+    const dataLoader = await query;
+    return defer({ dataLoader });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw new Response("Error fetching data", { status: 500 });
+  }
+};
+
 export default function Index() {
   const data: DataContext = useOutletContext();
+  const { dataLoader } = useLoaderData<typeof loader>();
 
   return (
     <div>
       <HomeHero phoneNumber={data.phoneNumber} />
       <TitoSection phoneNumber={data.phoneNumber} />
-      <StarProducts />
+      <StarProducts products={dataLoader.data as Product[]} />
       <SocialMedia />
       <VisitUs />
     </div>

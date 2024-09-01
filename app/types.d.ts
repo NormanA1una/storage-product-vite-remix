@@ -51,11 +51,17 @@ type Product = {
   name: string;
   price: string;
   tag: string;
+  status: boolean;
+  categories: string;
+  start_product: true;
+  price_discount: number;
 };
 
 type CartProduct = {
   name: string;
   amount: number;
+  price: number;
+  totalPrice: number;
 };
 
 type ProductsProps = {

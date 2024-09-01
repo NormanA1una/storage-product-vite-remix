@@ -116,12 +116,14 @@ export const PaginationProducts = ({
 
   const getPageRange = () => {
     const range = [];
-    const delta = 1; // Mostrar 1 página antes y después de la página actual
+    const delta = 1;
 
     const left = Math.max(2, page - delta);
     const right = Math.min(totalPagesCeil - 1, page + delta);
 
     range.push(1);
+
+    if (totalPagesCeil <= 1) return range;
 
     if (left > 2) {
       range.push("...");
