@@ -191,7 +191,7 @@ export const ProductCard = ({
                 weight="regular"
                 classname={productCardStyles.discountPrice}
               >
-                C${normalPrice}
+                C${discountPrice}
               </Paragraph>
             )}
 
@@ -200,7 +200,7 @@ export const ProductCard = ({
               weight="semi-bold"
               classname={productCardStyles.normalPrice}
             >
-              C${discountPrice}
+              C${normalPrice}
             </Paragraph>
           </div>
         </div>
