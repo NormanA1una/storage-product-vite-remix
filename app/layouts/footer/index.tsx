@@ -172,7 +172,7 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
   ];
 
   return (
-    <footer className={footerStyles.footer}>
+    <footer id="footer" className={footerStyles.footer}>
       <div className={footerStyles.container}>
         <div className={footerStyles.containerInfo}>
           <div className={footerStyles.logoSection}>

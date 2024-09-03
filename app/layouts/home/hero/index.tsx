@@ -83,7 +83,7 @@ export const HomeHero = ({ phoneNumber }: HomeHeroProps) => {
             Contáctanos
           </Button>
           <Button
-            onClick={() => navigate({ pathname: "/" })}
+            onClick={() => navigate({ pathname: "/catalog" })}
             variant="primary"
             size="lg"
             className={heroStyles.buttonHero}

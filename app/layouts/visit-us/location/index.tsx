@@ -4,22 +4,23 @@ import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 import { Paragraph } from "~/components/typography/paragraph";
+import { useToast } from "~/context/toast-context";
 
 export const LocationLico = () => {
-  const [copySuccess, setCopySuccess] = useState("");
+  const {
+    openToast,
+    setToastContent,
+    setAutoCloseTime,
+    closeToast,
+    disableIcon,
+  } = useToast();
 
   const handleCopyClick = () => {
     const textToCopy =
       "Villa Sandino, de la Iglesia Espíritu Santo 1c al norte";
-    navigator.clipboard.writeText(textToCopy).then(
-      () => {
-        setCopySuccess("Dirección copiada. ¡Te esperamos!");
-        setTimeout(() => setCopySuccess(""), 2000);
-      },
-      () => {
-        setCopySuccess("Error al copiar!");
-      }
-    );
+    navigator.clipboard.writeText(textToCopy).then(undefined, () => {
+      console.error("Error al copiar!");
+    });
   };
 
   const locationStyle = {
@@ -126,6 +127,36 @@ export const LocationLico = () => {
       borderRadius: "24px",
     }),
   };
+
+  const handleShowToast = () => {
+    disableIcon();
+    setToastContent(
+      <div
+        className={css({ display: "flex", alignItems: "center", gap: "12px" })}
+      >
+        <div>
+          <img
+            src="/images/copyText.gif"
+            alt="Animación haciendo referencia de que se ha copiado un texto"
+            className={css({ height: "40px", width: "40px" })}
+          />
+        </div>
+
+        <div>
+          <Paragraph
+            variant="sm"
+            weight="semi-bold"
+            classname={css({ color: "#344054" })}
+          >
+            ¡Dirección copiada éxitosamente!
+          </Paragraph>
+        </div>
+      </div>
+    );
+    setAutoCloseTime(3000);
+    openToast();
+  };
+
   return (
     <div className={locationStyle.mainContainer}>
       <div
@@ -183,14 +214,19 @@ export const LocationLico = () => {
                   weight="semi-bold"
                   classname={locationStyle.directionStyle}
                 >
-                  {copySuccess
-                    ? copySuccess
-                    : "Villa Sandino, de la Iglesia Espíritu Santo 1c al norte"}
+                  Villa Sandino, de la Iglesia Espíritu Santo 1c al norte
                 </Paragraph>
               </div>
 
               <div>
-                <Button variant="link" size="icon" onClick={handleCopyClick}>
+                <Button
+                  variant="link"
+                  size="icon"
+                  onClick={() => {
+                    handleCopyClick();
+                    handleShowToast();
+                  }}
+                >
                   <img
                     src="/images/copy.svg"
                     alt="Icono que sugiere copiar al portapapeles"
@@ -204,6 +240,12 @@ export const LocationLico = () => {
                 variant="secondary"
                 size="sm"
                 className={locationStyle.displayButton}
+                onClick={() =>
+                  window.open(
+                    "https://maps.app.goo.gl/a8SYf4RDQD7PMvXw6",
+                    "_blank"
+                  )
+                }
               >
                 Ver en Google Maps{" "}
                 <img

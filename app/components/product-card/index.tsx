@@ -4,6 +4,9 @@ import { Paragraph } from "../typography/paragraph";
 import { useState } from "react";
 import { Button } from "../button";
 import { useCart } from "~/context/cart-context";
+import { useToast } from "~/context/toast-context";
+import { Icons } from "../icons";
+import { useNavigate } from "@remix-run/react";
 
 export const ProductCard = ({
   promo,
@@ -17,6 +20,10 @@ export const ProductCard = ({
 }: StarProduct) => {
   const [quantity, setQuantity] = useState(0);
   const { addToCart } = useCart();
+  const { openToast, setToastContent, setAutoCloseTime, closeToast } =
+    useToast();
+
+  const navigate = useNavigate();
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -38,6 +45,93 @@ export const ProductCard = ({
       });
       setQuantity(0);
     }
+  };
+
+  const handleShowToast = () => {
+    setToastContent(
+      <>
+        <div>
+          <img
+            src="/images/cartAnimate.gif"
+            alt="Carrito de compras en el modal del catálogo"
+            className={css({ height: "40px", width: "40px" })}
+          />
+        </div>
+
+        <div>
+          <Paragraph
+            variant="sm"
+            weight="semi-bold"
+            classname={css({ color: "#344054", marginBottom: "4px" })}
+          >
+            Producto agregado éxitosamente
+          </Paragraph>
+
+          <Paragraph
+            variant="sm"
+            weight="regular"
+            classname={css({ color: "#475467", marginBottom: "12px" })}
+          >
+            Consulta tu carrito de compra para ver los detalles y seguir con tu
+            proceso de compra!
+          </Paragraph>
+
+          <Paragraph
+            variant="sm"
+            weight="regular"
+            classname={css({ color: "#475467" })}
+          >
+            ¡Gracias por preferirnos!
+          </Paragraph>
+        </div>
+
+        <div
+          className={css({
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          })}
+        >
+          <div>
+            <Button
+              variant="secondary"
+              size="sm"
+              className={css({
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              })}
+              onClick={closeToast}
+            >
+              <Paragraph variant="sm" weight="semi-bold">
+                Seguir viendo
+              </Paragraph>
+              <Icons.shoppingCart stroke="#2C2C2C" />
+            </Button>
+          </div>
+
+          <div>
+            <Button
+              variant="primary"
+              size="sm"
+              className={css({
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              })}
+              onClick={() => navigate({ pathname: "/cart" })}
+            >
+              <Paragraph variant="sm" weight="semi-bold">
+                Ir al carrito
+              </Paragraph>
+              <Icons.shoppingCart />
+            </Button>
+          </div>
+        </div>
+      </>
+    );
+    setAutoCloseTime(3000);
+    openToast();
   };
 
   const productCardStyles = {
@@ -185,23 +279,33 @@ export const ProductCard = ({
           </div>
 
           <div className={productCardStyles.priceDisplay}>
-            {promo && (
+            {promo ? (
+              <>
+                <Paragraph
+                  variant="md"
+                  weight="regular"
+                  classname={productCardStyles.discountPrice}
+                >
+                  C${normalPrice}
+                </Paragraph>
+
+                <Paragraph
+                  variant="xl"
+                  weight="semi-bold"
+                  classname={productCardStyles.normalPrice}
+                >
+                  C${discountPrice}
+                </Paragraph>
+              </>
+            ) : (
               <Paragraph
-                variant="md"
-                weight="regular"
-                classname={productCardStyles.discountPrice}
+                variant="xl"
+                weight="semi-bold"
+                classname={productCardStyles.normalPrice}
               >
-                C${discountPrice}
+                C${normalPrice}
               </Paragraph>
             )}
-
-            <Paragraph
-              variant="xl"
-              weight="semi-bold"
-              classname={productCardStyles.normalPrice}
-            >
-              C${normalPrice}
-            </Paragraph>
           </div>
         </div>
 
@@ -238,6 +342,7 @@ export const ProductCard = ({
 
           <div>
             <Button
+              disabled={quantity < 1}
               variant="primary"
               size="sm"
               type="button"
@@ -246,7 +351,10 @@ export const ProductCard = ({
                 alignItems: "center",
                 gap: "8px",
               })}
-              onClick={handleAddToCart}
+              onClick={() => {
+                handleAddToCart();
+                handleShowToast();
+              }}
             >
               Agregar
               <img

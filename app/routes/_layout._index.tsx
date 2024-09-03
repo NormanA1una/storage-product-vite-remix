@@ -7,8 +7,12 @@ import { TitoSection } from "~/layouts/home/tito";
 import { VisitUs } from "~/layouts/home/visit-us";
 import supabase from "~/utils/supabase";
 
-export const loader = async (params: LoaderFunctionArgs) => {
-  let query = supabase.from("products").select().eq("start_product", "TRUE");
+export const loader = async (_params: LoaderFunctionArgs) => {
+  let query = supabase
+    .from("products")
+    .select()
+    .eq("start_product", "TRUE")
+    .neq("suggested", "TRUE");
   query = query.order("name", { ascending: true });
 
   try {

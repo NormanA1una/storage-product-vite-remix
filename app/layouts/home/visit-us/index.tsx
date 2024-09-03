@@ -1,9 +1,11 @@
 import { css } from "@emotion/css";
+import { useNavigate } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 
 export const VisitUs = () => {
+  const navigate = useNavigate();
   const visitStyles = {
     mainContainer: css({
       backgroundColor: "#FFFFFF",
@@ -151,6 +153,7 @@ export const VisitUs = () => {
                 variant="secondary"
                 size="sm"
                 className={visitStyles.displayButton}
+                onClick={() => navigate({ pathname: "/visitanos" })}
               >
                 Ver detalles
               </Button>

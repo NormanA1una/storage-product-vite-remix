@@ -11,6 +11,9 @@ import { LinksFunction, MetaFunction } from "@remix-run/node";
 
 import stylesheet from "./tailwind.css?url";
 import ErrorHandler from "./layouts/errors";
+import Modal from "./components/toast";
+import { ToastProvider, useToast } from "./context/toast-context";
+import Toast from "./components/toast";
 
 export const meta: MetaFunction = () => {
   return [
@@ -79,7 +82,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <ToastProvider>
+      <LayoutWithModal />
+    </ToastProvider>
+  );
+}
+
+function LayoutWithModal() {
+  const { isToastOpen, closeToast, toastContent, autoCloseTime, iconClose } =
+    useToast();
+
+  return (
+    <>
+      <Toast
+        isOpen={isToastOpen}
+        onClose={closeToast}
+        autoCloseTime={autoCloseTime}
+        iconClose={iconClose}
+      >
+        {toastContent}
+      </Toast>
+      <Outlet />
+    </>
+  );
 }
 
 export function ErrorBoundary() {

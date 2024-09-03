@@ -17,6 +17,7 @@ import { SearchBar } from "../products-list/search-bar";
 import { CategoriesMobile } from "~/components/categories-mobile";
 import { Button } from "~/components/button";
 import { useCart } from "~/context/cart-context";
+import { ScrollTop } from "~/components/scroll-to-top";
 
 const ITEM_PER_PAGE = 19;
 
@@ -133,6 +134,8 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
   return (
     <div className={productsStyles.mainContainer}>
+      {/* Descomentar cuando haya aprobación de la Hey o una mejor idea */}
+      {/* <ScrollTop /> */}
       <div className={productsStyles.container}>
         <div className={productsStyles.containerWithCategories}>
           {/* categories */}

@@ -60,7 +60,7 @@ export const SearchBar = ({
 
     displayImg: css({ position: "absolute", left: 13 }),
 
-    displayCircle: css({ position: "absolute", right: 13 }),
+    displayCircle: css({ position: "absolute", right: 13, cursor: "pointer" }),
   };
 
   const paramHandler = (currentPageF: number) => {

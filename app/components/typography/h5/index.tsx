@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from "react";
 import { variantStyles, variantWeights } from "~/utils/variant-styles";
 
 const baseStyles: CSSObject = {
-  color: "#101828",
+  // color: "#101828",
 };
 
 const getH5Style = ({

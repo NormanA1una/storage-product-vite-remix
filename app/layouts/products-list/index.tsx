@@ -1,6 +1,7 @@
 import { css } from "@emotion/css";
 
 import { ProductCard } from "~/components/product-card";
+import { H1 } from "~/components/typography/h1";
 
 export const ProductList = ({ results }: ProductListProps) => {
   const productListStyles = {
@@ -13,10 +14,11 @@ export const ProductList = ({ results }: ProductListProps) => {
     }),
 
     noResultStyle: css({
-      height: "64px",
+      height: "auto",
       width: "100%",
       padding: "8px",
       display: "flex",
+      flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
       fontSize: "20px",
@@ -52,7 +54,26 @@ export const ProductList = ({ results }: ProductListProps) => {
     <div className={productListStyles.container}>
       {results.length === 0 ? (
         <div className={productListStyles.noResultStyle}>
-          Sin coincidencias 😵
+          {/* img */}
+          <div className={css({ width: "fit-content" })}>
+            <img
+              src="/images/titoNoFound.svg"
+              alt="Mascota de la Licorería Cocibolca sorprendido"
+              height={100}
+              width={100}
+            />
+          </div>
+
+          {/* title */}
+          <div>
+            <H1
+              variant="4xl"
+              weight="bold"
+              classname={css({ textAlign: "center" })}
+            >
+              ¡No hay coincidencias con tu busqueda!
+            </H1>
+          </div>
         </div>
       ) : (
         <>

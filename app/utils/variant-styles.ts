@@ -31,7 +31,11 @@ export const variantStyles: Record<
 
   "3xl": { fontSize: "30px", lineHeight: "38px" },
 
-  "4xl": { fontSize: "36px", lineHeight: "44px" },
+  "4xl": {
+    fontSize: "28px",
+    lineHeight: "36px",
+    "@media(min-width: 1024px)": { fontSize: "36px", lineHeight: "44px" },
+  },
 
   "5xl": {
     fontSize: "28px",

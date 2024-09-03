@@ -1,9 +1,11 @@
 import { css } from "@emotion/css";
+import { useNavigate } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 
 export const SocialMedia = () => {
+  const navigate = useNavigate();
   const socialMediaStyles = {
     mainContainer: css({
       backgroundColor: "#FFFFFF",
@@ -256,6 +258,7 @@ export const SocialMedia = () => {
                 variant="secondary"
                 size="lg"
                 className={socialMediaStyles.displayButton}
+                onClick={() => navigate({ hash: "#footer" })}
               >
                 ¡Quiero seguirlos!
               </Button>

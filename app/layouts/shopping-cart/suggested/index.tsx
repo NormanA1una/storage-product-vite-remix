@@ -1,32 +1,27 @@
 import { css } from "@emotion/css";
-import { useNavigate } from "@remix-run/react";
-import { Button } from "~/components/button";
 import { ProductCard } from "~/components/product-card";
 import { H1 } from "~/components/typography/h1";
-import { H2 } from "~/components/typography/h2";
 
-type StartProductsProps = {
+type SuggestedProps = {
   products: Product[];
 };
 
-export const StarProducts = ({ products }: StartProductsProps) => {
-  const navigate = useNavigate();
-
-  const starProductsStyles = {
-    mainContainer: css({ backgroundColor: "#FFFFFF" }),
+export const Suggested = ({ products }: SuggestedProps) => {
+  const suggestedStyles = {
+    mainContainer: css({ backgroundColor: "#F8EED8" }),
 
     container: css({
       padding: "50px 24px",
       "@media(min-width: 1024px)": {
-        padding: "196px 96px",
+        padding: "150px 96px",
       },
 
       "@media(min-width: 1280px)": {
-        padding: "196px 0",
+        padding: "150px 0",
       },
 
       "@media(min-width: 1440px)": {
-        padding: "196px 56px",
+        padding: "150px 56px",
       },
     }),
 
@@ -87,47 +82,28 @@ export const StarProducts = ({ products }: StartProductsProps) => {
     }),
   };
   return (
-    <div className={starProductsStyles.mainContainer}>
-      <div className={starProductsStyles.container}>
-        <div className={starProductsStyles.contentText}>
+    <div className={suggestedStyles.mainContainer}>
+      <div className={suggestedStyles.container}>
+        <div className={suggestedStyles.contentText}>
           <div>
             <img src="/images/lataSvg.svg" alt="Dibujo de una lata golpeada" />
           </div>
 
-          <div className={starProductsStyles.containerTitles}>
+          <div className={suggestedStyles.containerTitles}>
             <div>
               <H1
                 variant="5xl"
                 weight="bold"
-                classname={starProductsStyles.contentTitle}
+                classname={suggestedStyles.contentTitle}
               >
-                Nuestros productos estrellas
+                También podría interesarte
               </H1>
-            </div>
-
-            <div>
-              <H2 variant="md" classname={starProductsStyles.contentSubTitle}>
-                Descubrí lo mejor de Licorería Cocibolca con nuestra selección
-                de productos estrellas, favoritos de nuestros clientes por su
-                calidad y sabor inigualable.
-              </H2>
-            </div>
-
-            <div>
-              <Button
-                variant="primary"
-                size="lg"
-                className={starProductsStyles.buttonDisplay}
-                onClick={() => navigate({ pathname: "/catalog" })}
-              >
-                Ver catálogo
-              </Button>
             </div>
           </div>
         </div>
 
         {/* Cards */}
-        <div className={starProductsStyles.starProductsGrid}>
+        <div className={suggestedStyles.starProductsGrid}>
           {products.map((product, i) => {
             return (
               <ProductCard
