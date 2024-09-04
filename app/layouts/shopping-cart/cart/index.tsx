@@ -7,6 +7,7 @@ import { Checkbox } from "~/components/inputs/checkbox";
 import { H1 } from "~/components/typography/h1";
 import { Paragraph } from "~/components/typography/paragraph";
 import { useCart } from "~/context/cart-context";
+import { useToast } from "~/context/toast-context";
 
 type CartProps = {
   phoneNumber: string;
@@ -14,6 +15,7 @@ type CartProps = {
 
 export const Cart = ({ phoneNumber }: CartProps) => {
   const { cart, setCart } = useCart();
+  const { openToast, setToastContent, closeToast, disableIcon } = useToast();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [pickupChecked, setPickupChecked] = useState(false);
@@ -21,7 +23,6 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const [purchase, setPurchase] = useState(false);
   const navigate = useNavigate();
 
-  // Efecto para cargar el carrito de Local Storage al cargar la página
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
@@ -29,7 +30,6 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     }
   }, [setCart]);
 
-  // Efecto para guardar el carrito en Local Storage cada vez que cambia
   useEffect(() => {
     if (cart.length > 0) {
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -89,16 +89,84 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     );
   };
 
-  const handleDecrement = (productName: string) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((product) =>
-          product.name === productName && product.amount > 0
-            ? { ...product, amount: product.amount - 1 }
-            : product
-        )
-        .filter((product) => product.amount > 0)
+  const handleShowToast = (onConfirm: () => void) => {
+    disableIcon();
+    setToastContent(
+      <>
+        <div>
+          <Paragraph
+            variant="sm"
+            weight="semi-bold"
+            classname={css({ color: "#344054", marginBottom: "4px" })}
+          >
+            ¿Quieres eliminar este producto?
+          </Paragraph>
+        </div>
+
+        <div
+          className={css({
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          })}
+        >
+          <div>
+            <Button
+              variant="primary"
+              size="sm"
+              className={css({
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              })}
+              onClick={() => {
+                closeToast();
+                onConfirm();
+              }}
+            >
+              <Paragraph variant="sm" weight="semi-bold">
+                Confirmar
+              </Paragraph>
+            </Button>
+          </div>
+
+          <div>
+            <Button
+              variant="warning"
+              size="sm"
+              className={css({
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              })}
+              onClick={closeToast}
+            >
+              <Paragraph variant="sm" weight="semi-bold">
+                Cancelar
+              </Paragraph>
+            </Button>
+          </div>
+        </div>
+      </>
     );
+    openToast();
+  };
+
+  const handleDecrement = (productName: string) => {
+    setCart((prevCart) => {
+      const product = prevCart.find((p) => p.name === productName);
+
+      if (product?.amount === 1) {
+        handleShowToast(() => {
+          setCart((cart) => cart.filter((p) => p.name !== productName));
+        });
+        return prevCart;
+      }
+
+      return prevCart.map((p) =>
+        p.name === productName ? { ...p, amount: p.amount - 1 } : p
+      );
+    });
   };
 
   const handleSendWhatsapp = () => {
@@ -116,8 +184,11 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   };
 
   const handlePickupChange = () => {
-    setPickupChecked((prev) => !prev);
-    if (deliveryChecked) setDeliveryChecked(false); // Asegura que solo uno esté seleccionado
+    setPickupChecked(!pickupChecked);
+  };
+
+  const handleDeliveryChange = () => {
+    setDeliveryChecked(!deliveryChecked);
   };
 
   const cartStyles = {
@@ -600,7 +671,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                         Delivery en Granada{" "}
                         <Checkbox
                           checked={deliveryChecked}
-                          onChange={handlePickupChange}
+                          onChange={handleDeliveryChange}
                         />
                       </div>
                     </div>
