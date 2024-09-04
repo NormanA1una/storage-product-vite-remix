@@ -3,6 +3,7 @@ import { useNavigate } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
+import { ControlQuantity } from "~/components/control-quantity";
 import { Checkbox } from "~/components/inputs/checkbox";
 import { H1 } from "~/components/typography/h1";
 import { Paragraph } from "~/components/typography/paragraph";
@@ -18,7 +19,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const { openToast, setToastContent, closeToast, disableIcon } = useToast();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [pickupChecked, setPickupChecked] = useState(false);
+  const [pickupChecked, setPickupChecked] = useState(true);
   const [deliveryChecked, setDeliveryChecked] = useState(false);
   const [purchase, setPurchase] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     );
     setSubtotal(newSubtotal);
 
-    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 0;
+    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
     const newTotal = pickUp + newSubtotal;
     setTotal(newTotal);
   }, [cart, pickupChecked, deliveryChecked]);
@@ -178,17 +179,19 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       setCart([]);
       setSubtotal(0);
       setTotal(0);
-      setPickupChecked(false);
+      setPickupChecked(true);
       setDeliveryChecked(false);
     }, 5000);
   };
 
   const handlePickupChange = () => {
-    setPickupChecked(!pickupChecked);
+    setPickupChecked(true);
+    setDeliveryChecked(false);
   };
 
   const handleDeliveryChange = () => {
-    setDeliveryChecked(!deliveryChecked);
+    setDeliveryChecked(true);
+    setPickupChecked(false);
   };
 
   const cartStyles = {
@@ -240,16 +243,30 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       alignItems: "center",
     }),
 
-    title: css({ padding: "20px 24px" }),
+    title: css({
+      padding: "20px 24px",
+      backgroundColor: "#FEF6F2",
+      borderRadius: "20px 20px 0px 0px",
+
+      "@media(min-width: 768px)": {
+        backgroundColor: "#FFFFFF",
+      },
+    }),
 
     tableWrapper: css({
-      overflowX: "auto",
-      overflowY: "auto",
       width: "100%",
+      display: "none",
+
+      "@media(min-width: 768px)": {
+        display: "block",
+      },
+    }),
+
+    tableScroll: css({
+      overflowY: "auto",
       maxHeight: cart.length <= 3 ? "374px" : "350px",
 
       "&::-webkit-scrollbar": {
-        height: "10px",
         width: "10px",
       },
       "&::-webkit-scrollbar-track": {
@@ -265,14 +282,15 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     table: css({
       width: "100%",
       color: "#706F6F",
-      marginBottom: "24px",
-      minWidth: "600px",
+      borderCollapse: "separate",
+      borderSpacing: 0,
     }),
 
     tableHead: css({
-      borderTop: "1px solid #E2E2E2",
-      borderBottom: "1px solid #E2E2E2",
+      position: "sticky",
+      top: 0,
       backgroundColor: "#FEF6F2",
+      zIndex: 1,
     }),
 
     cellHeader: css({
@@ -280,6 +298,8 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       padding: "12px 0px 12px 24px",
       fontWeight: 400,
       color: "#706F6F",
+      borderTop: "1px solid #E2E2E2",
+      borderBottom: "1px solid #E2E2E2",
     }),
 
     cellHeaderAmount: css({
@@ -287,6 +307,8 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       padding: "12px 24px 12px 0px",
       fontWeight: 400,
       color: "#706F6F",
+      borderTop: "1px solid #E2E2E2",
+      borderBottom: "1px solid #E2E2E2",
     }),
 
     cellProduct: (i: number): string => {
@@ -443,6 +465,49 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         width: "fit-content",
       },
     }),
+
+    cardMobileWrapper: css({
+      overflowY: "auto",
+      width: "100%",
+      maxHeight: "376px",
+
+      "&::-webkit-scrollbar": {
+        height: "10px",
+        width: "10px",
+      },
+      "&::-webkit-scrollbar-track": {
+        background: "#2C2C2C",
+        borderRadius: "2px",
+      },
+      "&::-webkit-scrollbar-thumb": {
+        background: "#0e8499",
+        borderRadius: "2px",
+      },
+
+      "@media(min-width: 768px)": {
+        display: "none",
+      },
+    }),
+
+    cartMobileContainer: css({
+      display: "flex",
+      flexDirection: "column",
+      gap: "24px",
+      padding: "24px",
+    }),
+
+    imgProductMobile: (src: string): string => {
+      return css({
+        backgroundImage: `url(${src})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        width: "50px",
+        height: "50px",
+        border: "1px solid #C5C5C5",
+        borderRadius: "12px",
+      });
+    },
   };
 
   return (
@@ -542,79 +607,119 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {cart.map((product, i) => {
-                        return (
-                          <tr key={product.name}>
-                            <td className={cartStyles.cellProduct(i)}>
-                              <Badges
-                                icon={true}
-                                variant={
-                                  product.stock === "Disponible"
-                                    ? "success"
-                                    : "error"
-                                }
-                                classname={cartStyles.badgeProduct}
-                              >
-                                {product.stock}
-                              </Badges>{" "}
-                              <div
-                                className={cartStyles.imgProduct(product.img)}
-                              />
+                  </table>
+                  <div className={cartStyles.tableScroll}>
+                    <table className={cartStyles.table}>
+                      <tbody>
+                        {cart.map((product, i) => {
+                          return (
+                            <tr key={product.name}>
+                              <td className={cartStyles.cellProduct(i)}>
+                                <Badges
+                                  icon={true}
+                                  variant={
+                                    product.stock === "Disponible"
+                                      ? "success"
+                                      : "error"
+                                  }
+                                  classname={cartStyles.badgeProduct}
+                                >
+                                  {product.stock}
+                                </Badges>{" "}
+                                <div
+                                  className={cartStyles.imgProduct(product.img)}
+                                />
+                                <Paragraph variant="sm" weight="semi-bold">
+                                  {product.name}
+                                </Paragraph>
+                              </td>
+                              <td className={cartStyles.cellPrice(i)}>
+                                <Paragraph
+                                  variant="sm"
+                                  weight="semi-bold"
+                                  classname={cartStyles.price}
+                                >
+                                  C${product.price}
+                                </Paragraph>
+                              </td>
+                              <td className={cartStyles.cellQuantity(i)}>
+                                <div>
+                                  {/* Make quantity setter a component */}
+                                  <ControlQuantity
+                                    handleDecrement={handleDecrement}
+                                    handleIncrement={handleIncrement}
+                                    product={product}
+                                  />
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div className={cartStyles.cardMobileWrapper}>
+                  <div className={cartStyles.cartMobileContainer}>
+                    {cart.map((product, i) => {
+                      return (
+                        <div
+                          key={product.name}
+                          className={css({
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                          })}
+                        >
+                          {/* img + name */}
+                          <div
+                            className={css({
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                            })}
+                          >
+                            <div
+                              className={cartStyles.imgProductMobile(
+                                product.img
+                              )}
+                            />
+                            <div>
                               <Paragraph variant="sm" weight="semi-bold">
                                 {product.name}
                               </Paragraph>
-                            </td>
-                            <td className={cartStyles.cellPrice(i)}>
-                              <Paragraph
-                                variant="sm"
-                                weight="semi-bold"
-                                classname={cartStyles.price}
-                              >
-                                C${product.price}
+                            </div>
+                          </div>
+
+                          {/* amount + quantity controls */}
+                          <div
+                            className={css({
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                              alignItems: "end",
+                            })}
+                          >
+                            <div
+                              className={css({
+                                marginRight: "12px",
+                              })}
+                            >
+                              <Paragraph variant="sm" weight="semi-bold">
+                                C${product.amount * product.price}
                               </Paragraph>
-                            </td>
-                            <td className={cartStyles.cellQuantity(i)}>
-                              <div>
-                                {/* Make quantity setter a component */}
-                                <div className={cartStyles.quantityContainer}>
-                                  <button
-                                    onClick={() =>
-                                      handleDecrement(product.name)
-                                    }
-                                  >
-                                    <img
-                                      src="/images/minusVector.svg"
-                                      alt="Signo de resta"
-                                    />
-                                  </button>
-                                  <div>
-                                    <Paragraph
-                                      weight="regular"
-                                      variant="md"
-                                      classname={css({ color: "#706F6F" })}
-                                    >
-                                      {product.amount}
-                                    </Paragraph>
-                                  </div>
-                                  <button
-                                    onClick={() =>
-                                      handleIncrement(product.name)
-                                    }
-                                  >
-                                    <img
-                                      src="/images/plusVector.svg"
-                                      alt="Signo de suma"
-                                    />
-                                  </button>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                            </div>
+                            <ControlQuantity
+                              handleDecrement={handleDecrement}
+                              handleIncrement={handleIncrement}
+                              product={product}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* calcs */}
@@ -650,10 +755,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     <div className={cartStyles.buttonsContainer}>
                       <div
                         className={cartStyles.buttonOption(pickupChecked)}
-                        onClick={() => {
-                          setPickupChecked(!pickupChecked);
-                          setDeliveryChecked(false);
-                        }}
+                        onClick={handlePickupChange}
                       >
                         Recoger en tienda{" "}
                         <Checkbox
@@ -663,10 +765,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       </div>
                       <div
                         className={cartStyles.buttonOption(deliveryChecked)}
-                        onClick={() => {
-                          setDeliveryChecked(!deliveryChecked);
-                          setPickupChecked(false);
-                        }}
+                        onClick={handleDeliveryChange}
                       >
                         Delivery en Granada{" "}
                         <Checkbox
@@ -692,7 +791,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                         ? "C$15"
                         : deliveryChecked
                         ? "C$50"
-                        : "C$0"}
+                        : "C$15"}
                     </Paragraph>
                   </div>
 

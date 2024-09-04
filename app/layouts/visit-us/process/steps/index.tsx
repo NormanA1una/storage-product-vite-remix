@@ -41,66 +41,143 @@ const STEPS_DATA = [
 ];
 
 export const InstructionSteps = () => {
-  const layoutStyles = {};
+  const intructionsStyles = {
+    container: css({
+      display: "grid",
+      gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
+      justifyItems: "center",
+      maxWidth: "1100px",
+      margin: "0px auto",
+      rowGap: "20px",
 
-  return (
-    <div
-      className={css({
-        display: "grid",
-        gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
-        justifyItems: "center",
-        maxWidth: "1100px",
-        margin: "0px auto",
-        rowGap: "40px",
+      "@media(min-width: 1024px)": {
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gap: 0,
+      },
 
+      "@media(min-width: 1280px)": {
+        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+      },
+    }),
+
+    stepContainer: css({
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      "@media(min-width: 1024px)": {
+        flexDirection: "row",
+        alignItems: "flex-start",
+      },
+    }),
+
+    stepContent: css({
+      maxWidth: "246px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "24px",
+      alignItems: "center",
+      marginBottom: "10px",
+    }),
+
+    textContainer: css({
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      gap: "16px",
+    }),
+
+    lineMobileContainer: (i: number) =>
+      css({
+        display: "flex",
+        justifyContent: "center",
+        margin: "32px 0px 0px 0px",
         "@media(min-width: 1024px)": {
-          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-          gap: 0,
+          display: i % 2 === 0 ? "block" : "none",
+          position: "absolute",
+          top: "50px",
+          right: "-122px",
+          transform: "translateY(-50%) rotate(-90deg)",
         },
+        "@media(min-width: 1280px)": {
+          display: "none",
+        },
+      }),
+
+    lineDotted: css({
+      "@media(min-width: 1024px)": {
+        width: "auto",
+        height: "100px",
+      },
+    }),
+
+    lineBigContainer: (i: number) =>
+      css({
+        display: "none",
+        justifyContent: "center",
+        margin: "32px 0px 0px 0px",
+        position: "absolute",
+        right: -162,
+        top: 33,
 
         "@media(min-width: 1280px)": {
-          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+          display: [0, 1, 3, 4].includes(i) ? "block" : "none",
         },
-      })}
-    >
+      }),
+
+    lineDottedDesktop: css({
+      "@media(min-width: 1024px)": {
+        width: "210px",
+        height: "11px",
+      },
+    }),
+  };
+  return (
+    <div className={intructionsStyles.container}>
       {STEPS_DATA.map((step, i) => {
         return (
-          <div
-            key={i}
-            className={css({
-              maxWidth: "246px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "48px",
-              alignItems: "center",
-            })}
-          >
-            {/* img */}
-            <div>
-              <img src={step.icon} alt={step.title} />
-            </div>
-
-            {/* texts */}
-            <div
-              className={css({
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-              })}
-            >
+          <div key={i} className={intructionsStyles.stepContainer}>
+            <div className={intructionsStyles.stepContent}>
+              {/* img */}
               <div>
-                <Paragraph weight="semi-bold" variant="2xl">
-                  {step.title}
-                </Paragraph>
+                <img src={step.icon} alt={step.title} />
               </div>
 
-              <div>
-                <Paragraph weight="regular" variant="md">
-                  {step.description}
-                </Paragraph>
+              {/* texts */}
+              <div className={intructionsStyles.textContainer}>
+                <div>
+                  <Paragraph weight="semi-bold" variant="2xl">
+                    {step.title}
+                  </Paragraph>
+                </div>
+
+                <div>
+                  <Paragraph weight="regular" variant="md">
+                    {step.description}
+                  </Paragraph>
+                </div>
               </div>
             </div>
+            {i < STEPS_DATA.length - 1 && (
+              <>
+                <div className={intructionsStyles.lineMobileContainer(i)}>
+                  <img
+                    src={`/images/line-dotted-${i + 1}.svg`}
+                    alt="Línea entre pasos"
+                    className={intructionsStyles.lineDotted}
+                  />
+                </div>
+                <div className={intructionsStyles.lineBigContainer(i)}>
+                  <img
+                    src={`/images/line-big-${
+                      [1, 2, 4, 5][[0, 1, 3, 4].indexOf(i)]
+                    }.svg`}
+                    alt="Línea entre pasos"
+                    className={intructionsStyles.lineDottedDesktop}
+                  />
+                </div>
+              </>
+            )}
           </div>
         );
       })}
