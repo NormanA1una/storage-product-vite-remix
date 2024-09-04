@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import { useNavigate } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
 import { Checkbox } from "~/components/inputs/checkbox";
@@ -20,6 +20,23 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const [deliveryChecked, setDeliveryChecked] = useState(false);
   const [purchase, setPurchase] = useState(false);
   const navigate = useNavigate();
+
+  // Efecto para cargar el carrito de Local Storage al cargar la página
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, [setCart]);
+
+  // Efecto para guardar el carrito en Local Storage cada vez que cambia
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      localStorage.removeItem("cart");
+    }
+  }, [cart]);
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
@@ -42,6 +59,25 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     const newTotal = pickUp + newSubtotal;
     setTotal(newTotal);
   }, [cart, pickupChecked, deliveryChecked]);
+
+  const openWhatsapp = () => {
+    let message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n`;
+
+    cart.forEach((producto) => {
+      message += `🌋 ${producto.name} - ${producto.amount} ${
+        producto.amount > 1 ? "Unidades" : "Unidad"
+      }\n\n`;
+    });
+
+    message += `🛵 Tipo de pedido: ${
+      pickupChecked ? "Pick-up" : "Delivery"
+    }\n\n 💵 Total a pagar: ${total}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+
+    window.open(whatsappURL, "_blank");
+  };
 
   const handleIncrement = (productName: string) => {
     setCart((prevCart) =>
@@ -67,24 +103,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
   const handleSendWhatsapp = () => {
     setPurchase(true);
-    let message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n`;
-
-    cart.forEach((producto) => {
-      message += `🌋 ${producto.name} - ${producto.amount} ${
-        producto.amount > 1 ? "Unidades" : "Unidad"
-      }\n\n`;
-    });
-
-    message += `🛵 Tipo de pedido: ${
-      pickupChecked ? "Pick-up" : "Delivery"
-    }\n\n 💵 Total a pagar: ${total}`;
-
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
-
     navigate({ hash: "#shopping-cart" });
+
     setTimeout(() => {
-      window.open(whatsappURL, "_blank");
       setPurchase(false);
       setCart([]);
       setSubtotal(0);
@@ -92,6 +113,11 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       setPickupChecked(false);
       setDeliveryChecked(false);
     }, 5000);
+  };
+
+  const handlePickupChange = () => {
+    setPickupChecked((prev) => !prev);
+    if (deliveryChecked) setDeliveryChecked(false); // Asegura que solo uno esté seleccionado
   };
 
   const cartStyles = {
@@ -558,7 +584,11 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                           setDeliveryChecked(false);
                         }}
                       >
-                        Recoger en tienda <Checkbox checked={pickupChecked} />
+                        Recoger en tienda{" "}
+                        <Checkbox
+                          checked={pickupChecked}
+                          onChange={handlePickupChange}
+                        />
                       </div>
                       <div
                         className={cartStyles.buttonOption(deliveryChecked)}
@@ -568,7 +598,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                         }}
                       >
                         Delivery en Granada{" "}
-                        <Checkbox checked={deliveryChecked} />
+                        <Checkbox
+                          checked={deliveryChecked}
+                          onChange={handlePickupChange}
+                        />
                       </div>
                     </div>
                   </div>
@@ -624,7 +657,13 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     <Button
                       variant="primary"
                       size="xl"
-                      onClick={handleSendWhatsapp}
+                      onClick={() => {
+                        handleSendWhatsapp();
+
+                        setTimeout(() => {
+                          openWhatsapp();
+                        }, 4000);
+                      }}
                       className={cartStyles.actionButton}
                     >
                       Realizar pedido

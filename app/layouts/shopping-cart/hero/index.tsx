@@ -9,6 +9,10 @@ export const HeroCart = () => {
       height: "350px",
       display: "flex",
       alignItems: "end",
+      justifyContent: "center",
+      "@media(min-width: 1024px)": {
+        justifyContent: "start",
+      },
     }),
     patronCatalog: css({
       position: "absolute",
@@ -33,6 +37,7 @@ export const HeroCart = () => {
       padding: "0px 0px 32px 0px",
 
       "@media(min-width: 1024px)": {
+        justifyContent: "start",
         padding: "0px 0px 32px 96px",
       },
     }),
