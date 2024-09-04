@@ -213,12 +213,28 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
     cardPurchase: css({
       backgroundColor: "#FFFFFF",
-      border: "1px solid #E2E2E2",
       borderRadius: "20px",
       maxWidth: "876px",
       margin: "0px auto",
       position: "relative",
     }),
+
+    containerPurchase: css({
+      padding: "192px 0px 100px 0px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: "24px",
+      textAlign: "center",
+
+      "@media(min-width: 1024px)": {
+        padding: "192px 0px 140px 0px",
+      },
+    }),
+
+    titlePurchase: css({ color: "#2C2C2C" }),
+
+    textPurchase: css({ color: "#706F6F" }),
 
     card: css({
       backgroundColor: "#FFFFFF",
@@ -508,6 +524,19 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         borderRadius: "12px",
       });
     },
+
+    cartMobileCard: css({
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      gap: "12px",
+    }),
+
+    cardImgMobile: css({
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+    }),
   };
 
   return (
@@ -519,8 +548,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
           <>
             {purchase ? (
               <div className={cartStyles.cardPurchase}>
-                {/* pattern */}
-                <div
+                {/* <div
                   className={css({
                     position: "absolute",
                     backgroundImage: "url(/images/patronGrueso.svg)",
@@ -537,22 +565,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       top: 465,
                     },
                   })}
-                />
+                /> */}
                 {/* container */}
-                <div
-                  className={css({
-                    padding: "100px 0px 192px 0px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "24px",
-                    textAlign: "center",
-
-                    "@media(min-width: 1024px)": {
-                      padding: "140px 0px 192px 0px",
-                    },
-                  })}
-                >
+                <div className={cartStyles.containerPurchase}>
                   {/* img */}
                   <div>
                     <img
@@ -566,7 +581,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     <H1
                       variant="4xl"
                       weight="bold"
-                      classname={css({ color: "#2C2C2C" })}
+                      classname={cartStyles.titlePurchase}
                     >
                       ¡Muchas gracias por preferirnos!{" "}
                     </H1>
@@ -577,7 +592,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     <Paragraph
                       variant="md"
                       weight="regular"
-                      classname={css({ color: "#706F6F" })}
+                      classname={cartStyles.textPurchase}
                     >
                       En unos momentos serás re-dirigido a nuestro
                       <br />
@@ -666,20 +681,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       return (
                         <div
                           key={product.name}
-                          className={css({
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          })}
+                          className={cartStyles.cartMobileCard}
                         >
                           {/* img + name */}
-                          <div
-                            className={css({
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "6px",
-                            })}
-                          >
+                          <div className={cartStyles.cardImgMobile}>
                             <div
                               className={cartStyles.imgProductMobile(
                                 product.img

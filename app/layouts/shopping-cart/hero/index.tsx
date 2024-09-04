@@ -34,7 +34,7 @@ export const HeroCart = () => {
     container: css({
       display: "flex",
       justifyContent: "start",
-      padding: "0px 0px 32px 0px",
+      padding: "0px 24px 32px 24px",
 
       "@media(min-width: 1024px)": {
         justifyContent: "start",
