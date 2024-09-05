@@ -165,7 +165,7 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
       iconAlt: "Phone icon in footer",
     },
     {
-      text: "soporte@licoreriacociolca.com",
+      text: "soporte@licoreriacocibolca.com",
       icoSrc: "/images/emailIcon.svg",
       iconAlt: "Email icon in footer",
     },
