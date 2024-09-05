@@ -58,7 +58,7 @@ export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
     }),
 
     content: css({
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "#F8EED8",
       padding: "200px 24px 64px 24px",
 
       "@media(min-width: 1024px)": {

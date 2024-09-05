@@ -170,7 +170,7 @@ export const InstructionSteps = () => {
                 <div className={intructionsStyles.lineBigContainer(i)}>
                   <img
                     src={`/images/line-big-${
-                      [1, 2, 4, 5][[0, 1, 3, 4].indexOf(i)]
+                      [1, 2, 4, 5][[0, 1, 3, 4].indexOf(i)] || 1
                     }.svg`}
                     alt="Línea entre pasos"
                     className={intructionsStyles.lineDottedDesktop}

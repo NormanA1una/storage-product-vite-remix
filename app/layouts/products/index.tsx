@@ -31,7 +31,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   let [debouncedQuery, isDeboucing] = useDebounce(query, 1000);
 
   let location = useLocation();
-  let submit = useSubmit();
+  const submit = useSubmit();
   const navigate = useNavigate();
   const { cart } = useCart();
 
@@ -44,8 +44,16 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
     } else {
       searchParams.delete("q");
     }
-    submit(searchParams);
+    submit(searchParams, { preventScrollReset: true });
+    handleScrollToSearch();
   }, [debouncedQuery, queryPage]);
+
+  const handleScrollToSearch = () => {
+    if (window.innerWidth < 1024)
+      window.scrollTo({ top: 498, behavior: "smooth" });
+
+    window.scrollTo({ top: 490, behavior: "smooth" });
+  };
 
   const productsStyles = {
     mainContainer: css({
@@ -64,7 +72,6 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
       "@media(min-width: 1024px)": {
         justifyContent: "space-around",
-        // gap: "32px",
       },
 
       "@media(min-width: 1720px)": {
@@ -76,7 +83,9 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       display: "flex",
       flexDirection: "column",
       gap: "20px",
-
+      position: "sticky",
+      top: 73.92,
+      zIndex: 10,
       backgroundColor: "#FFFFFF",
 
       "@media(min-width: 1024px)": {
@@ -115,9 +124,18 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
     }),
 
     buttonContaineMobile: css({
-      position: "relative",
+      position: scrollPosition < 10500 ? "sticky" : "relative",
+      top: 169.92,
+      zIndex: 10,
+      marginBottom: "35px",
+
+      "@media(min-width: 768px)": {
+        position: scrollPosition < 5260 ? "sticky" : "relative",
+      },
 
       "@media(min-width: 1024px)": {
+        position: "static",
+        padding: 0,
         display: "none",
       },
     }),
@@ -153,24 +171,8 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
     }),
 
     stickyMobileContainer: css({
-      position: scrollPosition < 10500 ? "sticky" : "relative",
-      top: 74.14,
-      zIndex: 10,
       backgroundColor: "#FFFFFF",
-      padding: "16px 0",
-      display: "flex",
-      flexDirection: "column",
-      gap: "24px",
-      marginBottom: "35px",
-
-      "@media(min-width: 768px)": {
-        position: scrollPosition < 5260 ? "sticky" : "relative",
-      },
-
-      "@media(min-width: 1024px)": {
-        position: "static",
-        padding: 0,
-      },
+      padding: "0px 0px 24px 0px",
     }),
   };
 
@@ -186,10 +188,8 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
     };
   }, []);
 
-  console.log(scrollPosition);
-
   return (
-    <div className={productsStyles.mainContainer}>
+    <div id="products" className={productsStyles.mainContainer}>
       {/* Descomentar cuando haya aprobación de la Hey o una mejor idea */}
       {/* <ScrollTop /> */}
       <div className={productsStyles.container}>
@@ -240,28 +240,28 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
                 setCategory={setCategory}
                 setSearchParams={setSearchParams}
               />
+            </div>
 
-              <div className={productsStyles.buttonContaineMobile}>
-                {cart.length > 0 && (
-                  <div className={productsStyles.badgeCart}>
-                    {cart.length <= 9 && 0}
-                    {cart.length}
-                  </div>
-                )}
+            <div className={productsStyles.buttonContaineMobile}>
+              {cart.length > 0 && (
+                <div className={productsStyles.badgeCart}>
+                  {cart.length <= 9 && 0}
+                  {cart.length}
+                </div>
+              )}
 
-                <Button
-                  className={productsStyles.buttonCartMobile}
-                  variant="primary"
-                  size="lg"
-                  onClick={() => navigate({ pathname: "/cart" })}
-                >
-                  Ver mi carrito{" "}
-                  <img
-                    src="/images/shoppingCartVector.svg"
-                    alt="Carrito de comprar a la par de la barra de busqueda"
-                  />
-                </Button>
-              </div>
+              <Button
+                className={productsStyles.buttonCartMobile}
+                variant="primary"
+                size="lg"
+                onClick={() => navigate({ pathname: "/cart" })}
+              >
+                Ver mi carrito{" "}
+                <img
+                  src="/images/shoppingCartVector.svg"
+                  alt="Carrito de comprar a la par de la barra de busqueda"
+                />
+              </Button>
             </div>
 
             <Suspense fallback={<FallBackIndex />}>

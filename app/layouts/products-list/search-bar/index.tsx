@@ -17,9 +17,11 @@ export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
       flexDirection: "column",
       gap: "6px",
       width: "100%",
+      marginBottom: "24px",
 
       "@media(min-width: 1024px)": {
         maxWidth: "450px",
+        marginBottom: "0px",
       },
 
       "@media(min-width: 1280px)": {
@@ -59,10 +61,13 @@ export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
   };
 
   const paramHandler = (currentPageF: number) => {
-    setSearchParams((prev) => {
-      prev.set("page", `${currentPageF}`);
-      return prev;
-    });
+    setSearchParams(
+      (prev) => {
+        prev.set("page", `${currentPageF}`);
+        return prev;
+      },
+      { preventScrollReset: true }
+    );
   };
   return (
     <div className={searchBarStyles.container}>

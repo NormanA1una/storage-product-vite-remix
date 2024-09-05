@@ -55,7 +55,7 @@ const Toast = ({
       padding: "16px",
       borderRadius: "12px",
       boxShadow: "0px 4px 32px 0px #2C2C2C0F",
-      zIndex: 1000,
+      zIndex: 50,
       border: "1px solid #17B26A",
       transform: isOpen ? "translateX(0)" : "translateX(100%)",
       opacity: isOpen ? 1 : 0,
