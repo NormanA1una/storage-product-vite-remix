@@ -6,14 +6,9 @@ import { Paragraph } from "~/components/typography/paragraph";
 type SearchBarProps = {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
-  // isDebouncing: boolean;
 };
 
-export const SearchBar = ({
-  // isDebouncing,
-  query,
-  setQuery,
-}: SearchBarProps) => {
+export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
   const [_searchParams, setSearchParams] = useSearchParams();
 
   const searchBarStyles = {
@@ -28,7 +23,7 @@ export const SearchBar = ({
       },
 
       "@media(min-width: 1280px)": {
-        maxWidth: "780px",
+        maxWidth: "730px",
       },
 
       "@media(min-width: 1440px)": {

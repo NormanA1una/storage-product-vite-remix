@@ -78,6 +78,7 @@ type CategoriesButtonsProps = {
   setCategory: React.Dispatch<React.SetStateAction<string>>;
   currentPage: number;
   setSearchParams: any;
+  scrollPosition?: number;
 };
 
 type CategoryButtonProps = {

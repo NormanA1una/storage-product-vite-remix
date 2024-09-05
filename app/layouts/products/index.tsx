@@ -25,6 +25,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   const [category, setCategory] = useState("");
   let [page, setPage] = useState(queryPage);
   const [_searchParams, setSearchParams] = useSearchParams();
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   let [query, setQuery] = useState(q || "");
   let [debouncedQuery, isDeboucing] = useDebounce(query, 1000);
@@ -33,6 +34,18 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   let submit = useSubmit();
   const navigate = useNavigate();
   const { cart } = useCart();
+
+  useEffect(() => {
+    setPage(queryPage);
+    let searchParams = new URLSearchParams(location.search);
+
+    if (debouncedQuery) {
+      searchParams.set("q", debouncedQuery);
+    } else {
+      searchParams.delete("q");
+    }
+    submit(searchParams);
+  }, [debouncedQuery, queryPage]);
 
   const productsStyles = {
     mainContainer: css({
@@ -64,6 +77,26 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       flexDirection: "column",
       gap: "20px",
       marginBottom: "35px",
+      backgroundColor: "#FFFFFF",
+      position: scrollPosition < 2500 ? "sticky" : "relative",
+      zIndex: 5,
+      top: 74.14,
+
+      "@media(min-width: 1024px)": {
+        position: scrollPosition < 5120 ? "sticky" : "relative",
+      },
+
+      "@media(min-width: 1280px)": {
+        position: scrollPosition < 3600 ? "sticky" : "relative",
+      },
+
+      "@media(min-width: 1440px)": {
+        position: scrollPosition < 3400 ? "sticky" : "relative",
+      },
+
+      "@media(min-width: 1720px)": {
+        position: scrollPosition < 2550 ? "sticky" : "relative",
+      },
     }),
 
     searchDisplay: css({
@@ -121,16 +154,16 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   };
 
   useEffect(() => {
-    setPage(queryPage);
-    let searchParams = new URLSearchParams(location.search);
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
 
-    if (debouncedQuery) {
-      searchParams.set("q", debouncedQuery);
-    } else {
-      searchParams.delete("q");
-    }
-    submit(searchParams);
-  }, [debouncedQuery, queryPage]);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className={productsStyles.mainContainer}>
@@ -145,11 +178,12 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
               currentPage={+page}
               setCategory={setCategory}
               setSearchParams={setSearchParams}
+              scrollPosition={scrollPosition}
             />
           </div>
 
           {/* filter + catalog */}
-          <div className="w-full">
+          <div className="w-full relative">
             <div className={productsStyles.mobileFiltersDisplay}>
               <div className={productsStyles.searchDisplay}>
                 <SearchBar query={query} setQuery={setQuery} />
