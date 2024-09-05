@@ -64,7 +64,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
       "@media(min-width: 1024px)": {
         justifyContent: "space-around",
-        gap: "32px",
+        // gap: "32px",
       },
 
       "@media(min-width: 1720px)": {
@@ -76,14 +76,14 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       display: "flex",
       flexDirection: "column",
       gap: "20px",
-      marginBottom: "35px",
+
       backgroundColor: "#FFFFFF",
-      position: scrollPosition < 2500 ? "sticky" : "relative",
-      zIndex: 5,
-      top: 74.14,
 
       "@media(min-width: 1024px)": {
         position: scrollPosition < 5120 ? "sticky" : "relative",
+        zIndex: 5,
+        top: 74.14,
+        padding: "0px 0px 32px 32px",
       },
 
       "@media(min-width: 1280px)": {
@@ -151,6 +151,27 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       width: "100%",
       justifyContent: "center",
     }),
+
+    stickyMobileContainer: css({
+      position: scrollPosition < 10500 ? "sticky" : "relative",
+      top: 74.14,
+      zIndex: 10,
+      backgroundColor: "#FFFFFF",
+      padding: "16px 0",
+      display: "flex",
+      flexDirection: "column",
+      gap: "24px",
+      marginBottom: "35px",
+
+      "@media(min-width: 768px)": {
+        position: scrollPosition < 5260 ? "sticky" : "relative",
+      },
+
+      "@media(min-width: 1024px)": {
+        position: "static",
+        padding: 0,
+      },
+    }),
   };
 
   useEffect(() => {
@@ -164,6 +185,8 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  console.log(scrollPosition);
 
   return (
     <div className={productsStyles.mainContainer}>
@@ -209,7 +232,9 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
                   </Button>
                 </div>
               </div>
+            </div>
 
+            <div className={productsStyles.stickyMobileContainer}>
               <CategoriesMobile
                 currentPage={+page}
                 setCategory={setCategory}
@@ -238,6 +263,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
                 </Button>
               </div>
             </div>
+
             <Suspense fallback={<FallBackIndex />}>
               <Await resolve={dataLoader}>
                 {(dataLoader) => {

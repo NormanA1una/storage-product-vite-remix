@@ -40,26 +40,12 @@ export const CategoriesButtons = ({
       backgroundColor: "#FDF8ED",
       borderRadius: "24px",
       padding: "32px",
-
-      position: (scrollPosition as number) < 2500 ? "sticky" : "relative",
+      position: "sticky",
       zIndex: 5,
       top: 74.14,
 
       "@media(min-width: 1024px)": {
-        position: (scrollPosition as number) < 5120 ? "sticky" : "relative",
         display: "flex",
-      },
-
-      "@media(min-width: 1280px)": {
-        position: (scrollPosition as number) < 3600 ? "sticky" : "relative",
-      },
-
-      "@media(min-width: 1440px)": {
-        position: (scrollPosition as number) < 3400 ? "sticky" : "relative",
-      },
-
-      "@media(min-width: 1720px)": {
-        position: (scrollPosition as number) < 2550 ? "sticky" : "relative",
       },
     }),
 

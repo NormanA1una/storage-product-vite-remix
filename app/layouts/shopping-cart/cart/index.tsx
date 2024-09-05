@@ -16,7 +16,13 @@ type CartProps = {
 
 export const Cart = ({ phoneNumber }: CartProps) => {
   const { cart, setCart } = useCart();
-  const { openToast, setToastContent, closeToast, disableIcon } = useToast();
+  const {
+    openToast,
+    setToastContent,
+    closeToast,
+    disableIcon,
+    setAutoCloseTime,
+  } = useToast();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
   const [pickupChecked, setPickupChecked] = useState(true);
@@ -92,6 +98,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
   const handleShowToast = (onConfirm: () => void) => {
     disableIcon();
+    setAutoCloseTime(undefined);
     setToastContent(
       <>
         <div>

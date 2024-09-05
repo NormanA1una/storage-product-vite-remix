@@ -11,6 +11,10 @@ export const ProductList = ({ results }: ProductListProps) => {
       alignItems: "center",
       width: "100%",
       marginBottom: "40px",
+
+      "@media(min-width: 1024px)": {
+        padding: "0px 0px 32px 32px",
+      },
     }),
 
     noResultStyle: css({

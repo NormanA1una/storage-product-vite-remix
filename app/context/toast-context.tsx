@@ -1,4 +1,3 @@
-// context/toast-context.tsx
 import { createContext, ReactNode, useContext, useState } from "react";
 
 type ToastContextType = {
@@ -8,7 +7,7 @@ type ToastContextType = {
   setToastContent: (content: ReactNode) => void;
   toastContent: ReactNode;
   autoCloseTime?: number;
-  setAutoCloseTime: (time: number) => void;
+  setAutoCloseTime: (time: number | undefined) => void;
   enableIcon: () => void;
   disableIcon: () => void;
   iconClose: boolean;
