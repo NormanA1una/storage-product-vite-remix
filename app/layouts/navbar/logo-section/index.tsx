@@ -16,13 +16,15 @@ export const LogoSection = ({ navigate }: LogoSectionProps) => {
         height={50}
         width={156}
         className="hidden lg:block"
+        loading="eager"
       />
       <img
         src="/images/cocibolcaLogoMobile.svg"
         alt="Logo para celulares de la Licorería Cocibolca"
         className="lg:hidden"
-        width={43}
-        height={50}
+        width={41}
+        height={48}
+        loading="eager"
       />
     </div>
   );

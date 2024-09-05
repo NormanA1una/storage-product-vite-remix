@@ -225,12 +225,17 @@ export const SocialMedia = () => {
         {/* Texts */}
         <div className={socialMediaStyles.contentText}>
           <div className={socialMediaStyles.displayCampanaDesktop}>
-            <img src="/images/campanaSvg.svg" alt="Dibujo de una campana" />
+            <img
+              src="/images/campanaSvg.svg"
+              alt="Dibujo de una campana"
+              loading="lazy"
+            />
           </div>
           <div className={socialMediaStyles.displayCampanaMobile}>
             <img
               src="/images/campanaMobile.svg"
               alt="Dibujo de una campana azul"
+              loading="lazy"
             />
           </div>
 
@@ -272,6 +277,7 @@ export const SocialMedia = () => {
               <img
                 src="/images/facebookTag.svg"
                 alt="Logo de facebook en un fondo blanco"
+                loading="lazy"
               />
             </div>
             <div className={socialMediaStyles.largeImage} />
@@ -284,6 +290,7 @@ export const SocialMedia = () => {
                 <img
                   src="/images/instagramTag.svg"
                   alt="Logo de instagram en un fondo blanco"
+                  loading="lazy"
                 />
               </div>
               <div className={socialMediaStyles.firstSmallImage} />
@@ -294,6 +301,7 @@ export const SocialMedia = () => {
                 <img
                   src="/images/whatsappTag.svg"
                   alt="Logo de whatsapp en un fondo blanco"
+                  loading="lazy"
                 />
               </div>
               <div className={socialMediaStyles.secondSmallImage} />

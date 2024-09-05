@@ -45,7 +45,7 @@ body::-webkit-scrollbar-thumb {
 
 @layer components {
   .html-custom {
-    @apply scroll-smooth pt-[74.14px];
+    @apply scroll-smooth pt-[71.61px] lg:pt-[74.14px];
   }
 
   .html-error {

@@ -55,6 +55,7 @@ export const ProductCard = ({
             src="/images/cartAnimate.gif"
             alt="Carrito de compras en el modal del catálogo"
             className={css({ height: "40px", width: "40px" })}
+            loading="lazy"
           />
         </div>
 
@@ -245,6 +246,7 @@ export const ProductCard = ({
           <img
             src="/images/promoImg.svg"
             alt="Imagen con la palabra PROMO referenciando un grito"
+            loading="lazy"
           />
         </div>
       )}
@@ -255,6 +257,7 @@ export const ProductCard = ({
             <img
               src="/images/titoAprueba.svg"
               alt="Mascota de la Licorería Cocibolca sosteniendo un trago y aprobando el producto"
+              loading="lazy"
             />
           </div>
         )}
@@ -324,7 +327,11 @@ export const ProductCard = ({
             })}
           >
             <button onClick={handleDecrement}>
-              <img src="/images/minusVector.svg" alt="Signo de resta" />
+              <img
+                src="/images/minusVector.svg"
+                alt="Signo de resta"
+                loading="lazy"
+              />
             </button>
             <div>
               <Paragraph
@@ -336,7 +343,11 @@ export const ProductCard = ({
               </Paragraph>
             </div>
             <button onClick={handleIncrement}>
-              <img src="/images/plusVector.svg" alt="Signo de suma" />
+              <img
+                src="/images/plusVector.svg"
+                alt="Signo de suma"
+                loading="lazy"
+              />
             </button>
           </div>
 
@@ -360,6 +371,7 @@ export const ProductCard = ({
               <img
                 src="/images/shoppingCartVector.svg"
                 alt="Imagen de un carrito de comprar en la tarjeta de producto"
+                loading="lazy"
               />
             </Button>
           </div>

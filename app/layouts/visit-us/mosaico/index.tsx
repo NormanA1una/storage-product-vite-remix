@@ -102,6 +102,7 @@ export const VisitMosaico = () => {
               objectFit: "cover",
               objectPosition: "top",
             })}
+            loading="lazy"
           />
         </div>
         <div className={mosaicoStyles.bigPhotoContainer}>
@@ -114,6 +115,7 @@ export const VisitMosaico = () => {
               objectFit: "cover",
               objectPosition: "bottom 0 left 50%",
             })}
+            loading="lazy"
           />
         </div>
         <div className={mosaicoStyles.smallPhotoContainer}>
@@ -126,6 +128,7 @@ export const VisitMosaico = () => {
               objectFit: "cover",
               objectPosition: "left",
             })}
+            loading="lazy"
           />
         </div>
       </div>

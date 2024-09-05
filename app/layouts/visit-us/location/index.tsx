@@ -184,6 +184,7 @@ export const LocationLico = () => {
             <img
               src="/images/volcanSvg.svg"
               alt="Dibujo de un volcan con trazos celestes"
+              loading="lazy"
             />
           </div>
 

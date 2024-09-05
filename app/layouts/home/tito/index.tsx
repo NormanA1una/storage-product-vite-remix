@@ -34,6 +34,8 @@ export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
     titoMobile: css({
       position: "absolute",
       pointerEvents: "none",
+      width: "327px",
+      height: "344px",
       "@media(min-width: 1024px)": {
         display: "none",
       },
@@ -222,6 +224,9 @@ export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
           <img
             src="/images/titoMobile.svg"
             alt="Tito saludando con un trago en la mano"
+            loading="eager"
+            width="327"
+            height="344"
           />
         </div>
       </div>
@@ -233,6 +238,7 @@ export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
               <img
                 src="/images/tapaSvg.svg"
                 alt="Dibujo de una tapa de una botella de vidrio"
+                loading="lazy"
               />
             </div>
 

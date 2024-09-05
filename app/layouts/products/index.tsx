@@ -5,7 +5,7 @@ import {
   useSearchParams,
   useSubmit,
 } from "@remix-run/react";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useDebounce } from "~/hooks/useDebounce";
 import { FallBackIndex } from "../fallback";
 import { CategoriesButtons } from "../categories-buttons";
@@ -26,6 +26,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   let [page, setPage] = useState(queryPage);
   const [_searchParams, setSearchParams] = useSearchParams();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const workerRef = useRef<Worker | null>(null);
 
   let [query, setQuery] = useState(q || "");
   let [debouncedQuery, isDeboucing] = useDebounce(query, 1000);
@@ -84,7 +85,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       flexDirection: "column",
       gap: "20px",
       position: "sticky",
-      top: 73.92,
+      top: 71.61,
       zIndex: 10,
       backgroundColor: "#FFFFFF",
 
@@ -125,7 +126,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
     buttonContaineMobile: css({
       position: scrollPosition < 10500 ? "sticky" : "relative",
-      top: 169.92,
+      top: 167.61,
       zIndex: 10,
       marginBottom: "35px",
 
@@ -177,6 +178,15 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   };
 
   useEffect(() => {
+    workerRef.current = new Worker(
+      new URL("../../workers/scroll-worker.ts", import.meta.url)
+    );
+
+    workerRef.current.onmessage = (e) => {
+      if (e.data.scrollPosition !== undefined) {
+        setScrollPosition(e.data.scrollPosition);
+      }
+    };
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
@@ -185,6 +195,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      workerRef.current?.terminate();
     };
   }, []);
 
@@ -192,6 +203,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
     <div id="products" className={productsStyles.mainContainer}>
       {/* Descomentar cuando haya aprobación de la Hey o una mejor idea */}
       {/* <ScrollTop /> */}
+
       <div className={productsStyles.container}>
         <div className={productsStyles.containerWithCategories}>
           {/* categories */}
@@ -228,6 +240,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
                     <img
                       src="/images/shoppingCartVector.svg"
                       alt="Carrito de comprar a la par de la barra de busqueda"
+                      loading="lazy"
                     />
                   </Button>
                 </div>

@@ -148,6 +148,7 @@ export const CategoriesMobile = ({
 
       <div>
         <Select
+          isSearchable={false}
           instanceId="categories-select"
           components={{ DropdownIndicator, Option: CustomOption }}
           styles={{
@@ -170,6 +171,10 @@ export const CategoriesMobile = ({
               ...baseStyle,
               backgroundColor: "#FFFFFF",
               color: "#2C2C2C",
+            }),
+            menu: (baseStyle) => ({
+              ...baseStyle,
+              zIndex: 11,
             }),
           }}
           options={CATEGORIES}

@@ -38,6 +38,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const links: LinksFunction = () => [
+  { rel: "preload", href: stylesheet, as: "style" },
   { rel: "stylesheet", href: stylesheet },
   {
     rel: "preload",
@@ -47,16 +48,39 @@ export const links: LinksFunction = () => [
     crossOrigin: "anonymous",
   },
   {
-    rel: "icon",
-    href: "/images/logo32x32.png",
-    type: "image/png",
-    sizes: "32x32",
+    rel: "preload",
+    href: "/images/titoPattern.svg",
+    as: "image",
+    type: "image/svg+xml",
+  },
+  {
+    rel: "preload",
+    href: "/images/titoSaludo.svg",
+    as: "image",
+    type: "image/svg+xml",
+  },
+  {
+    rel: "preload",
+    href: "/images/titoMobile.svg",
+    as: "image",
+    type: "image/svg+xml",
   },
   {
     rel: "icon",
-    href: "/images/logo16x16.png",
-    type: "image/png",
-    sizes: "16x16",
+    href: "/favicon.ico",
+    type: "image/x-icon",
+  },
+  {
+    rel: "preload",
+    href: "/images/cocibolcaLogo.svg",
+    as: "image",
+    type: "image/svg+xml",
+  },
+  {
+    rel: "preload",
+    href: "/images/cocibolcaLogoMobile.svg",
+    as: "image",
+    type: "image/svg+xml",
   },
 ];
 

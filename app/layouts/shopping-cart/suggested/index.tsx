@@ -86,7 +86,11 @@ export const Suggested = ({ products }: SuggestedProps) => {
       <div className={suggestedStyles.container}>
         <div className={suggestedStyles.contentText}>
           <div>
-            <img src="/images/lataSvg.svg" alt="Dibujo de una lata golpeada" />
+            <img
+              src="/images/lataSvg.svg"
+              alt="Dibujo de una lata golpeada"
+              loading="lazy"
+            />
           </div>
 
           <div className={suggestedStyles.containerTitles}>

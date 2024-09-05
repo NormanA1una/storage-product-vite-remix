@@ -48,6 +48,7 @@ export const PurchaseProcess = () => {
             <img
               src="/images/chucheria.svg"
               alt="Dibujo de un volcan con trazos celestes"
+              loading="lazy"
             />
           </div>
 

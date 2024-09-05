@@ -68,22 +68,23 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   }, [cart, pickupChecked, deliveryChecked]);
 
   const openWhatsapp = () => {
-    let message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n`;
-
-    cart.forEach((producto) => {
-      message += `🌋 ${producto.name} - ${producto.amount} ${
-        producto.amount > 1 ? "Unidades" : "Unidad"
-      }\n\n`;
-    });
-
-    message += `🛵 Tipo de pedido: ${
+    const message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n${cart
+      .map(
+        (producto) =>
+          `🌋 ${producto.name} - ${producto.amount} ${
+            producto.amount > 1 ? "Unidades" : "Unidad"
+          }`
+      )
+      .join("\n\n")}\n\n🛵 Tipo de pedido: ${
       pickupChecked ? "Pick-up" : "Delivery"
-    }\n\n 💵 Total a pagar: ${total}`;
+    }\n\n💵 Total a pagar: ${total}`;
 
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
-
-    window.open(whatsappURL, "_blank");
+    window.open(
+      `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+        message
+      )}`,
+      "_blank"
+    );
   };
 
   const handleIncrement = (productName: string) => {
