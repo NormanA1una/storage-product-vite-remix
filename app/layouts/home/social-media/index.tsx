@@ -165,7 +165,7 @@ export const SocialMedia = () => {
     }),
 
     firstSmallImage: css({
-      backgroundImage: "url(/images/mosaicoTito3.webp)",
+      backgroundImage: "url(/images/mediaArt1.webp)",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",
@@ -195,7 +195,7 @@ export const SocialMedia = () => {
     }),
 
     secondSmallImage: css({
-      backgroundImage: "url(/images/mosaicoTito3.webp)",
+      backgroundImage: "url(/images/mediaArt2.webp)",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",

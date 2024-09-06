@@ -145,7 +145,7 @@ export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
       height: "202px",
       borderRadius: "24px",
       overflow: "hidden",
-      backgroundImage: "url(/images/secondMobileImg.webp)",
+      backgroundImage: "url(/images/placeholderTito.webp)",
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "center",

@@ -11,7 +11,6 @@ import { LinksFunction, MetaFunction } from "@remix-run/node";
 
 import stylesheet from "./tailwind.css?url";
 import ErrorHandler from "./layouts/errors";
-import Modal from "./components/toast";
 import { ToastProvider, useToast } from "./context/toast-context";
 import Toast from "./components/toast";
 
@@ -69,6 +68,25 @@ export const links: LinksFunction = () => [
     rel: "icon",
     href: "/favicon.ico",
     type: "image/x-icon",
+    sizes: "any",
+  },
+  {
+    rel: "icon",
+    href: "/images/logo32x32.png",
+    type: "image/png",
+    sizes: "32x32",
+  },
+  {
+    rel: "icon",
+    href: "/images/logo16x16.png",
+    type: "image/png",
+    sizes: "16x16",
+  },
+  {
+    rel: "icon",
+    href: "/images/logo32x32.png",
+    type: "image/png",
+    sizes: "32x32",
   },
   {
     rel: "preload",

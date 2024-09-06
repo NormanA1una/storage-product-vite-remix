@@ -177,6 +177,10 @@ export const ProductCard = ({
       borderRadius: "16px",
       width: "272px",
       height: "216px",
+
+      "@media(max-width: 374px)": {
+        width: "100%",
+      },
     }),
 
     badgeCard: css({
