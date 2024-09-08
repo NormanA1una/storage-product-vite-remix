@@ -845,7 +845,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
                         setTimeout(() => {
                           openWhatsapp();
-                        }, 4000);
+                        }, 3000);
                       }}
                       className={cartStyles.actionButton}
                     >
