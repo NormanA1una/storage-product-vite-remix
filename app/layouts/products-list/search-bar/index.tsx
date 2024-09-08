@@ -6,9 +6,14 @@ import { Paragraph } from "~/components/typography/paragraph";
 type SearchBarProps = {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  onInteraction: () => void;
 };
 
-export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
+export const SearchBar = ({
+  query,
+  setQuery,
+  onInteraction,
+}: SearchBarProps) => {
   const [_searchParams, setSearchParams] = useSearchParams();
 
   const searchBarStyles = {
@@ -69,6 +74,12 @@ export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
       { preventScrollReset: true }
     );
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+    onInteraction();
+  };
+
   return (
     <div className={searchBarStyles.container}>
       <div>
@@ -89,7 +100,8 @@ export const SearchBar = ({ query, setQuery }: SearchBarProps) => {
           type="text"
           value={query}
           placeholder="Busca tu producto"
-          onChange={(e) => (setQuery(e.target.value), paramHandler(1))}
+          onChange={handleInputChange}
+          onFocus={onInteraction}
         />
 
         {query && (

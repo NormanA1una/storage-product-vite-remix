@@ -12,12 +12,10 @@ import { CategoriesButtons } from "../categories-buttons";
 import { ProductList } from "../products-list";
 import { PaginationProducts } from "../products-list/pagination";
 import { css } from "@emotion/css";
-import { Paragraph } from "~/components/typography/paragraph";
 import { SearchBar } from "../products-list/search-bar";
 import { CategoriesMobile } from "~/components/categories-mobile";
 import { Button } from "~/components/button";
 import { useCart } from "~/context/cart-context";
-import { ScrollTop } from "~/components/scroll-to-top";
 
 const ITEM_PER_PAGE = 19;
 
@@ -36,6 +34,8 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   const navigate = useNavigate();
   const { cart } = useCart();
 
+  const [hasInteractedWithSearch, setHasInteractedWithSearch] = useState(false);
+
   useEffect(() => {
     setPage(queryPage);
     let searchParams = new URLSearchParams(location.search);
@@ -46,8 +46,15 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
       searchParams.delete("q");
     }
     submit(searchParams, { preventScrollReset: true });
-    handleScrollToSearch();
-  }, [debouncedQuery, queryPage]);
+
+    if (hasInteractedWithSearch) {
+      handleScrollToSearch();
+    }
+
+    return () => {
+      setHasInteractedWithSearch(false);
+    };
+  }, [debouncedQuery, queryPage, hasInteractedWithSearch]);
 
   const handleScrollToSearch = () => {
     if (window.innerWidth < 1024)
@@ -221,7 +228,11 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
           <div className="w-full relative">
             <div className={productsStyles.mobileFiltersDisplay}>
               <div className={productsStyles.searchDisplay}>
-                <SearchBar query={query} setQuery={setQuery} />
+                <SearchBar
+                  query={query}
+                  setQuery={setQuery}
+                  onInteraction={() => setHasInteractedWithSearch(true)}
+                />
                 <div className={productsStyles.buttonContainerDisplay}>
                   {cart.length > 0 && (
                     <div className={productsStyles.badgeCart}>
