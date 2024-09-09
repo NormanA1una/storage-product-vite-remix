@@ -840,7 +840,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     </Button>
                   </div>
 
-                  <fetcher.Form method="post">
+                  <fetcher.Form
+                    method="post"
+                    className={cartStyles.actionButton}
+                  >
                     <Button
                       variant="primary"
                       size="xl"
