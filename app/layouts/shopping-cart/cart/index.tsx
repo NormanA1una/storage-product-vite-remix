@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import { useNavigate } from "@remix-run/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
 import { ControlQuantity } from "~/components/control-quantity";
@@ -35,6 +35,38 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const handleIsDesktop = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      return !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent
+      );
+    };
+    setIsDesktop(handleIsDesktop());
+  }, []);
+
+  const fetcher = useRemixFetcher({
+    onSuccess: () => {
+      if (isDesktop) {
+        setPurchase(true);
+        navigate({ hash: "#shopping-cart" });
+        setTimeout(() => {
+          openWhatsapp();
+          setPurchase(false);
+          setCart([]);
+          setSubtotal(0);
+          setTotal(0);
+          setPickupChecked(true);
+          setDeliveryChecked(false);
+        }, 3000);
+      } else {
+        setMobilePurchase(true);
+        openWhatsapp();
+      }
+    },
+    onError: () => {},
+  });
+
+  useEffect(() => {
     const savedCart = localStorage.getItem("cart");
     if (savedCart) {
       setCart(JSON.parse(savedCart));
@@ -49,33 +81,27 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     }
   }, [cart]);
 
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+
+    if (currentHour < 12) return "Buenos días";
+
+    if (currentHour >= 12 && currentHour < 18) return "Buenas tardes";
+
+    return "Buenas noches";
+  };
+
   useEffect(() => {
-    const handleIsDesktop = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      console.log(userAgent);
+    const newSubtotal = cart.reduce(
+      (acc, product) => acc + product.amount * product.price,
+      0
+    );
+    setSubtotal(newSubtotal);
 
-      return !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-        userAgent
-      );
-    };
-    setIsDesktop(handleIsDesktop());
-  }, []);
-
-  const fetcher = useRemixFetcher({
-    onSuccess: () => {
-      if (isDesktop) {
-        setPurchase(true);
-        navigate({ hash: "#shopping-cart" });
-        setTimeout(handlePurchaseSuccess, 3000);
-      } else {
-        setMobilePurchase(true);
-        openWhatsapp();
-      }
-    },
-    onError: () => {
-      /* Manejar error */
-    },
-  });
+    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
+    const newTotal = pickUp + newSubtotal;
+    setTotal(newTotal);
+  }, [cart, pickupChecked, deliveryChecked]);
 
   const openWhatsapp = () => {
     const message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n${cart
@@ -95,39 +121,6 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
     window.open(whatsappUrl, "_blank");
   };
-
-  const handlePurchaseSuccess = useCallback(() => {
-    openWhatsapp();
-    setPurchase(false);
-    resetCart();
-  }, [openWhatsapp]);
-
-  const resetCart = useCallback(() => {
-    setCart([]);
-    setSubtotal(0);
-    setTotal(0);
-    setPickupChecked(true);
-    setDeliveryChecked(false);
-  }, [setCart]);
-
-  const getGreeting = useCallback(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour < 12) return "Buenos días";
-    if (currentHour < 18) return "Buenas tardes";
-    return "Buenas noches";
-  }, []);
-
-  useEffect(() => {
-    const newSubtotal = cart.reduce(
-      (acc, product) => acc + product.amount * product.price,
-      0
-    );
-    setSubtotal(newSubtotal);
-
-    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
-    const newTotal = pickUp + newSubtotal;
-    setTotal(newTotal);
-  }, [cart, pickupChecked, deliveryChecked]);
 
   const handleIncrement = (productName: string) => {
     setCart((prevCart) =>
