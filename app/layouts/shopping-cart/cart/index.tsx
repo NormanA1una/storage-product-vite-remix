@@ -10,6 +10,7 @@ import { Paragraph } from "~/components/typography/paragraph";
 import { useCart } from "~/context/cart-context";
 import { useToast } from "~/context/toast-context";
 import { useRemixFetcher } from "~/hooks/use-remix-fetcher";
+import { openWhatsapp } from "~/utils/contact-whatsapp";
 
 type CartProps = {
   phoneNumber: string;
@@ -44,13 +45,19 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     setIsDesktop(handleIsDesktop());
   }, []);
 
-  const fetcher = useRemixFetcher({
+  /* const fetcher = useRemixFetcher({
     onSuccess: () => {
       if (isDesktop) {
         setPurchase(true);
         navigate({ hash: "#shopping-cart" });
         setTimeout(() => {
-          openWhatsapp();
+          openWhatsapp({
+            cart,
+            getGreeting,
+            pickupChecked,
+            total,
+            phoneNumber,
+          });
           setPurchase(false);
           setCart([]);
           setSubtotal(0);
@@ -58,13 +65,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
           setPickupChecked(true);
           setDeliveryChecked(false);
         }, 3000);
-      } else {
-        setMobilePurchase(true);
-        openWhatsapp();
       }
     },
     onError: () => {},
-  });
+  }); */
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -102,25 +106,6 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     const newTotal = pickUp + newSubtotal;
     setTotal(newTotal);
   }, [cart, pickupChecked, deliveryChecked]);
-
-  const openWhatsapp = () => {
-    const message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n${cart
-      .map(
-        (producto) =>
-          `🌋 ${producto.name} - ${producto.amount} ${
-            producto.amount > 1 ? "Unidades" : "Unidad"
-          }`
-      )
-      .join("\n\n")}\n\n🛵 Tipo de pedido: ${
-      pickupChecked ? "Pick-up" : "Delivery"
-    }\n\n💵 Total a pagar: ${total}`;
-
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
-      message
-    )}`;
-
-    window.open(whatsappUrl, "_blank");
-  };
 
   const handleIncrement = (productName: string) => {
     setCart((prevCart) =>
@@ -224,13 +209,33 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   };
 
   const handleBackToCatalog = () => {
+    navigate({ pathname: "/catalog" });
     setMobilePurchase(false);
     setCart([]);
     setSubtotal(0);
     setTotal(0);
     setPickupChecked(true);
     setDeliveryChecked(false);
-    navigate({ pathname: "/catalog" });
+  };
+
+  const handleWhatsappDesktop = () => {
+    setPurchase(true);
+    navigate({ hash: "#shopping-cart" });
+    setTimeout(() => {
+      openWhatsapp({
+        cart,
+        getGreeting,
+        pickupChecked,
+        total,
+        phoneNumber,
+      });
+      setPurchase(false);
+      setCart([]);
+      setSubtotal(0);
+      setTotal(0);
+      setPickupChecked(true);
+      setDeliveryChecked(false);
+    }, 3000);
   };
 
   const cartStyles = {
@@ -863,7 +868,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     </Button>
                   </div>
 
-                  <fetcher.Form
+                  {/* <fetcher.Form
                     method="post"
                     className={cartStyles.actionButton}
                   >
@@ -875,7 +880,33 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     >
                       Realizar pedido
                     </Button>
-                  </fetcher.Form>
+                  </fetcher.Form> */}
+
+                  <div className={cartStyles.actionButton}>
+                    <Button
+                      variant="primary"
+                      size="xl"
+                      type="submit"
+                      className={cartStyles.actionButton}
+                      onClick={() => {
+                        if (!isDesktop) {
+                          setMobilePurchase(true);
+                          navigate({ hash: "#shopping-cart" });
+                          openWhatsapp({
+                            getGreeting,
+                            cart,
+                            pickupChecked,
+                            total,
+                            phoneNumber,
+                          });
+                        } else {
+                          handleWhatsappDesktop();
+                        }
+                      }}
+                    >
+                      Realizar pedido
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
