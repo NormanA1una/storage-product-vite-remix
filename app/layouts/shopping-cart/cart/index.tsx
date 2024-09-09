@@ -1,5 +1,5 @@
 import { css } from "@emotion/css";
-import { useNavigate } from "@remix-run/react";
+import { useLocation, useNavigate, useNavigation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
@@ -9,6 +9,7 @@ import { H1 } from "~/components/typography/h1";
 import { Paragraph } from "~/components/typography/paragraph";
 import { useCart } from "~/context/cart-context";
 import { useToast } from "~/context/toast-context";
+import { useRemixFetcher } from "~/hooks/use-remix-fetcher";
 
 type CartProps = {
   phoneNumber: string;
@@ -29,6 +30,23 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const [deliveryChecked, setDeliveryChecked] = useState(false);
   const [purchase, setPurchase] = useState(false);
   const navigate = useNavigate();
+
+  const fetcher = useRemixFetcher({
+    onSuccess: () => {
+      setPurchase(true);
+      navigate({ hash: "#shopping-cart" });
+      setTimeout(() => {
+        openWhatsapp();
+        setPurchase(false);
+        setCart([]);
+        setSubtotal(0);
+        setTotal(0);
+        setPickupChecked(true);
+        setDeliveryChecked(false);
+      }, 3000);
+    },
+    onError: () => {},
+  });
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -79,12 +97,11 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       pickupChecked ? "Pick-up" : "Delivery"
     }\n\n💵 Total a pagar: ${total}`;
 
-    window.open(
-      `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
-        message
-      )}`,
-      "_blank"
-    );
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
   };
 
   const handleIncrement = (productName: string) => {
@@ -176,20 +193,6 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         p.name === productName ? { ...p, amount: p.amount - 1 } : p
       );
     });
-  };
-
-  const handleSendWhatsapp = () => {
-    setPurchase(true);
-    navigate({ hash: "#shopping-cart" });
-
-    setTimeout(() => {
-      setPurchase(false);
-      setCart([]);
-      setSubtotal(0);
-      setTotal(0);
-      setPickupChecked(true);
-      setDeliveryChecked(false);
-    }, 5000);
   };
 
   const handlePickupChange = () => {
@@ -836,22 +839,17 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       Seguir viendo el catálogo
                     </Button>
                   </div>
-                  <div className={cartStyles.actionButton}>
+
+                  <fetcher.Form method="post">
                     <Button
                       variant="primary"
                       size="xl"
-                      onClick={() => {
-                        handleSendWhatsapp();
-
-                        setTimeout(() => {
-                          openWhatsapp();
-                        }, 3000);
-                      }}
+                      type="submit"
                       className={cartStyles.actionButton}
                     >
                       Realizar pedido
                     </Button>
-                  </div>
+                  </fetcher.Form>
                 </div>
               </div>
             )}

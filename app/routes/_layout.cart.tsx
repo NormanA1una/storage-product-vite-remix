@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { defer, useLoaderData, useOutletContext } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { defer, json, useLoaderData, useOutletContext } from "@remix-run/react";
 import { Cart } from "~/layouts/shopping-cart/cart";
 import { HeroCart } from "~/layouts/shopping-cart/hero";
 import { Suggested } from "~/layouts/shopping-cart/suggested";
@@ -16,6 +16,10 @@ export const loader = async (_params: LoaderFunctionArgs) => {
     console.error("Error fetching data:", error);
     throw new Response("Error fetching data", { status: 500 });
   }
+};
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  return json({ success: true });
 };
 
 export default function CartPage() {
