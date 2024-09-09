@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
-import { useLocation, useNavigate, useNavigation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "@remix-run/react";
+import { useCallback, useEffect, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
 import { ControlQuantity } from "~/components/control-quantity";
@@ -29,24 +29,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const [pickupChecked, setPickupChecked] = useState(true);
   const [deliveryChecked, setDeliveryChecked] = useState(false);
   const [purchase, setPurchase] = useState(false);
-  const navigate = useNavigate();
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
+  const [mobilePurchase, setMobilePurchase] = useState(false);
 
-  const fetcher = useRemixFetcher({
-    onSuccess: () => {
-      setPurchase(true);
-      navigate({ hash: "#shopping-cart" });
-      setTimeout(() => {
-        openWhatsapp();
-        setPurchase(false);
-        setCart([]);
-        setSubtotal(0);
-        setTotal(0);
-        setPickupChecked(true);
-        setDeliveryChecked(false);
-      }, 3000);
-    },
-    onError: () => {},
-  });
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
@@ -63,27 +49,33 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     }
   }, [cart]);
 
-  const getGreeting = () => {
-    const currentHour = new Date().getHours();
-
-    if (currentHour < 12) return "Buenos días";
-
-    if (currentHour >= 12 && currentHour < 18) return "Buenas tardes";
-
-    return "Buenas noches";
-  };
-
   useEffect(() => {
-    const newSubtotal = cart.reduce(
-      (acc, product) => acc + product.amount * product.price,
-      0
-    );
-    setSubtotal(newSubtotal);
+    const handleIsDesktop = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      console.log(userAgent);
 
-    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
-    const newTotal = pickUp + newSubtotal;
-    setTotal(newTotal);
-  }, [cart, pickupChecked, deliveryChecked]);
+      return !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+        userAgent
+      );
+    };
+    setIsDesktop(handleIsDesktop());
+  }, []);
+
+  const fetcher = useRemixFetcher({
+    onSuccess: () => {
+      if (isDesktop) {
+        setPurchase(true);
+        navigate({ hash: "#shopping-cart" });
+        setTimeout(handlePurchaseSuccess, 3000);
+      } else {
+        setMobilePurchase(true);
+        openWhatsapp();
+      }
+    },
+    onError: () => {
+      /* Manejar error */
+    },
+  });
 
   const openWhatsapp = () => {
     const message = `${getGreeting()}, aquí está la lista de productos que me interesan:\n\n${cart
@@ -103,6 +95,39 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
     window.open(whatsappUrl, "_blank");
   };
+
+  const handlePurchaseSuccess = useCallback(() => {
+    openWhatsapp();
+    setPurchase(false);
+    resetCart();
+  }, [openWhatsapp]);
+
+  const resetCart = useCallback(() => {
+    setCart([]);
+    setSubtotal(0);
+    setTotal(0);
+    setPickupChecked(true);
+    setDeliveryChecked(false);
+  }, [setCart]);
+
+  const getGreeting = useCallback(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) return "Buenos días";
+    if (currentHour < 18) return "Buenas tardes";
+    return "Buenas noches";
+  }, []);
+
+  useEffect(() => {
+    const newSubtotal = cart.reduce(
+      (acc, product) => acc + product.amount * product.price,
+      0
+    );
+    setSubtotal(newSubtotal);
+
+    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
+    const newTotal = pickUp + newSubtotal;
+    setTotal(newTotal);
+  }, [cart, pickupChecked, deliveryChecked]);
 
   const handleIncrement = (productName: string) => {
     setCart((prevCart) =>
@@ -203,6 +228,16 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const handleDeliveryChange = () => {
     setDeliveryChecked(true);
     setPickupChecked(false);
+  };
+
+  const handleBackToCatalog = () => {
+    setMobilePurchase(false);
+    setCart([]);
+    setSubtotal(0);
+    setTotal(0);
+    setPickupChecked(true);
+    setDeliveryChecked(false);
+    navigate({ pathname: "/catalog" });
   };
 
   const cartStyles = {
@@ -529,7 +564,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        width: "50px",
+        minWidth: "50px",
         height: "50px",
         border: "1px solid #C5C5C5",
         borderRadius: "12px",
@@ -557,26 +592,8 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         {/* card */}
         {cart.length > 0 ? (
           <>
-            {purchase ? (
+            {purchase || mobilePurchase ? (
               <div className={cartStyles.cardPurchase}>
-                {/* <div
-                  className={css({
-                    position: "absolute",
-                    backgroundImage: "url(/images/patronGrueso.svg)",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "bottom",
-                    top: 440,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    pointerEvents: "none",
-
-                    "@media(min-width: 1024px)": {
-                      top: 465,
-                    },
-                  })}
-                /> */}
                 {/* container */}
                 <div className={cartStyles.containerPurchase}>
                   {/* img */}
@@ -610,6 +627,19 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       WhatsApp para continuar tu compra
                     </Paragraph>
                   </div>
+
+                  {/* Botón de volver al catálogo solo para móvil */}
+                  {!isDesktop && mobilePurchase && (
+                    <div>
+                      <Button
+                        variant="primary"
+                        size="xl"
+                        onClick={handleBackToCatalog}
+                      >
+                        Volver al catálogo
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
