@@ -133,3 +133,7 @@ type FooterProps = SideNavProps;
 type DataContext = {
   phoneNumber: string;
 };
+
+type CartState = {
+  items: CartProduct[];
+};

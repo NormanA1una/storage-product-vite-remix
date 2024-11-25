@@ -14,27 +14,21 @@ import cartReducer from "./features/cartSlice";
 const createCustomStorage = () => {
   if (typeof window === "undefined") {
     return {
-      getItem: () => Promise.resolve(null),
-      setItem: (_key: string, value: any) => Promise.resolve(value),
-      removeItem: () => Promise.resolve(),
+      getItem: () => null,
+      setItem: () => {},
+      removeItem: () => {},
     };
   }
 
   return {
     getItem: (key: string) => {
-      return new Promise((resolve) => {
-        resolve(localStorage.getItem(key));
-      });
+      return localStorage.getItem(key);
     },
     setItem: (key: string, value: any) => {
-      return new Promise((resolve) => {
-        resolve(localStorage.setItem(key, value));
-      });
+      localStorage.setItem(key, value);
     },
     removeItem: (key: string) => {
-      return new Promise((resolve) => {
-        resolve(localStorage.removeItem(key));
-      });
+      localStorage.removeItem(key);
     },
   };
 };
