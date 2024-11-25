@@ -1,4 +1,3 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
 import { defer, useLoaderData, useOutletContext } from "@remix-run/react";
 import { HomeHero } from "~/layouts/home/hero";
 import { SocialMedia } from "~/layouts/home/social-media";
@@ -7,7 +6,7 @@ import { TitoSection } from "~/layouts/home/tito";
 import { VisitUs } from "~/layouts/home/visit-us";
 import supabase from "~/utils/supabase";
 
-export const loader = async (_params: LoaderFunctionArgs) => {
+export const loader = async () => {
   let query = supabase
     .from("products")
     .select()

@@ -3,10 +3,11 @@ import { Badges } from "../badges";
 import { Paragraph } from "../typography/paragraph";
 import { useState } from "react";
 import { Button } from "../button";
-import { useCart } from "~/context/cart-context";
 import { useToast } from "~/context/toast-context";
 import { Icons } from "../icons";
 import { useNavigate } from "@remix-run/react";
+import { useDispatch } from "react-redux";
+import { useCartActions } from "~/hooks/useCartActions";
 
 export const ProductCard = ({
   promo,
@@ -19,11 +20,12 @@ export const ProductCard = ({
   stock,
 }: StarProduct) => {
   const [quantity, setQuantity] = useState(0);
-  const { addToCart } = useCart();
   const { openToast, setToastContent, setAutoCloseTime, closeToast } =
     useToast();
+  const { addItem } = useCartActions();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -35,7 +37,7 @@ export const ProductCard = ({
 
   const handleAddToCart = () => {
     if (quantity > 0) {
-      addToCart({
+      addItem({
         img: imgSrc,
         stock: stock,
         name: product,
@@ -44,6 +46,7 @@ export const ProductCard = ({
         img_description: imgAlt,
       });
       setQuantity(0);
+      handleShowToast();
     }
   };
 
@@ -368,7 +371,6 @@ export const ProductCard = ({
               })}
               onClick={() => {
                 handleAddToCart();
-                handleShowToast();
               }}
             >
               Agregar
