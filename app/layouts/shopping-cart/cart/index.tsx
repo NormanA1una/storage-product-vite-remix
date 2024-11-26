@@ -7,24 +7,17 @@ import { ControlQuantity } from "~/components/control-quantity";
 import { Checkbox } from "~/components/inputs/checkbox";
 import { H1 } from "~/components/typography/h1";
 import { Paragraph } from "~/components/typography/paragraph";
+import { useCart } from "~/context/cart-context";
 import { useToast } from "~/context/toast-context";
 import { useRemixFetcher } from "~/hooks/use-remix-fetcher";
 import { openWhatsapp } from "~/utils/contact-whatsapp";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "~/store/store";
-import {
-  updateQuantity,
-  removeFromCart,
-  clearCart,
-} from "~/store/features/cartSlice";
 
 type CartProps = {
   phoneNumber: string;
 };
 
 export const Cart = ({ phoneNumber }: CartProps) => {
-  const cart = useSelector((state: RootState) => state.cart.items);
-  const dispatch = useDispatch();
+  const { cart, setCart } = useCart();
   const {
     openToast,
     setToastContent,
@@ -77,6 +70,21 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     onError: () => {},
   }); */
 
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+  }, [setCart]);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      localStorage.removeItem("cart");
+    }
+  }, [cart]);
+
   const getGreeting = () => {
     const currentHour = new Date().getHours();
 
@@ -100,15 +108,13 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   }, [cart, pickupChecked, deliveryChecked]);
 
   const handleIncrement = (productName: string) => {
-    const product = cart.find((p) => p.name === productName);
-    if (product) {
-      dispatch(
-        updateQuantity({
-          name: productName,
-          amount: product.amount + 1,
-        })
-      );
-    }
+    setCart((prevCart) =>
+      prevCart.map((product) =>
+        product.name === productName
+          ? { ...product, amount: product.amount + 1 }
+          : product
+      )
+    );
   };
 
   const handleShowToast = (onConfirm: () => void) => {
@@ -176,21 +182,20 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   };
 
   const handleDecrement = (productName: string) => {
-    const product = cart.find((p) => p.name === productName);
-    if (product) {
-      if (product.amount === 1) {
+    setCart((prevCart) => {
+      const product = prevCart.find((p) => p.name === productName);
+
+      if (product?.amount === 1) {
         handleShowToast(() => {
-          dispatch(removeFromCart(productName));
+          setCart((cart) => cart.filter((p) => p.name !== productName));
         });
-      } else {
-        dispatch(
-          updateQuantity({
-            name: productName,
-            amount: product.amount - 1,
-          })
-        );
+        return prevCart;
       }
-    }
+
+      return prevCart.map((p) =>
+        p.name === productName ? { ...p, amount: p.amount - 1 } : p
+      );
+    });
   };
 
   const handlePickupChange = () => {
@@ -206,7 +211,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   const handleBackToCatalog = () => {
     navigate({ pathname: "/catalog" });
     setMobilePurchase(false);
-    dispatch(clearCart());
+    setCart([]);
     setSubtotal(0);
     setTotal(0);
     setPickupChecked(true);
@@ -225,7 +230,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
         phoneNumber,
       });
       setPurchase(false);
-      dispatch(clearCart());
+      setCart([]);
       setSubtotal(0);
       setTotal(0);
       setPickupChecked(true);

@@ -3,6 +3,9 @@ import { createContext, ReactNode, useContext, useState } from "react";
 type CartContextType = {
   cart: CartProduct[];
   addToCart: (product: CartProduct) => void;
+  removeFromCart: (productName: string) => void;
+  updateQuantity: (productName: string, amount: number) => void;
+  clearCart: () => void;
   setCart: React.Dispatch<React.SetStateAction<CartProduct[]>>;
 };
 
@@ -26,8 +29,33 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const removeFromCart = (productName: string) => {
+    setCart((prevCart) => prevCart.filter((item) => item.name !== productName));
+  };
+
+  const updateQuantity = (productName: string, amount: number) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.name === productName ? { ...item, amount } : item
+      )
+    );
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, setCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        setCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

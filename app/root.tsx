@@ -8,14 +8,12 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { LinksFunction, MetaFunction } from "@remix-run/node";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./store/store";
 
 import stylesheet from "./tailwind.css?url";
 import ErrorHandler from "./layouts/errors";
 import { ToastProvider, useToast } from "./context/toast-context";
 import Toast from "./components/toast";
+import { CartProvider } from "./context/cart-context";
 
 export const meta: MetaFunction = () => {
   return [
@@ -128,13 +126,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <ToastProvider>
-          <LayoutWithModal />
-        </ToastProvider>
-      </PersistGate>
-    </Provider>
+    <CartProvider>
+      <ToastProvider>
+        <LayoutWithModal />
+      </ToastProvider>
+    </CartProvider>
   );
 }
 

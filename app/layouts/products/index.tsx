@@ -15,8 +15,7 @@ import { css } from "@emotion/css";
 import { SearchBar } from "../products-list/search-bar";
 import { CategoriesMobile } from "~/components/categories-mobile";
 import { Button } from "~/components/button";
-import { useSelector } from "react-redux";
-import { RootState } from "~/store/store";
+import { useCart } from "~/context/cart-context";
 
 const ITEM_PER_PAGE = 19;
 
@@ -33,7 +32,7 @@ export const Products = ({ dataLoader, queryPage, q }: ProductsProps) => {
   let location = useLocation();
   const submit = useSubmit();
   const navigate = useNavigate();
-  const cart = useSelector((state: RootState) => state.cart.items);
+  const { cart } = useCart();
 
   const [hasInteractedWithSearch, setHasInteractedWithSearch] = useState(false);
 

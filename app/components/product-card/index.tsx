@@ -6,8 +6,7 @@ import { Button } from "../button";
 import { useToast } from "~/context/toast-context";
 import { Icons } from "../icons";
 import { useNavigate } from "@remix-run/react";
-import { useDispatch } from "react-redux";
-import { useCartActions } from "~/hooks/useCartActions";
+import { useCart } from "~/context/cart-context";
 
 export const ProductCard = ({
   promo,
@@ -22,10 +21,9 @@ export const ProductCard = ({
   const [quantity, setQuantity] = useState(0);
   const { openToast, setToastContent, setAutoCloseTime, closeToast } =
     useToast();
-  const { addItem } = useCartActions();
+  const { addToCart } = useCart();
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -37,7 +35,7 @@ export const ProductCard = ({
 
   const handleAddToCart = () => {
     if (quantity > 0) {
-      addItem({
+      addToCart({
         img: imgSrc,
         stock: stock,
         name: product,
