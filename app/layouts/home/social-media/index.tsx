@@ -1,10 +1,11 @@
 import { css } from "@emotion/css";
 import { useNavigate } from "@remix-run/react";
+import { memo } from "react";
 import { Button } from "~/components/button";
 import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 
-export const SocialMedia = () => {
+export const SocialMedia = memo(() => {
   const navigate = useNavigate();
   const socialMediaStyles = {
     mainContainer: css({
@@ -311,4 +312,6 @@ export const SocialMedia = () => {
       </div>
     </div>
   );
-};
+});
+
+SocialMedia.displayName = "SocialMedia";

@@ -4,10 +4,6 @@ import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 import { contactUs } from "~/utils/contact-whatsapp";
 
-type TitoSectionProps = {
-  phoneNumber: string;
-};
-
 export const TitoSection = ({ phoneNumber }: TitoSectionProps) => {
   const titoStyles = {
     titoContainer: css({

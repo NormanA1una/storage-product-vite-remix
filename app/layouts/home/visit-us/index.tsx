@@ -164,11 +164,13 @@ export const VisitUs = () => {
         {/* Maps */}
         <div className={visitStyles.mapContainer}>
           <iframe
+            title="Ubicación de Licoreria Cocibolca en Granada, Nicaragua"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d289.3871600778629!2d-85.95094916333358!3d11.947391207004795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f740d4892feba1d%3A0xe7740edcd3e77d50!2sLicoreria%20Cocibolca!5e1!3m2!1sen!2sni!4v1724429098669!5m2!1sen!2sni"
             className={visitStyles.iframe}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            aria-label="Mapa mostrando la ubicación de Licoreria Cocibolca en Granada"
           ></iframe>
         </div>
       </div>

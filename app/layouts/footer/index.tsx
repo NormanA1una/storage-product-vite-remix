@@ -1,6 +1,5 @@
 import { css } from "@emotion/css";
 import { Link } from "@remix-run/react";
-import { H5 } from "~/components/typography/h5";
 import { Paragraph } from "~/components/typography/paragraph";
 
 export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
@@ -194,13 +193,13 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
           <div className={footerStyles.contentSection}>
             <div className={footerStyles.containerNav}>
               <div>
-                <H5
+                <Paragraph
                   variant="sm"
                   weight="semi-bold"
                   classname={footerStyles.titleNavigation}
                 >
                   Navega en el sitio
-                </H5>
+                </Paragraph>
               </div>
 
               <ul className={footerStyles.listPaths}>
@@ -224,13 +223,13 @@ export const Footer = ({ pathNames, contactMedia }: FooterProps) => {
 
             <div className={footerStyles.containerContact}>
               <div>
-                <H5
+                <Paragraph
                   variant="sm"
                   weight="semi-bold"
                   classname={footerStyles.titleNavigation}
                 >
                   Contáctanos
-                </H5>
+                </Paragraph>
               </div>
 
               <ul className={footerStyles.listContact}>

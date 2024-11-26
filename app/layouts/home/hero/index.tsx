@@ -5,10 +5,6 @@ import { H1 } from "~/components/typography/h1";
 import { H2 } from "~/components/typography/h2";
 import { contactUs } from "~/utils/contact-whatsapp";
 
-type HomeHeroProps = {
-  phoneNumber: string;
-};
-
 export const HomeHero = ({ phoneNumber }: HomeHeroProps) => {
   const navigate = useNavigate();
 

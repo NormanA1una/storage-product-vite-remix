@@ -137,3 +137,11 @@ type DataContext = {
 type CartState = {
   items: CartProduct[];
 };
+
+type HomeHeroProps = {
+  phoneNumber: string;
+};
+
+type TitoSectionProps = {
+  phoneNumber: string;
+};
