@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Badges } from "~/components/badges";
 import { Button } from "~/components/button";
 import { ControlQuantity } from "~/components/control-quantity";
-import { Checkbox } from "~/components/inputs/checkbox";
+// import { Checkbox } from "~/components/inputs/checkbox";
 import { H1 } from "~/components/typography/h1";
 import { Paragraph } from "~/components/typography/paragraph";
+import { TextInput } from "~/components/inputs/text-input";
 import { useCart } from "~/context/cart-context";
 import { useToast } from "~/context/toast-context";
-import { useRemixFetcher } from "~/hooks/use-remix-fetcher";
+// import { useRemixFetcher } from "~/hooks/use-remix-fetcher";
 import { openWhatsapp } from "~/utils/contact-whatsapp";
 
 type CartProps = {
@@ -27,8 +28,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   } = useToast();
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
-  const [pickupChecked, setPickupChecked] = useState(true);
-  const [deliveryChecked, setDeliveryChecked] = useState(false);
+  // Purchase method controls removed in favor of address input
+  // const [pickupChecked, setPickupChecked] = useState(true);
+  // const [deliveryChecked, setDeliveryChecked] = useState(false);
+  const [address, setAddress] = useState("");
   const [purchase, setPurchase] = useState(false);
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
   const [mobilePurchase, setMobilePurchase] = useState(false);
@@ -70,20 +73,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     onError: () => {},
   }); */
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem("cart");
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
-  }, [setCart]);
-
-  useEffect(() => {
-    if (cart.length > 0) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    } else {
-      localStorage.removeItem("cart");
-    }
-  }, [cart]);
+  // Cart persistence is handled globally in CartProvider
 
   const getGreeting = () => {
     const currentHour = new Date().getHours();
@@ -102,10 +92,10 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     );
     setSubtotal(newSubtotal);
 
-    const pickUp = pickupChecked ? 15 : deliveryChecked ? 50 : 15;
-    const newTotal = pickUp + newSubtotal;
+    // Shipping/pick-up fee removed; total equals subtotal now
+    const newTotal = newSubtotal;
     setTotal(newTotal);
-  }, [cart, pickupChecked, deliveryChecked]);
+  }, [cart]);
 
   const handleIncrement = (productName: string) => {
     setCart((prevCart) =>
@@ -198,15 +188,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     });
   };
 
-  const handlePickupChange = () => {
-    setPickupChecked(true);
-    setDeliveryChecked(false);
-  };
-
-  const handleDeliveryChange = () => {
-    setDeliveryChecked(true);
-    setPickupChecked(false);
-  };
+  // Handlers removed with method selection UI
 
   const handleBackToCatalog = () => {
     navigate({ pathname: "/catalog" });
@@ -214,8 +196,8 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     setCart([]);
     setSubtotal(0);
     setTotal(0);
-    setPickupChecked(true);
-    setDeliveryChecked(false);
+    // Reset address on back to catalog
+    setAddress("");
   };
 
   const handleWhatsappDesktop = () => {
@@ -225,7 +207,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       openWhatsapp({
         cart,
         getGreeting,
-        pickupChecked,
+        address,
         total,
         phoneNumber,
       });
@@ -233,8 +215,8 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       setCart([]);
       setSubtotal(0);
       setTotal(0);
-      setPickupChecked(true);
-      setDeliveryChecked(false);
+      // Reset address after sending order
+      setAddress("");
     }, 3000);
   };
 
@@ -353,22 +335,34 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       zIndex: 1,
     }),
 
-    cellHeader: css({
+    cellHeaderProduct: css({
+      textAlign: "center",
+      padding: "12px 0px 12px 24px",
+      fontWeight: 400,
+      color: "#706F6F",
+      borderTop: "1px solid #E2E2E2",
+      borderBottom: "1px solid #E2E2E2",
+      width: "50%",
+    }),
+
+    cellHeaderPrice: css({
+      textAlign: "right",
+      padding: "12px 19px 12px 24px",
+      fontWeight: 400,
+      color: "#706F6F",
+      borderTop: "1px solid #E2E2E2",
+      borderBottom: "1px solid #E2E2E2",
+      width: "35%",
+    }),
+
+    cellHeaderQuantity: css({
       textAlign: "left",
       padding: "12px 0px 12px 24px",
       fontWeight: 400,
       color: "#706F6F",
       borderTop: "1px solid #E2E2E2",
       borderBottom: "1px solid #E2E2E2",
-    }),
-
-    cellHeaderAmount: css({
-      textAlign: "right",
-      padding: "12px 24px 12px 0px",
-      fontWeight: 400,
-      color: "#706F6F",
-      borderTop: "1px solid #E2E2E2",
-      borderBottom: "1px solid #E2E2E2",
+      width: "15%",
     }),
 
     cellProduct: (i: number): string => {
@@ -464,8 +458,13 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       width: "100%",
 
       "@media(min-width: 1024px)": {
-        width: "fit-content",
+        // width: "fit-content",
+        maxWidth: "400px",
         flexDirection: "row",
+      },
+
+      "@media(min-width: 1440px)": {
+        maxWidth: "450px",
       },
     }),
 
@@ -654,10 +653,12 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                   <table className={cartStyles.table}>
                     <thead className={cartStyles.tableHead}>
                       <tr>
-                        <th className={cartStyles.cellHeader}>Productos</th>
-                        <th className={cartStyles.cellHeader}>Precio</th>
-                        <th className={cartStyles.cellHeaderAmount}>
-                          Cantidad de producto
+                        <th className={cartStyles.cellHeaderProduct}>
+                          Productos
+                        </th>
+                        <th className={cartStyles.cellHeaderPrice}>Precio</th>
+                        <th className={cartStyles.cellHeaderQuantity}>
+                          Cantidad
                         </th>
                       </tr>
                     </thead>
@@ -716,7 +717,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
                 <div className={cartStyles.cardMobileWrapper}>
                   <div className={cartStyles.cartMobileContainer}>
-                    {cart.map((product, i) => {
+                    {cart.map((product) => {
                       return (
                         <div
                           key={product.name}
@@ -786,58 +787,28 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                     </Paragraph>
                   </div>
 
-                  {/* buttons */}
+                  {/* Purchase method selection removed in favor of address input */}
+
+                  {/* Dirección del envío */}
                   <div className={cartStyles.buttonsSection}>
                     <Paragraph
                       variant="sm"
                       weight="regular"
                       classname={cartStyles.subtotalLabel}
                     >
-                      ¿Cómo te gustaría realizar tu compra?
+                      Dirección del envío
                     </Paragraph>
-
                     <div className={cartStyles.buttonsContainer}>
-                      <div
-                        className={cartStyles.buttonOption(pickupChecked)}
-                        onClick={handlePickupChange}
-                      >
-                        Recoger en tienda{" "}
-                        <Checkbox
-                          checked={pickupChecked}
-                          onChange={handlePickupChange}
-                        />
-                      </div>
-                      <div
-                        className={cartStyles.buttonOption(deliveryChecked)}
-                        onClick={handleDeliveryChange}
-                      >
-                        Delivery en Granada{" "}
-                        <Checkbox
-                          checked={deliveryChecked}
-                          onChange={handleDeliveryChange}
-                        />
-                      </div>
+                      <TextInput
+                        placeholder="Ej. Calle X, Nº Y, Granada"
+                        value={address}
+                        onChange={setAddress}
+                        required
+                      />
                     </div>
                   </div>
 
-                  {/* tarifa delivery */}
-                  <div className={cartStyles.pickUpContainer}>
-                    <Paragraph variant="sm" weight="regular">
-                      Tarifa por {deliveryChecked ? "delivery" : "pick-Up"}
-                    </Paragraph>
-
-                    <Paragraph
-                      weight="semi-bold"
-                      variant="sm"
-                      classname={cartStyles.subtotal}
-                    >
-                      {pickupChecked
-                        ? "C$15"
-                        : deliveryChecked
-                        ? "C$50"
-                        : "C$15"}
-                    </Paragraph>
-                  </div>
+                  {/* Shipping fee removed */}
 
                   {/* total a pagar */}
                   <div className={cartStyles.totalContainer}>
@@ -888,6 +859,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       size="xl"
                       type="submit"
                       className={cartStyles.actionButton}
+                      disabled={
+                        cart.length === 0 || address.trim().length === 0
+                      }
                       onClick={() => {
                         if (!isDesktop) {
                           setMobilePurchase(true);
@@ -895,7 +869,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                           openWhatsapp({
                             getGreeting,
                             cart,
-                            pickupChecked,
+                            address,
                             total,
                             phoneNumber,
                           });

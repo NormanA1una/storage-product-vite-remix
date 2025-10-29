@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type CartContextType = {
   cart: CartProduct[];
@@ -13,6 +19,33 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cart, setCart] = useState<CartProduct[]>([]);
+
+  // Hydrate cart from localStorage on mount (client-side only)
+  useEffect(() => {
+    try {
+      const savedCart =
+        typeof window !== "undefined" && localStorage.getItem("cart");
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
+    } catch (_e) {
+      // If localStorage access fails or JSON is invalid, ignore and start fresh
+    }
+  }, []);
+
+  // Persist cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      if (typeof window === "undefined") return;
+      if (cart.length > 0) {
+        localStorage.setItem("cart", JSON.stringify(cart));
+      } else {
+        localStorage.removeItem("cart");
+      }
+    } catch (_e) {
+      // Ignore storage errors
+    }
+  }, [cart]);
 
   const addToCart = (product: CartProduct) => {
     setCart((prevCart) => {
