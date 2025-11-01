@@ -39,7 +39,7 @@ export const ProductCard = ({
         img: imgSrc,
         stock: stock,
         name: product,
-        price: +normalPrice,
+        price: promo && discountPrice ? +discountPrice : +normalPrice,
         amount: quantity,
         img_description: imgAlt,
       });
