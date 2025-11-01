@@ -22,19 +22,29 @@ import { HeroCatalog } from "~/layouts/catalog/hero";
 const ITEM_PER_PAGE = 19;
 
 export const loader = async (params: LoaderFunctionArgs) => {
-  const paramCategory = new URL(params.request.url).searchParams.get(
+  const requestUrl = params.request.url;
+  console.log("🔍 GET productos del catálogo - URL completa:", requestUrl);
+
+  const paramCategory = new URL(requestUrl).searchParams.get(
     "category"
   ) as Category;
 
-  let page = new URL(params.request.url).searchParams.get("page") || "1";
+  let page = new URL(requestUrl).searchParams.get("page") || "1";
 
   let from = (parseInt(page) - 1) * ITEM_PER_PAGE;
 
   let to = from + ITEM_PER_PAGE;
 
-  let url = new URL(params.request.url);
+  let url = new URL(requestUrl);
 
   let { q } = Object.fromEntries(url.searchParams);
+
+  console.log("📦 GET productos - Parámetros:", {
+    category: paramCategory,
+    page,
+    query: q,
+    pagination: { from, to, itemsPerPage: ITEM_PER_PAGE },
+  });
 
   let query = supabase.from("products").select("*", { count: "exact" });
 
@@ -44,17 +54,31 @@ export const loader = async (params: LoaderFunctionArgs) => {
 
   query = query.order("name", { ascending: true }).range(from, to);
 
+  console.log("✅ GET productos - Query construida, ejecutando...");
+
   try {
     const dataLoader = await query;
+    console.log("✅ GET productos - Respuesta recibida:", {
+      count: dataLoader.count,
+      dataLength: dataLoader.data?.length || 0,
+      hasError: !!dataLoader.error,
+      error: dataLoader.error,
+    });
     return defer({ dataLoader, q, queryPage: page });
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("❌ Error fetching data:", error);
     throw new Response("Error fetching data", { status: 500 });
   }
 };
 
 export default function Catalog() {
   const { dataLoader, q, queryPage } = useLoaderData<typeof loader>();
+
+  console.log("🔍 Datos del loader:", {
+    dataLoader: dataLoader.data,
+    q,
+    queryPage,
+  });
 
   return (
     <div>
