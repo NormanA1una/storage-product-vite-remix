@@ -31,6 +31,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
   // Purchase method controls removed in favor of address input
   // const [pickupChecked, setPickupChecked] = useState(true);
   // const [deliveryChecked, setDeliveryChecked] = useState(false);
+  const [fullName, setFullName] = useState("");
   const [address, setAddress] = useState("");
   const [purchase, setPurchase] = useState(false);
   const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
@@ -196,8 +197,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
     setCart([]);
     setSubtotal(0);
     setTotal(0);
-    // Reset address on back to catalog
+    // Reset address and fullName on back to catalog
     setAddress("");
+    setFullName("");
   };
 
   const handleWhatsappDesktop = () => {
@@ -207,6 +209,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       openWhatsapp({
         cart,
         getGreeting,
+        fullName,
         address,
         total,
         phoneNumber,
@@ -215,8 +218,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
       setCart([]);
       setSubtotal(0);
       setTotal(0);
-      // Reset address after sending order
+      // Reset address and fullName after sending order
       setAddress("");
+      setFullName("");
     }, 3000);
   };
 
@@ -789,6 +793,25 @@ export const Cart = ({ phoneNumber }: CartProps) => {
 
                   {/* Purchase method selection removed in favor of address input */}
 
+                  {/* Nombre completo */}
+                  <div className={cartStyles.buttonsSection}>
+                    <Paragraph
+                      variant="sm"
+                      weight="regular"
+                      classname={cartStyles.subtotalLabel}
+                    >
+                      Nombre completo
+                    </Paragraph>
+                    <div className={cartStyles.buttonsContainer}>
+                      <TextInput
+                        placeholder="Coloca tu nombre completo"
+                        value={fullName}
+                        onChange={setFullName}
+                        required
+                      />
+                    </div>
+                  </div>
+
                   {/* Dirección del envío */}
                   <div className={cartStyles.buttonsSection}>
                     <Paragraph
@@ -813,7 +836,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                   {/* total a pagar */}
                   <div className={cartStyles.totalContainer}>
                     <Paragraph weight="semi-bold" variant="sm">
-                      Total a pagar
+                      Total a pagar (No incluye Delivery)
                     </Paragraph>
 
                     <Paragraph
@@ -860,7 +883,9 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                       type="submit"
                       className={cartStyles.actionButton}
                       disabled={
-                        cart.length === 0 || address.trim().length === 0
+                        cart.length === 0 ||
+                        fullName.trim().length === 0 ||
+                        address.trim().length === 0
                       }
                       onClick={() => {
                         if (!isDesktop) {
@@ -869,6 +894,7 @@ export const Cart = ({ phoneNumber }: CartProps) => {
                           openWhatsapp({
                             getGreeting,
                             cart,
+                            fullName,
                             address,
                             total,
                             phoneNumber,

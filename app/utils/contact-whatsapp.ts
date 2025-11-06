@@ -7,12 +7,14 @@ export const contactUs = (phoneNumber: string) => {
 export const openWhatsapp = ({
   getGreeting,
   cart,
+  fullName,
   address,
   total,
   phoneNumber,
 }: {
   getGreeting: () => "Buenos días" | "Buenas tardes" | "Buenas noches";
   cart: CartProduct[];
+  fullName: string;
   address: string;
   total: number;
   phoneNumber: string;
@@ -26,7 +28,7 @@ export const openWhatsapp = ({
     )
     .join(
       "\n\n"
-    )}\n\n📍 Dirección del envío: ${address}\n\n💵 Total a pagar: ${total}`;
+    )}\n\n👤 Nombre completo: ${fullName}\n\n📍 Dirección del envío: ${address}\n\n💵 Total a pagar: ${total}`;
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
     message
