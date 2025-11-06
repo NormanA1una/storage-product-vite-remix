@@ -119,7 +119,11 @@ export const Suggested = ({ products }: SuggestedProps) => {
                 stock={product.tag}
                 product={product.name}
                 normalPrice={product.price}
-                discountPrice={product.price_discount.toString()}
+                discountPrice={
+                  product.price_discount
+                    ? product.price_discount.toString()
+                    : "0"
+                }
               />
             );
           })}

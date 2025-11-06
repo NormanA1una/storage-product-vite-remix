@@ -90,7 +90,11 @@ export const ProductList = ({ results }: ProductListProps) => {
                   product={product.name}
                   imgSrc={product.image}
                   normalPrice={product.price}
-                  discountPrice={product.price_discount.toString()}
+                  discountPrice={
+                    product.price_discount
+                      ? product.price_discount.toString()
+                      : "0"
+                  }
                   stock={product.tag}
                   promo={product.price_discount > 1}
                   star={product.start_product}
