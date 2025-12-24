@@ -8,11 +8,18 @@ export const Navigation = ({ pathNames }: NavigationProps) => {
     <nav className="hidden lg:block">
       <ul className="ul-style">
         {pathNames.map((pathName) => {
+          const isLive = pathName.path === "/en-vivo";
           return (
             <li key={pathName.name} className="group li-style-group">
               <NavLink
                 className={({ isActive, isPending }) =>
-                  isActive
+                  isLive
+                    ? isActive
+                      ? "link-live-active"
+                      : isPending
+                      ? "link-live"
+                      : "link-live"
+                    : isActive
                     ? location.pathname === "/"
                       ? "link-active"
                       : "link-active-light"
@@ -23,7 +30,11 @@ export const Navigation = ({ pathNames }: NavigationProps) => {
                 to={pathName.path}
               >
                 {location.pathname !== pathName.path ? (
-                  <span className="link-span-animated"></span>
+                  <span
+                    className={
+                      isLive ? "link-live-span-animated" : "link-span-animated"
+                    }
+                  ></span>
                 ) : (
                   ""
                 )}

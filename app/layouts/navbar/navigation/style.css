@@ -28,4 +28,16 @@
   .link-span-animated {
     @apply ease-out absolute bottom-0 left-0 h-0 w-0 border-b-[1px] border-[#0E8499] transition-all duration-200 group-hover:w-full;
   }
+
+  .link-live {
+    @apply text-[#8B0000];
+  }
+
+  .link-live-active {
+    @apply pb-[2.5px] font-bold text-[#8B0000];
+  }
+
+  .link-live-span-animated {
+    @apply ease-out absolute bottom-0 left-0 h-0 w-0 border-b-[1px] border-[#8B0000] transition-all duration-200 group-hover:w-full;
+  }
 }

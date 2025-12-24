@@ -59,18 +59,32 @@ export const SideNav = ({ pathNames, contactMedia }: SideNavProps) => {
         </div>
 
         <ul id="list-nav" className="ul-mobile">
-          {pathNames.map((pathName) => (
-            <li className="navigation-li" key={pathName.name}>
-              <Link
-                to={pathName.path}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                <Button variant="primary" size="2xl">
-                  {pathName.nombre}
-                </Button>
-              </Link>
-            </li>
-          ))}
+          {pathNames.map((pathName) => {
+            const isLive = pathName.path === "/en-vivo";
+            return (
+              <li className="navigation-li" key={pathName.name}>
+                <Link
+                  to={pathName.path}
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                  <Button
+                    variant="primary"
+                    size="2xl"
+                    style={
+                      isLive
+                        ? {
+                            backgroundColor: "#8B0000",
+                            color: "#FFFFFF",
+                          }
+                        : undefined
+                    }
+                  >
+                    {pathName.nombre}
+                  </Button>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex flex-col gap-6 mb-8">
