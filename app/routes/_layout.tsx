@@ -6,7 +6,7 @@ export const loader: LoaderFunction = async () => {
   const NAV_PATHNAMES = [
     { name: "Home", nombre: "Inicio", path: "/" },
     { name: " ", nombre: "Catálogo", path: "/catalog" },
-    { name: "Live", nombre: "En vivo", path: "/en-vivo" },
+    // { name: "Live", nombre: "En vivo", path: "/en-vivo" }, // Disabled - can be re-enabled in the future
     { name: "Visit us", nombre: "Visítanos", path: "/visitanos" },
   ];
 
